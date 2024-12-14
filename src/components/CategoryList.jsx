@@ -5,7 +5,7 @@ const CategoryList = () => {
     const categoryTitle = "px-4 py-3 text-gray-800 relative group text-sm";
     const categoryHoverLine =
         "absolute bottom-0 left-0 w-full h-0.5 bg-blue-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-300";
-    const smCategoryDiv = "absolute left-0 top-8 hidden w-64 bg-white shadow-lg border-t group-hover:block z-10";
+    const smCategoryDiv = "absolute top-8 hidden w-60 bg-white shadow-lg border-t group-hover:block z-10";
     const smCategoryLi = "px-4 py-2 hover:bg-gray-200";
     return (
         <div className="flex items-center justify-between">
@@ -97,7 +97,7 @@ const CategoryList = () => {
                             <span className={categoryHoverLine}></span>
                         </a>
 
-                        <div className={smCategoryDiv}>
+                        <div className={`${smCategoryDiv} right-0`}>
                             <ul>
                                 <li className={smCategoryLi}>床架</li>
                                 <li className={smCategoryLi}>床墊</li>
