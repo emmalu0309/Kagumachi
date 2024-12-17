@@ -5,7 +5,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
 import QA from "./pages/QA";
+import ShoppingCart from "./pages/ShoppingCart";
 import './App.css';
+
 
 function App() {
 
@@ -18,6 +20,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/qa" element={<QA />} />
+          <Route path="/shoppingCart" element={<ShoppingCart />} />
         </Route>
       </Routes>
     </BrowserRouter>
