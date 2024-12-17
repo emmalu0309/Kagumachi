@@ -11,7 +11,7 @@ const Carousel = () => {
     
     const [currentIndex, setCurrentIndex] = useState(0);
   
-    // 自動播放效果
+    
     useEffect(() => {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) =>
@@ -19,17 +19,17 @@ const Carousel = () => {
         );
       }, 5000); 
   
-      return () => clearInterval(interval); // 清理定時器
+      return () => clearInterval(interval); 
     }, [images.length]);
   
-    // 切換到上一張
+   
     const prevSlide = () => {
       setCurrentIndex((prevIndex) =>
         prevIndex === 0 ? images.length - 1 : prevIndex - 1
       );
     };
   
-    // 切換到下一張
+    
     const nextSlide = () => {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
@@ -45,7 +45,7 @@ const Carousel = () => {
               </div>
           ))}
         </div>
-        {/* 左右切換按鈕 */}
+       
         {currentIndex !== 0 && (
         <button
           onClick={prevSlide}
@@ -62,7 +62,7 @@ const Carousel = () => {
          <IoIosArrowForward />
         </button>
           )}
-        {/* 底部指示點 */}
+       
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
           {images.map((_, index) => (
             <button
