@@ -1,0 +1,115 @@
+.MyKeepWrap {
+  overflow: hidden;
+  width: 1180px;
+  margin: 0 auto;
+}
+
+.MyKeepWrap2 {
+  margin-left: 110px;
+}
+
+.MyKeepul {
+  padding: 0 0 0 0;
+  overflow: hidden;
+  margin: 0;
+}
+
+.MyKeepli {
+  font-family: "Verdana", "Microsoft JhengHei", "微軟正黑體", Geneva, Tahoma,
+    sans-serif;
+  font-size: 11px;
+  list-style: none;
+  text-align: center;
+  float: left;
+  border: 1px solid #e0e0e0;
+  min-height: 260px;
+  padding: 8px 0 0 0;
+  overflow: hidden;
+  position: relative;
+  width: 182px;
+  height: 280px;
+  margin: 0 10px 40px 0;
+  padding-top: 18px;
+}
+
+.MyKeepImg {
+  height: 140px;
+  width: 140px;
+}
+
+.any_display_name {
+  font-weight: 400;
+  font-size: 12px;
+  margin: 10px 0;
+  color: #646464;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 16px;
+  padding: 0 10px;
+}
+
+.any_display_price {
+  font-size: 12px;
+  margin: 13px 0;
+}
+
+.MyKeepCurrencySymbol {
+  font-weight: 400;
+  color: #969696;
+}
+
+.MyKeepDelImg {
+  position: absolute;
+  width: 25px;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  padding: 2px 4px 4px 2px;
+}
+
+.MyKeepAlignL {
+  text-align: left;
+}
+
+.MyKeepAlignR {
+  text-align: right;
+}
+
+.MyKeepColorOpt {
+  border: 1px solid #ccc;
+  font-size: 12px;
+  border-radius: 3px;
+  height: 20px;
+  color: #969696;
+  width: 100px;
+}
+
+.MyKeepSizeOpt {
+  border: 1px solid #ccc;
+  font-size: 12px;
+  border-radius: 3px;
+  height: 20px;
+  color: #969696;
+  width: 60px;
+  margin-left: 10px;
+}
+
+.MyKeepStockOpt {
+  border: 1px solid #ccc;
+  font-size: 12px;
+  border-radius: 3px;
+  height: 20px;
+  color: #969696;
+  width: 70px;
+  margin-top: 10px;
+}
+
+.MyKeepCheckBtn {
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

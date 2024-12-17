@@ -6,25 +6,33 @@ import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
 import QA from "./pages/QA";
 import ShoppingCart from "./pages/ShoppingCart";
-import './App.css';
-
+import LoginAppLayout from "./pages/LoginAppLayout";
+import MyKeep from "./pages/MyKeep";
+import Member from "./pages/Member";
+import Profile from "./pages/Profile";
+import "./App.css";
 
 function App() {
-
   return (
     <BrowserRouter basename="/Kagumachi">
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          <Route path="/productpage" element={<ProductPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/qa" element={<QA />} />
-          <Route path="/shoppingCart" element={<ShoppingCart />} />
+          <Route path="productpage" element={<ProductPage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="qa" element={<QA />} />
+          <Route path="shoppingCart" element={<ShoppingCart />} />
+          <Route path="loginAppLayout" element={<LoginAppLayout />}>
+            <Route path="MyKeep" element={<MyKeep />} />
+            <Route path="Member" element={<Member />} />
+            <Route path="Profile" element={<Profile />} />
+          </Route>
+
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
