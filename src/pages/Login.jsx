@@ -21,8 +21,8 @@ const Login = () => {
                     <div className="w-[50%] mx-auto text-center my-2">
                     <button className="bg-[#aa8670] w-full rounded-xl p-1 hover:bg-white border border-[#aa8670]" >登入</button>
                     </div>
-                    <div className="w-[50%] mx-auto text-xs m-3 text-gray-500"> 
-                        <div className="hover:text-gray-900">忘記密碼？</div>
+                    <div className="w-[50%] mx-auto text-xs m-3 text-gray-500">
+                        <Link to="/forgetPassword" className="hover:text-gray-900">忘記密碼？</Link>
                         
                     </div>
                 </div>

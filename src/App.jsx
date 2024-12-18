@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
 import QA from "./pages/QA";
+import ForgetPassword from "./pages/ForgetPassword";
 import ShoppingCart from "./pages/ShoppingCart";
 import LoginAppLayout from "./pages/LoginAppLayout";
 import MyKeep from "./pages/MyKeep";
@@ -22,6 +23,8 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="qa" element={<QA />} />
+          <Route path="forgetPassword" element={<ForgetPassword />} />
+
           <Route path="shoppingCart" element={<ShoppingCart />} />
           <Route path="loginAppLayout" element={<LoginAppLayout />}>
             <Route path="MyKeep" element={<MyKeep />} />
