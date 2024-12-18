@@ -11,6 +11,8 @@ import LoginAppLayout from "./pages/LoginAppLayout";
 import MyKeep from "./pages/MyKeep";
 import Member from "./pages/Member";
 import Profile from "./pages/Profile";
+import CustomerReviews from "./pages/CustomerReviews";
+import Orderdetail from "./pages/Orderdetail";
 import "./App.css";
 
 function App() {
@@ -31,7 +33,8 @@ function App() {
             <Route path="Member" element={<Member />} />
             <Route path="Profile" element={<Profile />} />
           </Route>
-
+          <Route path="customerreviews" element={<CustomerReviews />} />
+          <Route path="orderdetail" element={<Orderdetail />} />
         </Route>
       </Routes>
     </BrowserRouter>
