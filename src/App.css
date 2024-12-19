@@ -40,6 +40,43 @@
 .read-the-docs {
   color: #888;
 } */
+
+.col12{
+  width :80%;
+  margin-top :10px;
+  margin:30px auto;
+  align-items: center; 
+  /* border: 1px solid orange; */
+}
+.carousel-container {
+  margin: 0 auto;
+  /* padding: 20px 0; */
+  /* border: 1px solid blue; */
+}
+  /* 單個頁面 slide */
+  .slide {
+    display: inline-block;
+    /* justify-content: flex-start; */
+    align-items: center;
+  }
+
+  .carousel-image {
+    width: 250px;
+    height: 200px;
+    object-fit: contain; /* 保持圖片比例並填滿 */
+    border-radius: 8px; /* 圓角 */
+    transition: transform 0.3s ease;
+    /* border: 1px solid yellowgreen; */
+  }
+  
+  .carousel-image:hover {
+    /* transform: scale(1.05);  //滑鼠移過去時放大圖片 */
+  }
+  
+  .cardbody{
+    /* border: 1px solid green; */
+  }
+ 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

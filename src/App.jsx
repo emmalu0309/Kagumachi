@@ -13,6 +13,7 @@ import Member from "./pages/Member";
 import Profile from "./pages/Profile";
 import CustomerReviews from "./pages/CustomerReviews";
 import Orderdetail from "./pages/Orderdetail";
+import HomePage from "./pages/HomePage";
 import "./App.css";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           </Route>
           <Route path="customerreviews" element={<CustomerReviews />} />
           <Route path="orderdetail" element={<Orderdetail />} />
+          <Route path="homepage" element={<HomePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
