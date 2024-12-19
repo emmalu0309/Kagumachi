@@ -1,126 +1,112 @@
-import "./Profile.css";
+import { FiFileText } from "react-icons/fi";
+
 function Profile() {
   return (
-    <form className="ProfileForm">
-      <div className="ProfileWrap">
-        <div className="roundbox_up_3"></div>
-        <div className="roundbox_center_3">
-          <h2 className="Profileh2">會員資料修改</h2>
-          <ul className="Profileul">
-            <li className="Profileli">
-              <span style={{ color: "#c14948" }}>
+    <div className="flex justify-center mb-20 mt-10">
+      <div className="mb-12 mx-auto border border-gray-200 w-8/12 rounded-xl">
+        <form className="ml-10 my-5">
+          <FiFileText className="w-8 h-8 inline-block" color="gray" />
+          <h2 className="ml-3 text-xl text-gray-500 inline-block border-b border-gray-200 w-11/12">
+            會員資料修改
+          </h2>
+          <ul>
+            <li className="text-xs list-none ml-12 mt-5 mb-5">
+              <span className="text-red-500">
                 ※ 部分資料以 * 或隱藏處理，保護您的個人隱私
               </span>
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">中文全名</label>
-              </h3>
-
+            <li className="inline ml-12">
+              <label for="chinese_name" className="font-medium text-sm inline text-gray-600">
+                中文全名
+              </label>
               <input
-                className="ProfileInput"
+                className="inline border border-gray-300 ml-4"
                 desc="中文全名"
                 maxlength="20"
-                name="名稱"
-                original="*泓*"
-                type="text"
-                value="*泓*"
+                id="chinese_name"
+                name="chinese_name"
               />
-              {/* <span className="remind">
-              <strong>您必須輸入中文全名。</strong>
-            </span> */}
 
               <input
-                className="ProfileRadio"
-                checked="checked"
+                className="w-4 h-4 ml-7"
                 id="male"
-                name="稱謂"
+                name="gender"
                 type="radio"
                 value="1"
               />
-              <label for="male">先生</label>
+              <label for="male" className="text-xs ml-3 text-gray-600 align-text-top">先生</label>
               <input
-                className="ProfileRadio"
+                className="w-4 h-4 ml-7"
                 id="female"
-                name="稱謂"
+                name="gender"
                 type="radio"
                 value="0"
               />
-              <label for="female">小姐</label>
+              <label for="female" className="text-xs ml-3 text-gray-600 align-text-top">小姐</label>
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">生日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-              </h3>
+            <li className="mt-6 ml-12">
+              <label for="birthday" className="font-medium text-sm inline text-gray-600">生日</label>
               <input
-                className="ProfileInput"
+                className="inline border border-gray-300 ml-11 w-44"
                 name="birthday"
+                id="birthday"
                 type="date"
-                value="2000-01-02"
-              ></input>
+              />
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">手機號碼</label>
-              </h3>
+            <li className="mt-6 ml-12">
+              <label for="phone" className="font-medium text-sm inline text-gray-600">手機號碼</label>
               <input
-                className="ProfileInput"
+                className="inline border border-gray-300 ml-4"
                 name="phone"
-                type="text"
-                value="0912345678"
-              ></input>
+                id="phone"
+                type="tel"
+                pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
+                title="請輸入有效的手機號碼"
+              />
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">電子郵件</label>
-              </h3>
+            <li className="mt-6 ml-12">
+              <label for="email" className="font-medium text-sm inline text-gray-600">電子郵件</label>
               <input
-                className="ProfileInput"
-                id="Email"
-                name="Email"
-                type="text"
-                value="abc999@gmail.com"
-              ></input>
+                className="inline border border-gray-300 ml-4"
+                id="email"
+                name="email"
+                type="email"
+                pattern="^[A-Z0-9_.%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$"
+              />
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">修改密碼</label>
-              </h3>
+            <li className="mt-6 ml-12">
+              <label for="password" className="font-medium text-sm inline text-gray-600">修改密碼</label>
               <input
-                className="ProfileInput"
+                className="inline border border-gray-300 ml-4"
                 name="password"
+                id="password"
                 type="password"
-                value="8787878787"
-              ></input>
+              />
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">密碼確認</label>
-              </h3>
+            <li className="mt-6 ml-12">
+              <label for="check_password" className="font-medium text-sm inline text-gray-600">密碼確認</label>
               <input
-                className="ProfileInput"
-                name="password"
-                type="text"
-                value="01230123"
-              ></input>
+                className="inline border border-gray-300 ml-4"
+                name="check_password"
+                id="check_password"
+                type="password"
+              />
             </li>
 
-            <li className="Profileli2">
-              <h3 className="Profileh3">
-                <label className="ProfileLabel">聯絡地址</label>
-              </h3>
+            <li className="mt-6 ml-12">
+              <label for="zip_code" className="font-medium text-sm inline text-gray-600">聯絡地址</label>
               <select
-                className="ProfileSelectCity"
-                name="縣市"
-                style={{ color: "rgb(168, 168, 168)" }}
+                className="text-[#A8A8A8] inline border border-gray-300 ml-4 h-7 w-44"
+                name="zip_code"
+                id="zip_code"
               >
-                <option value>請選擇郵遞區號</option>
+                {/* <option disabled>請選擇郵遞區號</option> */}
                 <option value="100 台北市 中正區">100 台北市 中正區</option>
                 <option value="103 台北市 大同區">103 台北市 大同區</option>
                 <option value="104 台北市 中山區">104 台北市 中山區</option>
@@ -493,14 +479,19 @@ function Profile() {
                 <option value="817 南海諸島 東沙">817 南海諸島 東沙</option>
                 <option value="819 南海諸島 南沙">819 南海諸島 南沙</option>
               </select>
-              <input className="ProfileInputLocation" />
+              <input className="inline border border-gray-300 ml-4 w-5/12 h-7" />
             </li>
           </ul>
-        </div>
-        <div className="roundbox_down_3"></div>
+          <div className="flex justify-center">
+            <input
+              className="absolute mt-16 px-20 py-3 border border-gray-300 rounded-md bg-[#5E3B25] text-gray-100 hover:bg-[#C3A789] hover:text-gray-100"
+              type="submit"
+              value="送出"
+            />
+          </div>
+        </form>
       </div>
-      <input className="ProfileSend" type="submit" value="送出" />
-    </form>
+    </div>
   );
 }
 

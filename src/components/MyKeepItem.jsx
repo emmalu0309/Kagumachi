@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function MyKeepItem({ itemName, itemSrc, imgSrc, itemPrice }) {
   return (
-    <li className="w-48 h-72 justify-self-center relative text-center p-2 border border-solid border-gray-200">
+    <li className="w-48 h-72 justify-self-center relative text-center p-2 border border-gray-200">
       <img
         className="h-5 w-5 absolute top-2 left-2 hover:cursor-pointer"
         src="https://s1.lativ.com.tw/images/btn_del.png"
@@ -18,7 +18,7 @@ function MyKeepItem({ itemName, itemSrc, imgSrc, itemPrice }) {
         <tbody>
           <tr>
             <td>
-              <select className="text-sm w-24 border border-solid border-gray-300 rounded text-gray-400">
+              <select className="text-sm w-24 border border-gray-300 rounded text-gray-400">
                 <option value="" disabled selected>
                   顏色
                 </option>
@@ -37,7 +37,7 @@ function MyKeepItem({ itemName, itemSrc, imgSrc, itemPrice }) {
               </select>
             </td>
             <td>
-              <select className="text-sm w-16 float-right border border-solid border-gray-300 rounded text-gray-400">
+              <select className="text-sm w-16 float-right border border-gray-300 rounded text-gray-400">
                 <option disabled selected>
                   尺寸
                 </option>
@@ -47,7 +47,7 @@ function MyKeepItem({ itemName, itemSrc, imgSrc, itemPrice }) {
           </tr>
           <tr>
             <td>
-              <select className="text-sm w-16 float-left mt-2 border border-solid border-gray-300 rounded text-gray-400">
+              <select className="text-sm w-16 float-left mt-2 border border-gray-300 rounded text-gray-400">
                 <option disabled selected>
                   數量
                 </option>

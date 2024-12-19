@@ -5,7 +5,7 @@ function AppLayout() {
   return (
     <>
       <LoginNavbar />
-      <div id="outlet">
+      <div>
         <Outlet />
       </div>
     </>
