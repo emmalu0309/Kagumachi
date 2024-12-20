@@ -11,7 +11,9 @@ const NavBar = () => {
           className="text-3xl text-[#aa8670] mr-20"
           style={{ fontFamily: "'DynaPuff', cursive" }}
         >
+          <Link to="/homepage">
           Kagu Machi
+            </Link>
         </div>
         <div className="flex items-center border rounded-xl hover:border-[#aa8670] mr-5 w-[30%]">
           <IoSearch className="m-1 text-xl" />

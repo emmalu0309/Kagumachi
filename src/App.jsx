@@ -22,6 +22,8 @@ function App() {
     <BrowserRouter basename="/Kagumachi">
       <Routes>
         <Route path="/" element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="homepage" element={<HomePage />} />
           <Route path="productpage" element={<ProductPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
