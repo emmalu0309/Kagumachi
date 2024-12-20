@@ -7,6 +7,7 @@ import AboutUs from "./pages/AboutUs";
 import QA from "./pages/QA";
 import ForgetPassword from "./pages/ForgetPassword";
 import ShoppingCart from "./pages/ShoppingCart";
+import ShoppingCartStep2 from "./pages/ShoppingCartStep2";
 import LoginAppLayout from "./pages/LoginAppLayout";
 import MyKeep from "./pages/MyKeep";
 import Member from "./pages/Member";
@@ -27,8 +28,8 @@ function App() {
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="qa" element={<QA />} />
           <Route path="forgetPassword" element={<ForgetPassword />} />
-
           <Route path="shoppingCart" element={<ShoppingCart />} />
+          <Route path="shoppingCartStep2" element={<ShoppingCartStep2 />} />
           <Route path="loginAppLayout" element={<LoginAppLayout />}>
             <Route path="MyKeep" element={<MyKeep />} />
             <Route path="Member" element={<Member />} />
