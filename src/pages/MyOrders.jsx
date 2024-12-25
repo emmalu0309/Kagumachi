@@ -4,7 +4,7 @@ function Member() {
   const tableTh = "h-12 text-sm font-sans font-normal bg-[#ebebeb] border border-[#ccc]";
   const tableTd = "p-3 border border-[#ccc]"
   return (
-    <div className="flex justify-center">
+    <div className="mt-5 flex justify-center">
       <table className="w-4/6 text-sm font-sans text-[#706e6c] border-collapse text-center">
         <thead>
           <tr>
