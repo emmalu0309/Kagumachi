@@ -38,7 +38,7 @@ function Member() {
         </tbody>
         <tfoot>
           <tr>
-            <td className="h-12 py-2 px-5 bg-[#ebebeb] border border-[#ccc] text-[#686868] text-right" colspan="9">
+            <td className="h-12 py-2 px-5 bg-[#ebebeb] border border-[#ccc] text-[#686868] text-right" colSpan={9}>
               共1筆訂單
             </td>
           </tr>
