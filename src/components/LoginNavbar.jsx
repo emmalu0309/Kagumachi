@@ -11,7 +11,7 @@ function LoginNavbar() {
                 </Link>
               </li>
               <li className="LoginNavbarli">
-                <Link className="LoginNavbarLink" to="Member">
+                <Link className="LoginNavbarLink" to="MyOrders">
                   訂單 / 問答 / 退貨進度
                 </Link>
               </li>

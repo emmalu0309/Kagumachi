@@ -10,7 +10,7 @@ import ShoppingCart from "./pages/ShoppingCart";
 import ShoppingCartStep2 from "./pages/ShoppingCartStep2";
 import LoginAppLayout from "./pages/LoginAppLayout";
 import MyKeep from "./pages/MyKeep";
-import Member from "./pages/Member";
+import MyOrders from "./pages/MyOrders";
 import Profile from "./pages/Profile";
 import CustomerReviews from "./pages/CustomerReviews";
 import Orderdetail from "./pages/Orderdetail";
@@ -34,7 +34,7 @@ function App() {
           <Route path="shoppingCartStep2" element={<ShoppingCartStep2 />} />
           <Route path="loginAppLayout" element={<LoginAppLayout />}>
             <Route path="MyKeep" element={<MyKeep />} />
-            <Route path="Member" element={<Member />} />
+            <Route path="MyOrders" element={<MyOrders />} />
             <Route path="Profile" element={<Profile />} />
           </Route>
           <Route path="customerreviews" element={<CustomerReviews />} />
