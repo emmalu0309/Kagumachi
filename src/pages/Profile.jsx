@@ -1,6 +1,9 @@
 import { FiFileText } from "react-icons/fi";
 
 function Profile() {
+  const titleLabel = "font-medium text-sm inline text-gray-600";
+  const allLiExceptFirst = "mt-6 ml-12";
+
   return (
     <div className="flex justify-center mb-20 mt-10">
       <div className="mb-12 mx-auto border border-gray-200 w-8/12 rounded-xl">
@@ -17,7 +20,7 @@ function Profile() {
             </li>
 
             <li className="inline ml-12">
-              <label for="chinese_name" className="font-medium text-sm inline text-gray-600">
+              <label for="chinese_name" className={titleLabel}>
                 中文全名
               </label>
               <input
@@ -46,8 +49,8 @@ function Profile() {
               <label for="female" className="text-xs ml-3 text-gray-600 align-text-top">小姐</label>
             </li>
 
-            <li className="mt-6 ml-12">
-              <label for="birthday" className="font-medium text-sm inline text-gray-600">生日</label>
+            <li className={allLiExceptFirst}>
+              <label for="birthday" className={titleLabel}>生日</label>
               <input
                 className="inline border border-gray-300 ml-11 w-44"
                 name="birthday"
@@ -56,8 +59,8 @@ function Profile() {
               />
             </li>
 
-            <li className="mt-6 ml-12">
-              <label for="phone" className="font-medium text-sm inline text-gray-600">手機號碼</label>
+            <li className={allLiExceptFirst}>
+              <label for="phone" className={titleLabel}>手機號碼</label>
               <input
                 className="inline border border-gray-300 ml-4"
                 name="phone"
@@ -68,8 +71,8 @@ function Profile() {
               />
             </li>
 
-            <li className="mt-6 ml-12">
-              <label for="email" className="font-medium text-sm inline text-gray-600">電子郵件</label>
+            <li className={allLiExceptFirst}>
+              <label for="email" className={titleLabel}>電子郵件</label>
               <input
                 className="inline border border-gray-300 ml-4"
                 id="email"
@@ -79,8 +82,8 @@ function Profile() {
               />
             </li>
 
-            <li className="mt-6 ml-12">
-              <label for="password" className="font-medium text-sm inline text-gray-600">修改密碼</label>
+            <li className={allLiExceptFirst}>
+              <label for="password" className={titleLabel}>修改密碼</label>
               <input
                 className="inline border border-gray-300 ml-4"
                 name="password"
@@ -89,8 +92,8 @@ function Profile() {
               />
             </li>
 
-            <li className="mt-6 ml-12">
-              <label for="check_password" className="font-medium text-sm inline text-gray-600">密碼確認</label>
+            <li className={allLiExceptFirst}>
+              <label for="check_password" className={titleLabel}>密碼確認</label>
               <input
                 className="inline border border-gray-300 ml-4"
                 name="check_password"
@@ -99,8 +102,8 @@ function Profile() {
               />
             </li>
 
-            <li className="mt-6 ml-12">
-              <label for="zip_code" className="font-medium text-sm inline text-gray-600">聯絡地址</label>
+            <li className={allLiExceptFirst}>
+              <label for="zip_code" className={titleLabel}>聯絡地址</label>
               <select
                 className="text-[#A8A8A8] inline border border-gray-300 ml-4 h-7 w-44"
                 name="zip_code"
