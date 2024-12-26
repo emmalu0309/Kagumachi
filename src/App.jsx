@@ -15,6 +15,8 @@ import Profile from "./pages/Profile";
 import CustomerReviews from "./pages/CustomerReviews";
 import Orderdetail from "./pages/Orderdetail";
 import HomePage from "./pages/HomePage";
+import SearchThree from "./pages/SearchThree";
+import SearchFour from "./pages/SearchFour";
 import "./App.css";
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
           <Route path="customerreviews" element={<CustomerReviews />} />
           <Route path="orderdetail" element={<Orderdetail />} />
           <Route path="homepage" element={<HomePage />} />
+          <Route path="searchthree" element={<SearchThree />} />
+          <Route path="searchfour" element={<SearchFour />} />
         </Route>
       </Routes>
     </BrowserRouter>

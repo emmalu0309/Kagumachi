@@ -75,8 +75,8 @@ import mid9 from "../img/9.jpg";
             ];
     
   return (
-    <div
-      style={{ width: "80%", margin: "0 auto", position: "relative" }}
+    <div className="p-3 w-4/5 "
+      style={{  margin: "0 auto", position: "relative" }}
       onMouseEnter={() => setIsHovered(true)} // 滑鼠進入
       onMouseLeave={() => setIsHovered(false)} // 滑鼠離開
     >

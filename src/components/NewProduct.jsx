@@ -1,34 +1,18 @@
+// by 大瑋
 import Slider from "react-slick";
 import React, { useState } from "react";
-import { CiHeart } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa";
-import { FaHeartBroken } from "react-icons/fa";
+import Product1 from "./Product1";
 
 const CustomArrow = ({ className, style, onClick, arrowType, isVisible }) => (
-    <button
-        onClick={onClick}
-        style={{
-            ...style,
-            position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
-            background: "rgba(0,0,0,0.5)", // 半透明背景
-            color: "#fff", // 按鈕文字顏色
-            border: "none", // 移除邊框
-            borderRadius: "50%", // 圓形按鈕
-            width: "40px", // 按鈕寬度
-            height: "40px", // 按鈕高度
-            fontSize: "20px", // 按鈕內字體大小
-            cursor: "pointer",
-            display: isVisible ? "flex" : "none", // 控制按鈕是否顯示
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1,
-            ...(arrowType === "prev" ? { left: "10px" } : { right: "10px" }),
-        }}
-    >
-        {arrowType === "prev" ? "❮" : "❯"}
-    </button>
+<button
+  onClick={onClick}
+  className={`absolute top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white border-none rounded-full w-10 h-10 text-xl cursor-pointer flex items-center justify-center z-10 ${
+    arrowType === "prev" ? "left-2" : "right-2"
+  }`}
+  style={{ display: isVisible ? "flex" : "none" }}
+>
+  {arrowType === "prev" ? "❮" : "❯"}
+</button>
 );
 
 // 網站圖片
@@ -37,9 +21,10 @@ const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_
 const NewProduct = () => {
     const [isHovered, setIsHovered] = useState(false); // 控制按鈕顯示狀態  
     const [isLiked, setIsLiked] = useState(false);
-    const liked =() => setIsLiked(!isLiked);
+    const liked = () => setIsLiked(!isLiked);
     const maxPrice = '5000'; //商品價錢
     const dataPrice = '2999'; //商品價錢
+    const abc = <Product1 />;
     const settings = {
         dots: true, // 顯示下方點點
         infinite: false, // 無限循環
@@ -50,27 +35,27 @@ const NewProduct = () => {
         autoplaySpeed: 3000, // 每 3 秒滾動一次
         // cssEase : "liner",
         responsive: [
-        {
+            {
                 breakpoint: 1500,
                 settings: {
                     slidesToShow: 4,
                     slidesToScroll: 1,
                 },
-        },    
-        {
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1,
             },
-        },
-        {
-            breakpoint: 900,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1,
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                },
             },
-        }],
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                },
+            }],
         prevArrow: <CustomArrow arrowType="prev" isVisible={isHovered} />, // 自定義左箭頭
         nextArrow: <CustomArrow arrowType="next" isVisible={isHovered} />, // 自定義右箭頭
     };
@@ -78,139 +63,39 @@ const NewProduct = () => {
     return (
         <>
             <div
-                style={{ margin: "0 auto", position: "relative" }}
+                className="mx-auto relative"
                 onMouseEnter={() => setIsHovered(true)} // 滑鼠進入
                 onMouseLeave={() => setIsHovered(false)} // 滑鼠離開
             >
-                <div className="col12">
-                    <strong style={{ fontSize: '30px', display: 'inline' }}>猜你喜歡</strong>
+                <div className="w-4/5  mt-2 mx-auto items-center">
+                    <strong className="inline text-3xl">猜你喜歡</strong>
                     <br />
                 </div>
-                <div className="col12">
-                    <div className="carousel-container">
+                <div className="w-4/5  mt-2 mx-auto items-center">
+                    <div className="mx-auto">
                         <Slider {...settings}>
                             {/* 1 */}
-                            <div className="relative ">
+                            {abc}{abc}{abc}{abc}{abc}{abc}{abc}{abc}{abc}{abc}
+                            {/* 範例 */}
+                            {/* <div className="relative ">
                                 <div className="slide ">
                                     <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
                                         <img src={Logo1} alt="Image 1" className="carousel-image" />
                                     </a>
                                 </div>
                                 <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)}/> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)}/>}
-                                    {/* <FaHeart size={35} className={`absolute top-1 right-1 text-2xl cursor-pointer 
-                                    `} */}
+                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)} />}
                                 </div>
                                 <div className="cardbody ;">
                                     <p>TONSTAD </p>
                                     <p>邊桌, 淺乳白色, 64x40 公分</p>
                                 </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <div style={{ flex: 1, fontSize: '30px', textAlign: 'center' }}>${dataPrice}</div>
-                                    <div style={{ flex: 1, fontSize: '20px', textDecoration: 'line-through', textAlign: 'left', alignItems: 'stretch' }}>${maxPrice}</div>
-                                    <div style={{ flex: 1, }}></div>
+                                <div className="flex  grid-cols-3">
+                                    <div className="text-2xl text-center">${dataPrice}</div>
+                                    <div className="text-1xl line-through text-left">${maxPrice}</div>
+                                    <div className=""></div>
                                 </div>
-                            </div>
-                            {/* 2 */}
-                            <div className="relative ">
-                                <div className="slide">
-                                    <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
-                                        <img src={Logo1} alt="Image 1" className="carousel-image" />
-                                    </a>
-                                </div>
-                                <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)}/> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)}/>}
-                                </div>
-                                <div className="cardbody ;">
-                                    <p>TONSTAD </p>
-                                    <p>邊桌, 淺乳白色, 64x40 公分</p>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <div style={{ flex: 1, fontSize: '30px', textAlign: 'center' }}>${dataPrice}</div>
-                                    <div style={{ flex: 1, fontSize: '20px', textDecoration: 'line-through', textAlign: 'left', alignItems: 'stretch' }}>${maxPrice}</div>
-                                    <div style={{ flex: 1, }}></div>
-                                </div>
-                            </div>
-                            {/* 3 */}
-                            <div className="relative ">
-                                <div className="slide ">
-                                    <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
-                                        <img src={Logo1} alt="Image 1" className="carousel-image" />
-                                    </a>
-                                </div>
-                                <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)}/> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)}/>}
-                                </div>
-                                <div className="cardbody ;">
-                                    <p>TONSTAD </p>
-                                    <p>邊桌, 淺乳白色, 64x40 公分</p>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <div style={{ flex: 1, fontSize: '30px', textAlign: 'center' }}>${dataPrice}</div>
-                                    <div style={{ flex: 1, fontSize: '20px', textDecoration: 'line-through', textAlign: 'left', alignItems: 'stretch' }}>${maxPrice}</div>
-                                    <div style={{ flex: 1, }}></div>
-                                </div>
-                            </div>
-                            {/* 4 */}
-                            <div className="relative ">
-                                <div className="slide ">
-                                    <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
-                                        <img src={Logo1} alt="Image 1" className="carousel-image" />
-                                    </a>
-                                </div>
-                                <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)}/> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)}/>}
-                                </div>
-                                <div className="cardbody ;">
-                                    <p>TONSTAD </p>
-                                    <p>邊桌, 淺乳白色, 64x40 公分</p>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <div style={{ flex: 1, fontSize: '30px', textAlign: 'center' }}>${dataPrice}</div>
-                                    <div style={{ flex: 1, fontSize: '20px', textDecoration: 'line-through', textAlign: 'left', alignItems: 'stretch' }}>${maxPrice}</div>
-                                    <div style={{ flex: 1, }}></div>
-                                </div>
-                            </div>
-                            {/* 5 */}
-                            <div className="relative ">
-                                <div className="slide ">
-                                    <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
-                                        <img src={Logo1} alt="Image 1" className="carousel-image" />
-                                    </a>
-                                </div>
-                                <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)}/> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)}/>}
-                                </div>
-                                <div className="cardbody ;">
-                                    <p>TONSTAD </p>
-                                    <p>邊桌, 淺乳白色, 64x40 公分</p>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <div style={{ flex: 1, fontSize: '30px', textAlign: 'center' }}>${dataPrice}</div>
-                                    <div style={{ flex: 1, fontSize: '20px', textDecoration: 'line-through', textAlign: 'left', alignItems: 'stretch' }}>${maxPrice}</div>
-                                    <div style={{ flex: 1, }}></div>
-                                </div>
-                            </div>
-                            {/* 6 */}
-                            <div className="relative ">
-                                <div className="slide ">
-                                    <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
-                                        <img src={Logo1} alt="Image 1" className="carousel-image" />
-                                    </a>
-                                </div>
-                                <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                    {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)}/> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)}/>}
-                                </div>
-                                <div className="cardbody ;">
-                                    <p>TONSTAD </p>
-                                    <p>邊桌, 淺乳白色, 64x40 公分</p>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <div style={{ flex: 1, fontSize: '30px', textAlign: 'center' }}>${dataPrice}</div>
-                                    <div style={{ flex: 1, fontSize: '20px', textDecoration: 'line-through', textAlign: 'left', alignItems: 'stretch' }}>${maxPrice}</div>
-                                    <div style={{ flex: 1, }}></div>
-                                </div>
-                            </div>
+                            </div> */}
                         </Slider>
 
                     </div>
