@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import CustomerReviews from "./pages/CustomerReviews";
 import Orderdetail from "./pages/Orderdetail";
 import HomePage from "./pages/HomePage";
+import CustomerSupport from "./pages/CustomerSupport";
 import "./App.css";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="homepage" element={<HomePage />} />
+          <Route path="customersupport" element={<CustomerSupport />} />
           <Route path="productpage" element={<ProductPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
