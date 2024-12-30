@@ -9,6 +9,7 @@ function MyKeepItem({
   imgSrc,
   productPrice,
   productDetails,
+  onRemove,
 }) {
   const [selectedColorValue, setSelectedColorValue] = useState("default");
   const [selectedColorQty, setSelectedColorQty] = useState("");
@@ -45,14 +46,15 @@ function MyKeepItem({
   };
 
   return (
-    <div className="w-60 justify-self-center relative text-center p-2 border border-gray-200">
+    <div className="w-60 justify-self-center relative text-center p-2 border border-gray-200 overflow-hidden">
       <FaRegTrashCan
         className="h-5 w-5 absolute top-2 left-2 hover:cursor-pointer"
         color="gray"
+        onClick={onRemove}
       />
 
       <Link to={productLink}>
-        <img className="h-36 w-36 ml-9 hover:cursor-pointer" src={imgSrc} />
+        <img className="h-40 w-40 ml-9 hover:cursor-pointer" src={imgSrc} />
       </Link>
 
       <div className="h-11 mt-2">
@@ -65,12 +67,12 @@ function MyKeepItem({
         </h3>
         <h3 className="text-sm mt-1 text-gray-500 truncate ">
           {productSize
-            ? `${productSize.width}x${productSize.depth}x${productSize.height}公分`
+            ? `${productSize.height}x${productSize.width}x${productSize.depth}公分`
             : ""}
         </h3>
       </div>
 
-      <h3 className="text-sm m-2 text-gray-500">${productPrice}</h3>
+      <h3 className="text-sm m-2 text-gray-500 truncate">${productPrice}</h3>
 
       <div className="flex">
         <select
@@ -84,13 +86,13 @@ function MyKeepItem({
           {colorOptions}
         </select>
 
-        <h3 className="text-sm ml-11 text-gray-500">{selectedColorQty}</h3>
+        <h3 className="text-sm ml-11 text-gray-500 truncate">{selectedColorQty}</h3>
       </div>
 
       <hr className="mt-2" />
 
       <div className="flex items-center mt-1">
-        <h3 className="text-sm text-center ml-1 mt-1 text-gray-500">
+        <h3 className="text-sm text-center ml-1 mt-1 text-gray-500 truncate">
           請選擇數量
         </h3>
         <input
