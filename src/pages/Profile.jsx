@@ -4,20 +4,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 
-const schema = z.object({
-  chinese_name: z.string().nonempty("請輸入名字").regex(/^[\u4e00-\u9fa5]+$/, "必須皆為中文字"),
-  gender: z.enum(["1", "0"], "請選擇性別"),
-  birthday: z.string().nonempty("請選擇生日"),
-  phone: z.string().regex(/^[0-9]{4}-[0-9]{3}-[0-9]{3}$/, "請輸入有效的手機號碼，格式範例：0912-345-678。"),
-  email: z.string().email("請輸入有效的電子郵件"),
-  password: z.string().min(6, "密碼至少需要6個字"),
-  check_password: z.string().min(6, "密碼確認至少需要6個字"),
-  zip_code: z.string().nonempty("請選擇郵遞區號"),
-  address: z.string().nonempty("請輸入聯絡地址"),
-}).refine(data => data.password === data.check_password, {
-  message: "確認密碼必須和密碼相同",
-  path: ["check_password"],
-});
+const schema = z
+  .object({
+    chinese_name: z
+      .string()
+      .nonempty("請輸入名字")
+      .regex(/^[\u4e00-\u9fa5]+$/, "必須皆為中文字"),
+    gender: z.enum(["1", "0"], "請選擇性別"),
+    birthday: z.string().nonempty("請選擇生日"),
+    phone: z
+      .string()
+      .regex(
+        /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/,
+        "請輸入有效的手機號碼，格式範例：0912-345-678。"
+      ),
+    email: z.string().email("請輸入有效的電子郵件"),
+    password: z.string().min(6, "密碼至少需要6個字"),
+    check_password: z.string(),
+    zip_code: z.string().nonempty("請選擇郵遞區號"),
+    address: z.string().nonempty("請輸入聯絡地址"),
+  })
+  .refine((data) => data.password === data.check_password, {
+    message: "確認密碼必須和密碼相同",
+    path: ["check_password"],
+  });
 
 function Profile() {
   const {
@@ -69,14 +79,14 @@ function Profile() {
                 中文全名
               </label>
               <input
-                className="inline border border-gray-300 ml-4"
+                className="inline border border-gray-300 text-gray-500 ml-4 text-center w-[28.2%] h-8"
                 maxLength="20"
                 id="chinese_name"
                 {...register("chinese_name")}
               />
 
               <input
-                className="w-4 h-4 ml-7"
+                className="w-4 h-4 ml-5"
                 id="male"
                 type="radio"
                 value="1"
@@ -89,7 +99,7 @@ function Profile() {
                 先生
               </label>
               <input
-                className="w-4 h-4 ml-7"
+                className="w-4 h-4 ml-4"
                 id="female"
                 type="radio"
                 value="0"
@@ -102,17 +112,24 @@ function Profile() {
                 小姐
               </label>
               {errors.chinese_name && (
-                <p className="inline ml-4 text-red-500">{errors.chinese_name.message}</p>
+                <p className="inline ml-4 text-red-500">
+                  {errors.chinese_name.message}
+                </p>
               )}
-              {errors.gender && <p className="inline ml-4 text-red-500">{errors.gender.message}</p>}
+              {errors.gender && (
+                <p className="inline ml-4 text-red-500">
+                  {errors.gender.message}
+                </p>
+              )}
             </li>
 
             <li className={allLiExceptFirst}>
-              <label htmlFor="birthday" className={titleLabel}>
-                生日
-              </label>
-              <input
-                className="inline border border-gray-300 ml-11 w-44"
+              <div className="flex items-center pt-4">
+                <label htmlFor="birthday" className={titleLabel}>
+                  生日
+                </label>
+                <input
+                className="inline border border-gray-300 text-gray-500 ml-11 text-center w-[30%] h-8"
                 id="birthday"
                 type="date"
                 {...register("birthday")}
@@ -122,6 +139,7 @@ function Profile() {
                   {errors.birthday.message}
                 </p>
               )}
+              </div>
             </li>
 
             <li className={allLiExceptFirst}>
@@ -129,7 +147,7 @@ function Profile() {
                 手機號碼
               </label>
               <input
-                className="inline border border-gray-300 ml-4"
+                className="inline border border-gray-300 text-gray-500 ml-4 text-center w-[30%] h-8"
                 id="phone"
                 type="tel"
                 {...register("phone")}
@@ -146,7 +164,7 @@ function Profile() {
                 電子郵件
               </label>
               <input
-                className="inline border border-gray-300 ml-4"
+                className="inline border border-gray-300 text-gray-500 ml-4 text-center w-[30%] h-8"
                 id="email"
                 type="email"
                 {...register("email")}
@@ -162,16 +180,16 @@ function Profile() {
               <label htmlFor="password" className={titleLabel}>
                 修改密碼
               </label>
-              <div className="relative inline-block">
+              <div className="relative inline">
                 <input
-                  className="inline border border-gray-300 ml-4"
+                  className="inline border border-gray-300 text-gray-500 ml-4 text-center w-[30%] h-8"
                   id="password"
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                 />
                 <button
                   type="button"
-                  className="absolute right-0 top-0 mt-2 mr-2"
+                  className="absolute right-6 top-2.5 transform -translate-y-1/2"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
@@ -188,16 +206,16 @@ function Profile() {
               <label htmlFor="check_password" className={titleLabel}>
                 確認密碼
               </label>
-              <div className="relative inline-block">
+              <div className="relative inline">
                 <input
-                  className="inline border border-gray-300 ml-4"
+                  className="inline border border-gray-300 text-gray-500 ml-4 text-center w-[30%] h-8"
                   id="check_password"
                   type={showCheckPassword ? "text" : "password"}
                   {...register("check_password")}
                 />
                 <button
                   type="button"
-                  className="absolute right-0 top-0 mt-2 mr-2"
+                  className="absolute right-6 top-2.5 transform -translate-y-1/2"
                   onClick={() => setShowCheckPassword(!showCheckPassword)}
                 >
                   {showCheckPassword ? <FiEyeOff /> : <FiEye />}
@@ -215,11 +233,13 @@ function Profile() {
                 聯絡地址
               </label>
               <select
-                className="text-[#A8A8A8] inline border border-gray-300 ml-4 h-7 w-44"
+                className="text-gray-500 inline border border-gray-300 ml-4 text-center w-[20%] h-8"
                 id="zip_code"
                 {...register("zip_code")}
               >
-                <option value="" disabled>請選擇郵遞區號</option>
+                <option value="" disabled>
+                  請選擇郵遞區號
+                </option>
                 <option value="100">100 台北市 中正區</option>
                 <option value="103">103 台北市 大同區</option>
                 <option value="104">104 台北市 中山區</option>
@@ -571,11 +591,13 @@ function Profile() {
                 <option value="819">819 南海諸島 南沙</option>
               </select>
               <input
-                className="inline border border-gray-300 ml-4 w-5/12 h-7"
+                className="inline border border-gray-300 text-gray-500 ml-4 w-[36%] h-8 pl-2"
                 {...register("address")}
               />
               {errors.zip_code && (
-                <p className="inline ml-4 text-red-500">{errors.zip_code.message}</p>
+                <p className="inline ml-4 text-red-500">
+                  {errors.zip_code.message}
+                </p>
               )}
               {errors.address && (
                 <p className="inline ml-4 text-red-500">

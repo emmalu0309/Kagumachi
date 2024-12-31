@@ -86,7 +86,7 @@ function MyKeepItem({
           {colorOptions}
         </select>
 
-        <h3 className="text-sm ml-11 text-gray-500 truncate">{selectedColorQty}</h3>
+        <h3 className="text-sm ml-7 text-gray-500 truncate">{selectedColorQty}</h3>
       </div>
 
       <hr className="mt-2" />
