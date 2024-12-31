@@ -30,6 +30,18 @@ const schema = z
   });
 
 function Profile() {
+  // =========================
+  const data = {
+    chinese_name: "布萊德",
+    gender: "1",
+    birthday: "1990-01-01",
+    phone: "0912-345-678",
+    email: "brad@big.com",
+    zip_code: "408",
+    address: "公益路二段51號18樓",
+  };
+  // =========================
+
   const {
     register,
     handleSubmit,
@@ -37,15 +49,15 @@ function Profile() {
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      chinese_name: "布萊德",
-      gender: "1",
-      birthday: "1990-01-01",
-      phone: "0912-345-678",
-      email: "brad@big.com",
+      chinese_name: data.chinese_name,
+      gender: data.gender,
+      birthday: data.birthday,
+      phone: data.phone,
+      email: data.email,
       password: "",
       check_password: "",
-      zip_code: "408",
-      address: "公益路二段51號18樓",
+      zip_code: data.zip_code,
+      address: data.address,
     },
   });
 
@@ -129,16 +141,16 @@ function Profile() {
                   生日
                 </label>
                 <input
-                className="inline border border-gray-300 text-gray-500 ml-11 text-center w-[30%] h-8"
-                id="birthday"
-                type="date"
-                {...register("birthday")}
-              />
-              {errors.birthday && (
-                <p className="inline ml-4 text-red-500">
-                  {errors.birthday.message}
-                </p>
-              )}
+                  className="inline border border-gray-300 text-gray-500 ml-11 text-center w-[30%] h-8"
+                  id="birthday"
+                  type="date"
+                  {...register("birthday")}
+                />
+                {errors.birthday && (
+                  <p className="inline ml-4 text-red-500">
+                    {errors.birthday.message}
+                  </p>
+                )}
               </div>
             </li>
 

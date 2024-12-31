@@ -2,6 +2,7 @@ import { useState } from "react";
 import MyKeepItem from "../components/MyKeepItem";
 
 function MyKeep() {
+  // ==============================
   const [itemList, setItemList] = useState([
     {
       productId: 1,
@@ -132,6 +133,7 @@ function MyKeep() {
       ],
     },
   ]);
+  // ==============================
 
   const removeItem = (productId) => {
     setItemList(itemList.filter(item => item.productId !== productId));
