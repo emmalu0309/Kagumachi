@@ -20,26 +20,39 @@ const Product1 = () => {
         <>
             <div className="w-4/5  mt-2 mx-auto items-center ">
                 <div className="mx-auto ">
-                        {/* 1 */}
-                        <div className="relative ">
-                            <div className="inline-block items-center">
-                                <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
-                                    <img src={Logo1} alt="Image 1" className="w-62 h-50 object-contain rounded " />
-                                </a>
-                            </div>
-                            <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                                {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)} />}
-                            </div>
-                            <div className="cardbody">
-                                <p>TONSTAD </p>
-                                <p>邊桌, 淺乳白色, 64x40 公分</p>
-                            </div>
-                            <div className="flex  grid-cols-3">
-                                <div className="text-2xl text-center">${dataPrice}</div>
-                                <div className="text-1xl line-through text-left">${maxPrice}</div>
-                                <div className=""></div>
-                            </div>
+                    {/* 1 */}
+                    <div className="relative ">
+                        <div className="inline-block items-center">
+                            <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">
+                                <img src={Logo1} alt="Image 1" className="w-62 h-50 object-contain rounded " />
+                            </a>
                         </div>
+                        <div className="absolute top-1 right-1 text-2xl cursor-pointer">
+                            {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)} />}
+                        </div>
+                        <div className="cardbody">
+                            <p>TONSTAD </p>
+                            <p>邊桌, 淺乳白色, 64x40 公分</p>
+                        </div>
+                        <div className="flex  grid-cols-3">
+                            <div className="text-2xl text-center">${dataPrice}</div>
+                            <div className="text-1xl line-through text-left">${maxPrice}</div>
+                            <div className=""></div>
+                        </div>
+
+                        <div className="flex">
+                            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer">
+                                <button className="w-10 h-10 border bg-white rounded-3xl"></button>
+                            </a>
+                            <a href="https://www.example1.com" target="_blank" rel="noopener noreferrer">
+                                <button className="w-10 h-10 border bg-black rounded-3xl"></button>
+                            </a>
+                            <a href="https://www.example2.com" target="_blank" rel="noopener noreferrer">
+                                <button className="w-10 h-10 border bg-yellow-600 rounded-3xl"></button>
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </>
