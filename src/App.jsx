@@ -16,9 +16,13 @@ import Profile from "./pages/Profile";
 import CustomerReviews from "./pages/CustomerReviews";
 import Orderdetail from "./pages/Orderdetail";
 import HomePage from "./pages/HomePage";
+import SearchOne from "./pages/SearchOne";
+import SearchTwo from "./pages/SearchTwo";
+import Chat from "./pages/Chat";
 import "./App.css";
 
 function App() {
+  
   return (
     <BrowserRouter basename="/Kagumachi">
       <Routes>
@@ -38,10 +42,13 @@ function App() {
             <Route path="MyKeep" element={<MyKeep />} />
             <Route path="MyOrders" element={<MyOrders />} />
             <Route path="Profile" element={<Profile />} />
+            <Route path="Chat" element={<Chat />} />
           </Route>
           <Route path="customerreviews" element={<CustomerReviews />} />
           <Route path="orderdetail" element={<Orderdetail />} />
           <Route path="homepage" element={<HomePage />} />
+          <Route path="searchone" element={<SearchOne />} />
+          <Route path="searchtwo" element={<SearchTwo />} />
         </Route>
       </Routes>
     </BrowserRouter>
