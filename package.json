@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
-    "antd": "^5.22.7",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@hookform/resolvers": "^3.9.1",
+    "@jridgewell/sourcemap-codec": "^1.4.8",
+    "@rollup/plugin-inject": "^4.0.0",
+    "@stomp/stompjs": "^7.0.0",
+    "antd": "^5.22.7",
     "autoprefixer": "^10.4.20",
     "crypto-browserify": "^3.12.1",
     "postcss": "^8.4.49",
@@ -31,9 +34,7 @@
     "slick-carousel": "^1.8.1",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
-    "zod": "^3.24.1",
-    "@rollup/plugin-inject": "^4.0.0",
-    "@jridgewell/sourcemap-codec": "^1.4.8"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
