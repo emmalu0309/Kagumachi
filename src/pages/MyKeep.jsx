@@ -21,12 +21,11 @@ function MyKeep() {
     {
       productId: 1,
       productName: "墊腳凳",
-      productSize: {
-        width: 35,
-        depth: 25,
-        height: 35,
-      },
-      productLink: // 可能到時候會是類似localhost:5173/product/{productId}的網址，反正就是用productId去找到該商品頁面。
+      width: 35,
+      depth: 25,
+      height: 35,
+      // 可能到時候會是類似localhost:5173/product/{productId}的網址，反正就是用productId去找到該商品頁面。
+      productLink:
         "https://www.ikea.com.tw/zh/products/freestanding-kitchens-and-kitchen-furniture/kitchen-furniture/bekvam-art-50225592",
       imgSrc:
         "https://www.ikea.com.tw/dairyfarm/tw/images/282/0728262_PE736144_S4.webp",
@@ -41,11 +40,9 @@ function MyKeep() {
     {
       productId: 2,
       productName: "收納櫃",
-      productSize: {
-        width: 35,
-        depth: 25,
-        height: 35,
-      },
+      width: 35,
+      depth: 25,
+      height: 35,
       productLink:
         "https://www.ikea.com.tw/zh/products/storage/open-storage/eket-art-30428840",
       imgSrc:
@@ -69,11 +66,9 @@ function MyKeep() {
     {
       productId: 3,
       productName: "收納櫃",
-      productSize: {
-        width: 35,
-        depth: 35,
-        height: 35,
-      },
+      width: 35,
+      depth: 35,
+      height: 35,
       productLink:
         "https://www.ikea.com.tw/zh/products/storage/open-storage/eket-art-00428851",
       imgSrc:
@@ -97,11 +92,9 @@ function MyKeep() {
     {
       productId: 4,
       productName: "沙發床",
-      productSize: {
-        width: 35,
-        depth: 25,
-        height: 35,
-      },
+      width: 35,
+      depth: 25,
+      height: 35,
       productLink:
         "https://www.ikea.com.tw/zh/products/sofas/sofa-beds/fridhult-art-60355762",
       imgSrc:
@@ -121,11 +114,9 @@ function MyKeep() {
     {
       productId: 5,
       productName: "Led工作燈",
-      productSize: {
-        width: 35,
-        depth: 25,
-        height: 35,
-      },
+      width: 35,
+      depth: 25,
+      height: 35,
       productLink:
         "https://www.ikea.com.tw/zh/products/luminaires/desk-lamps-and-clamp-lamps/orsala-art-10482908",
       imgSrc:
@@ -141,11 +132,9 @@ function MyKeep() {
     {
       productId: 6,
       productName: "書桌/工作桌",
-      productSize: {
-        width: 35,
-        depth: 25,
-        height: 35,
-      },
+      width: 35,
+      depth: 25,
+      height: 35,
       productLink:
         "https://www.ikea.com.tw/zh/products/home-workspace/home-desks/malm-art-00359824",
       imgSrc:
@@ -167,7 +156,7 @@ function MyKeep() {
 
   const removeItem = (productId) => {
     // 正式：
-    // fetch(`http://localhost:8080/mykeeps/${productId}`, {
+    // fetch(`http://localhost:8080/mykeeps/${productid}`, {
     //   method: "DELETE",
     // })
     //   .then((response) => {
@@ -178,15 +167,33 @@ function MyKeep() {
     //   })
     //   .then((data) => console.log(data))
     //   .catch((error) => console.error("Error:", error));
+    // 
+    // setItemList(itemList.filter((item) => item.productid !== productid));
 
+    // 測試：
     setItemList(itemList.filter((item) => item.productId !== productId));
   };
 
   const renderedMyKeepItems = itemList.map((item) => (
     <MyKeepItem
+      // 正式：
+      // key={item.productid}
+      // productName={item.productname}
+      // width={item.width}
+      // depth={item.depth}
+      // height={item.height}
+      // productLink={item.productlink}
+      // imgSrc={item.imgsrc}
+      // productPrice={item.productprice}
+      // productDetails={item.productdetails}
+      // onRemove={() => removeItem(item.productid)}
+
+      // 測試：
       key={item.productId}
       productName={item.productName}
-      productSize={item.productSize}
+      width={item.width}
+      depth={item.depth}
+      height={item.height}
       productLink={item.productLink}
       imgSrc={item.imgSrc}
       productPrice={item.productPrice}

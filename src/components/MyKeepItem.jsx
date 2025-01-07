@@ -4,7 +4,9 @@ import { FaRegTrashCan } from "react-icons/fa6";
 
 function MyKeepItem({
   productName,
-  productSize,
+  width,
+  depth,
+  height,
   productLink,
   imgSrc,
   productPrice,
@@ -58,13 +60,9 @@ function MyKeepItem({
       </Link>
 
       <div className="h-11 mt-2">
-        <h3
-          className={'text-sm text-gray-600 truncate'} 
-        >
-          {productName}
-        </h3>
+        <h3 className={"text-sm text-gray-600 truncate"}>{productName}</h3>
         <h3 className="text-sm mt-1 text-gray-500 truncate ">
-          {`${productSize.height}x${productSize.width}x${productSize.depth}公分`}
+          {`${height}x${width}x${depth}公分`}
         </h3>
       </div>
 
@@ -82,7 +80,9 @@ function MyKeepItem({
           {colorOptions}
         </select>
 
-        <h3 className="text-sm ml-7 text-gray-500 truncate">{selectedColorQty}</h3>
+        <h3 className="text-sm ml-7 text-gray-500 truncate">
+          {selectedColorQty}
+        </h3>
       </div>
 
       <hr className="mt-2" />
