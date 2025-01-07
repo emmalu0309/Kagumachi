@@ -1,14 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MyKeepItem from "../components/MyKeepItem";
 
 function MyKeep() {
+  // 正式：
+  // const [itemList, setItemList] = useState([]);
+
+  // const fetchMyKeeps = async () => {
+  //   const response = await fetch("http://localhost:8080/mykeeps");
+  //   setItemList(await response.json());
+  // };
+
+  // useEffect(() => {
+  //   fetchMyKeeps();
+  // }, []);
+
   // ==============================
+
+  // 測試：
   const [itemList, setItemList] = useState([
     {
       productId: 1,
       productName: "墊腳凳",
-      productSize: null,
-      productLink:
+      productSize: {
+        width: 35,
+        depth: 25,
+        height: 35,
+      },
+      productLink: // 可能到時候會是類似localhost:5173/product/{productId}的網址，反正就是用productId去找到該商品頁面。
         "https://www.ikea.com.tw/zh/products/freestanding-kitchens-and-kitchen-furniture/kitchen-furniture/bekvam-art-50225592",
       imgSrc:
         "https://www.ikea.com.tw/dairyfarm/tw/images/282/0728262_PE736144_S4.webp",
@@ -79,7 +97,11 @@ function MyKeep() {
     {
       productId: 4,
       productName: "沙發床",
-      productSize: null,
+      productSize: {
+        width: 35,
+        depth: 25,
+        height: 35,
+      },
       productLink:
         "https://www.ikea.com.tw/zh/products/sofas/sofa-beds/fridhult-art-60355762",
       imgSrc:
@@ -99,7 +121,11 @@ function MyKeep() {
     {
       productId: 5,
       productName: "Led工作燈",
-      productSize: null,
+      productSize: {
+        width: 35,
+        depth: 25,
+        height: 35,
+      },
       productLink:
         "https://www.ikea.com.tw/zh/products/luminaires/desk-lamps-and-clamp-lamps/orsala-art-10482908",
       imgSrc:
@@ -115,7 +141,11 @@ function MyKeep() {
     {
       productId: 6,
       productName: "書桌/工作桌",
-      productSize: null,
+      productSize: {
+        width: 35,
+        depth: 25,
+        height: 35,
+      },
       productLink:
         "https://www.ikea.com.tw/zh/products/home-workspace/home-desks/malm-art-00359824",
       imgSrc:
@@ -136,7 +166,20 @@ function MyKeep() {
   // ==============================
 
   const removeItem = (productId) => {
-    setItemList(itemList.filter(item => item.productId !== productId));
+    // 正式：
+    // fetch(`http://localhost:8080/mykeeps/${productId}`, {
+    //   method: "DELETE",
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       return response.text().then(text => { throw new Error(text) });
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => console.log(data))
+    //   .catch((error) => console.error("Error:", error));
+
+    setItemList(itemList.filter((item) => item.productId !== productId));
   };
 
   const renderedMyKeepItems = itemList.map((item) => (
