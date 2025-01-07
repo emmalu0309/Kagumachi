@@ -59,20 +59,16 @@ function MyKeepItem({
 
       <div className="h-11 mt-2">
         <h3
-          className={`text-sm text-gray-600 truncate ${
-            productSize ? "" : "pt-4"
-          }`}
+          className={'text-sm text-gray-600 truncate'} 
         >
           {productName}
         </h3>
         <h3 className="text-sm mt-1 text-gray-500 truncate ">
-          {productSize
-            ? `${productSize.height}x${productSize.width}x${productSize.depth}公分`
-            : ""}
+          {`${productSize.height}x${productSize.width}x${productSize.depth}公分`}
         </h3>
       </div>
 
-      <h3 className="text-sm m-2 text-gray-500 truncate">${productPrice}</h3>
+      <h3 className="text-sm m-1 text-gray-500 truncate">${productPrice}</h3>
 
       <div className="flex">
         <select
