@@ -27,7 +27,7 @@ const NavBar = () => {
           <LuUserRound className="m-1 text-xl" />
           <Link to="login">註冊 / 登入</Link>
         </button>
-        <Link to="ShoppingCart">
+        <Link to="CartStep1">
           <button className="mx-3">
             <MdAddShoppingCart className="text-xl" />
           </button>

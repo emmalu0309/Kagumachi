@@ -72,4 +72,4 @@ function ShoppingcartStepIcon(props) {
   );
 }
 
-export default StepIcon;
+export default ShoppingcartStepIcon;
