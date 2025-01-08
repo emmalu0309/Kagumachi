@@ -8,8 +8,7 @@ function MyKeepItem({
   depth,
   height,
   productLink,
-  imgSrc,
-  productPrice,
+  discountprice,
   productDetails,
   onRemove,
 }) {
@@ -18,6 +17,7 @@ function MyKeepItem({
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [maxQuantity, setMaxQuantity] = useState(0);
   const [isColorSelected, setIsColorSelected] = useState(false);
+  const [selectedImageSrc, setSelectedImageSrc] = useState(productDetails[0].imgsrc);
 
   const colorOptions = productDetails.map((item, index) => {
     return (
@@ -38,6 +38,7 @@ function MyKeepItem({
     setMaxQuantity(qty);
     setSelectedQuantity(1);
     setIsColorSelected(true);
+    setSelectedImageSrc(productDetails[selectedIndex].imgsrc);
   };
 
   const handleQuantityChange = (event) => {
@@ -56,7 +57,7 @@ function MyKeepItem({
       />
 
       <Link to={productLink}>
-        <img className="h-40 w-40 ml-9 hover:cursor-pointer" src={imgSrc} />
+        <img className="h-40 w-40 ml-9 hover:cursor-pointer" src={selectedImageSrc} />
       </Link>
 
       <div className="h-11 mt-2">
@@ -66,7 +67,7 @@ function MyKeepItem({
         </h3>
       </div>
 
-      <h3 className="text-sm m-1 text-gray-500 truncate">${productPrice}</h3>
+      <h3 className="text-sm m-1 text-gray-500 truncate">${discountprice}</h3>
 
       <div className="flex">
         <select
