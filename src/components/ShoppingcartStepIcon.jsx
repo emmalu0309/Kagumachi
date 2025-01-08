@@ -10,7 +10,7 @@ import {
   TbArrowRight,
 } from "react-icons/tb";
 
-function StepIcon(props) {
+function ShoppingcartStepIcon(props) {
   const stepOne = () => {
     switch (props.step) {
       case "1":

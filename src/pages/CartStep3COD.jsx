@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StepIcon from "../components/StepIcon";
+import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function App() {
         <div className="max-w-4xl mx-auto p-6 bg-gray-100 min-h-screen">
 
             {/* StepIcon */}
-            <StepIcon step={currentStep.toString()} />
+            <ShoppingcartStepIcon step={currentStep.toString()} />
 
             {/* 按鈕 */}
             <div className="flex justify-between mt-6">

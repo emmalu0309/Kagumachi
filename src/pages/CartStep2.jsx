@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StepIcon from "../components/StepIcon";
+import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import PaymentOptions from "../components/PaymentOptions";
 import OrderSummary from "../components/OrderSummary";
 import Button from "../components/Button";
@@ -25,7 +25,7 @@ function App() {
         <div className="max-w-4xl mx-auto p-6 bg-gray-100 min-h-screen">
 
             {/* StepIcon */}
-            <StepIcon step={currentStep.toString()} />
+            <ShoppingcartStepIcon step={currentStep.toString()} />
 
             {/* 付款方式選擇 */}
             <PaymentOptions
