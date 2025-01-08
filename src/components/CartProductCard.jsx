@@ -67,7 +67,7 @@ useEffect(() => {
   return (
     <div
       id={props.id}
-      className="flex flex-col px-4 py-4 border-b-4 border-black"
+      className="flex flex-col px-4 py-4 border-b-2 border-gray-200"
     >
       <div className="flex justify-end">
         <button className="cursor-pointer" onClick={()=>props.onDelete(props.id)}>
@@ -86,34 +86,34 @@ useEffect(() => {
             <img src={props.picture} className="w-28 h-28" />
           </label>
           <div className="flex flex-col ml-8">
-            <span className="flex-grow text-xl font-semibold">
+            <span className="flex-grow">
               商品名稱：{props.name}
             </span>
-            <span className="flex-grow text-xl font-semibold">
+            <span className="flex-grow">
               商品規格：{props.color}
             </span>
-            <span className="flex-grow text-xl font-semibold">優惠推薦</span>
+            <span className="flex-grow">優惠推薦</span>
           </div>
         </div>
         <div className="flex items-center w-60">
           <div className="flex pr-16">
             <button
-              className="border-2 border-black text-3xl"
+              className="border-2"
               onClick={subQuantity}
             >
-              <IoIosRemove />
+              <IoIosRemove className="hover:fill-black"/>
             </button>
-            <span className="w-12 border-t-2 border-b-2 border-black text-2xl text-center">
+            <span className="w-12 border-t-2 border-b-2 text-center">
               {quantity}
             </span>
             <button
-              className="border-2 border-black text-3xl"
+              className="border-2 "
               onClick={addQuantity}
             >
-              <IoMdAdd />
+              <IoMdAdd className="hover:fill-black"/>
             </button>
           </div>
-          <div className="pr-8 text-xl font-semibold">
+          <div className="pr-8 font-semibold">
             {quantity * props.price}
           </div>
         </div>

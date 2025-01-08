@@ -70,8 +70,8 @@ function CartStep1() {
   return (
     <>
       <ShoppingcartStepIcon step="1" />
-      <div className="max-w-4xl mx-auto p-6 bg-gray-100 mt-10 border-2 border-black">
-        <div className="pl-4 py-2 border-b-2 border-black">
+      <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
+        <div className="pl-4 py-2 border">
           <label className="cursor-pointer">
             <input
               className="cursor-pointer scale-150"
@@ -79,7 +79,7 @@ function CartStep1() {
               checked={selectAll}
               onChange={purchaseAll}
             />
-            <span className="text-xl font-semibold pl-2">全選</span>
+            <span className="font-semibold pl-2">全選</span>
           </label>
         </div>
         <div>
@@ -104,34 +104,34 @@ function CartStep1() {
             />
           ))}
         </div>
-        <div className="flex justify-end text-xl font-semibold border-b-2 border-black">
-          <span className="pr-5">共 {products.length} 件商品</span>
+        <div className="flex justify-end border-b-2 border-gray-200">
+          <span className="pr-10 py-2">共 {products.length} 件商品</span>
           <div className="pr-10">
-            <p>商品金額</p>
+            <p className="py-2">商品金額</p>
             <p>活動特惠</p>
-            <p>運費</p>
-            <p>帳戶折抵</p>
+            <p className="py-2">運費</p>
+            <p className="pb-2">帳戶折抵</p>
           </div>
           <div className="pr-10">
-            <p></p>
+            <p className="py-2">123</p>
             <p>無</p>
-            <p>免運</p>
+            <p className="py-2">免運</p>
             <p>無</p>
           </div>
         </div>
-        <div className="flex justify-end text-xl font-semibold">
-          <span className="pr-10">小計</span>
-          <p className="pr-10">100</p>
+        <div className="flex justify-end">
+          <span className="pr-10 pt-2">小計</span>
+          <p className="pr-10 pt-2">100</p>
         </div>
 
         <div className="flex justify-between mt-6">
-          <Link>
-            <button className="px-4 py-2 rounded text-white bg-gray-400 hover:bg-gray-600">
+          <Link to="/homepage">
+            <button className="px-4 py-2 text-white bg-gray-400 hover:bg-gray-600">
               繼續購物
             </button>
           </Link>
-          <Link>
-            <button className="px-4 py-2 rounded text-white bg-gray-400 hover:bg-gray-600">
+          <Link to="/CartStep2">
+            <button className="px-4 py-2 text-white bg-gray-400 hover:bg-gray-600">
               下一步
             </button>
           </Link>

@@ -45,7 +45,7 @@ function App() {
             {/* 按鈕 */}
             <div className="flex justify-between mt-6">
 
-                <Link to="/ShoppingCart">
+                <Link to="/CartStep1">
                     <Button
                         label="返回"
                         onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
