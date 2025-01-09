@@ -179,7 +179,8 @@ function CartStep1() {
             </button>
           </Link>
           <Link to="/CartStep2">
-            <button className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]">
+            <button className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
+              disabled={sumTotalCount == 0}>
               下一步
             </button>
           </Link>
