@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StepIcon from "../components/StepIcon";
+import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import RecipientForm from "../components/RecipientForm";
@@ -11,7 +11,7 @@ function CartStep3COD() {
     return (
         <div>
             {/* StepIcon */}
-            <StepIcon step={currentStep.toString()} />
+            <ShoppingcartStepIcon step={currentStep.toString()} />
 
             <div className="max-w-4xl mx-auto p-6 min-h-screen">
 

@@ -6,10 +6,12 @@ import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
 import QA from "./pages/QA";
 import ForgetPassword from "./pages/ForgetPassword";
-import ShoppingCart from "./pages/ShoppingCart";
+import CartEmpty from "./pages/CartEmpty";
+import CartStep1 from "./pages/CartStep1";
 import CartStep2 from "./pages/CartStep2";
 import CartStep3COD from "./pages/CartStep3COD";
 import CartStep3Credit from "./pages/CartStep3Credit"
+import CartStep4 from "./pages/CartStep4"
 import MemberInfo from "./pages/MemberInfo";
 import MyKeep from "./pages/MyKeep";
 import MyOrders from "./pages/MyOrders";
@@ -21,6 +23,7 @@ import SearchOne from "./pages/SearchOne";
 import SearchTwo from "./pages/SearchTwo";
 import Chat from "./pages/Chat";
 import "./App.css";
+
 
 function App() {
   
@@ -36,10 +39,12 @@ function App() {
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="qa" element={<QA />} />
           <Route path="forgetPassword" element={<ForgetPassword />} />
-          <Route path="shoppingCart" element={<ShoppingCart />} />
+          <Route path="cartEmpty" element={<CartEmpty />} />
+          <Route path="cartStep1" element={<CartStep1 />} />
           <Route path="cartStep2" element={<CartStep2 />} />
           <Route path="cartStep3COD" element={<CartStep3COD />} />
           <Route path="cartStep3Credit" element={<CartStep3Credit />} />
+          <Route path="cartStep4" element={<CartStep4 />} />
           <Route path="MemberInfo" element={<MemberInfo />}>
             <Route path="MyKeep" element={<MyKeep />} />
             <Route path="MyOrders" element={<MyOrders />} />
@@ -51,6 +56,7 @@ function App() {
           <Route path="homepage" element={<HomePage />} />
           <Route path="searchone" element={<SearchOne />} />
           <Route path="searchtwo" element={<SearchTwo />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>

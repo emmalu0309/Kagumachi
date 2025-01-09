@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StepIcon from "../components/StepIcon";
+import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import PaymentOptions from "../components/PaymentOptions";
 import OrderSummary from "../components/OrderSummary";
 import Button from "../components/Button";
@@ -24,7 +24,7 @@ function CartStep2() {
     return (
         <div>
             {/* StepIcon */}
-            <StepIcon step={currentStep.toString()} />
+            <ShoppingcartStepIcon step={currentStep.toString()} />
 
             <div className="max-w-4xl mx-auto p-6 min-h-screen">
 
@@ -46,10 +46,10 @@ function CartStep2() {
                 {/* 按鈕 */}
                 <div className="flex justify-between mt-6">
 
-                    <Link to="/ShoppingCart">
-                        <Button
-                            label="返回"
-                            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
+                <Link to="/ShoppingCart">
+                    <Button
+                        label="返回"
+                        onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
                         >
                         </Button>
                     </Link>
