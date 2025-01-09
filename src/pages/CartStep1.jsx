@@ -18,7 +18,7 @@ function CartStep1() {
           const updatStatu = products.map((product) => {
             return {
               ...product,
-              purchase: !selectAll,
+              ispurchase: !selectAll,
             };
           });
           setProducts(updatStatu);
@@ -31,10 +31,10 @@ function CartStep1() {
   };
   const handleChildCheckbox = (id, isChecked) => {
     const updatStatu = products.map((product) =>
-      product.cartsid == id ? { ...product, purchase: isChecked } : product
+      product.cartsid == id ? { ...product, ispurchase: isChecked } : product
     );
     setProducts(updatStatu);
-    const allChecked = updatStatu.every((product) => product.purchase);
+    const allChecked = updatStatu.every((product) => product.ispurchase);
     setSelectAll(allChecked);
   };
 
@@ -106,7 +106,7 @@ function CartStep1() {
   //全選的狀態
   useEffect(() => {
     if (products.length > 0) {
-      setSelectAll(products.every((product) => product.purchase == true));
+      setSelectAll(products.every((product) => product.ispurchase == true));
     }
   }, [products]);
 
@@ -131,17 +131,17 @@ function CartStep1() {
             <CartProductCard
               key={data.cartsid}
               id={data.cartsid}
-              name={data.products.productname}
-              color={data.productcolors.colorname}
+              name={data.product.productname}
+              color={data.productColor.colorname}
               count={data.quantity}
-              price={data.products.unitprice}
+              price={data.product.unitprice}
               picture={
-                data.products.productimages.find(
+                data.product.productimage.find(
                   (img) =>
-                    img.productcolors.colorname === data.productcolors.colorname
+                    img.productColor.colorname === data.productColor.colorname
                 )?.imageurl || ""
               }
-              purchase={data.purchase}
+              purchase={data.ispurchase}
               selectAll={selectAll}
               onDelete={handleDelete}
               onCheckbox={handleChildCheckbox}
