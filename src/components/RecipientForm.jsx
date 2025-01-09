@@ -19,16 +19,11 @@ const cityDistrictData = {
     屏東縣: ["屏東市", "潮州鎮", "東港鎮", "恆春鎮", "萬丹鄉", "長治鄉", "麟洛鄉", "九如鄉", "里港鄉", "鹽埔鄉", "高樹鄉", "萬巒鄉", "內埔鄉", "竹田鄉", "新埤鄉", "枋寮鄉", "新園鄉", "崁頂鄉", "林邊鄉", "南州鄉", "佳冬鄉", "琉球鄉", "車城鄉", "滿州鄉", "枋山鄉", "霧台鄉", "瑪家鄉", "泰武鄉", "來義鄉", "春日鄉", "獅子鄉", "牡丹鄉", "三地門鄉"],
     宜蘭縣: ["宜蘭市", "羅東鎮", "蘇澳鎮", "頭城鎮", "礁溪鄉", "壯圍鄉", "員山鄉", "冬山鄉", "五結鄉", "三星鄉", "大同鄉", "南澳鄉"],
     花蓮縣: ["花蓮市", "鳳林鎮", "玉里鎮", "新城鄉", "吉安鄉", "壽豐鄉", "光復鄉", "豐濱鄉", "瑞穗鄉", "萬榮鄉", "卓溪鄉"],
-    台東縣: ["台東市", "成功鎮", "關山鎮", "卑南鄉", "鹿野鄉", "池上鄉", "東河鄉", "長濱鄉", "太麻里鄉", "大武鄉", "綠島鄉", "海端鄉", "延平鄉", "金峰鄉", "達仁鄉"]
-};
-
-const islandDistrictData = {
+    台東縣: ["台東市", "成功鎮", "關山鎮", "卑南鄉", "鹿野鄉", "池上鄉", "東河鄉", "長濱鄉", "太麻里鄉", "大武鄉", "綠島鄉", "海端鄉", "延平鄉", "金峰鄉", "達仁鄉"], 
     金門縣: ["金城鎮", "金湖鎮", "金沙鎮", "金寧鄉", "烈嶼鄉", "烏坵鄉"],
     連江縣: ["南竿鄉", "北竿鄉", "莒光鄉", "東引鄉"],
     澎湖縣: ["馬公市", "湖西鄉", "白沙鄉", "西嶼鄉", "望安鄉", "七美鄉"]
 };
-
-const fullDistrictData = { ...cityDistrictData, ...islandDistrictData }; // 全台含離島地區資料
 
 const RecipientForm = () => {
     const [selectedCity, setSelectedCity] = useState("");
@@ -57,7 +52,7 @@ const RecipientForm = () => {
                     />
                 </div>
 
-                {/* 手機號碼欄位 */}
+                {/* 手機號碼 */}
                 <div className="mb-4 flex items-center">
                     <label className="w-1/6 text-gray-700 text-base" htmlFor="phone">
                         手機號碼
@@ -70,9 +65,10 @@ const RecipientForm = () => {
                     />
                 </div>
 
-                {/* 縣市選單 */}
+                {/* 選單 */}
                 <div className="mb-4 flex items-center">
                     <div className="flex flex-1 gap-4 items-center">
+                        {/* 縣市選單 */}
                         <label className="w-1/4 text-gray-700 text-base" htmlFor="city">
                             請選擇縣市
                         </label>
@@ -80,19 +76,21 @@ const RecipientForm = () => {
                             id="city"
                             className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
                             onChange={handleCityChange}
+                            value={selectedCity}
                         >
-                            <option value="" disabled selected>
+                            <option value="" disabled >
                                 請選擇縣市
                             </option>
-                            {Object.keys(cityDistrictData).map((city) => (
-                                <option key={city} value={city}>
-                                    {city}
-                                </option>
-                            ))}
+                            {Object.keys(cityDistrictData).map((city) => {
+                                return (
+                                    <option key={city} value={city}>
+                                        {city}
+                                    </option>
+                                )
+                            })}
                         </select>
 
                         {/* 地區選單 */}
-
                         <label className="w-1/4 text-gray-700 text-base" htmlFor="district">
                             請選擇地區
                         </label>
@@ -101,19 +99,21 @@ const RecipientForm = () => {
                             className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
                             disabled={!selectedCity}
                         >
-                            <option value="" disabled selected>
+                            <option value="" disabled>
                                 {selectedCity ? "請選擇地區" : "請先選擇縣市"}
                             </option>
-                            {districts.map((district) => (
-                                <option key={district} value={district}>
-                                    {district}
-                                </option>
-                            ))}
+                            {districts.map((district) => {
+                                return (
+                                    <option key={district} value={district}>
+                                        {district}
+                                    </option>
+                                )
+                            })}
                         </select>
                     </div>
                 </div>
 
-                {/* 地址欄位 */}
+                {/* 地址 */}
                 <div className="mb-4 flex items-center">
                     <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
                         請輸入地址
@@ -122,6 +122,19 @@ const RecipientForm = () => {
                         id="address"
                         type="text"
                         placeholder="請輸入地址"
+                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    />
+                </div>
+
+                {/* 預計送達日 */}
+                <div className="mb-4 flex items-center">
+                    <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
+                        希望送達日期
+                    </label>
+                    <input
+                        id="address"
+                        type="text"
+                        placeholder="請輸入日期"
                         className="flex-1 px-4 py-2 rounded-md focus:outline-none"
                     />
                 </div>

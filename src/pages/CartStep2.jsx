@@ -10,7 +10,7 @@ function CartStep2() {
     const [selectedPayment, setSelectedPayment] = useState("");
 
     const paymentOptions = [
-        { id: "cod", label: "宅配貨到付款(限台灣本島)" },
+        { id: "cod", label: "宅配貨到付款" },
         { id: "credit", label: "信用卡付款" },
     ];
 

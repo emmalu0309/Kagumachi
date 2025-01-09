@@ -8,7 +8,6 @@ function CartStep3COD() {
     const [currentStep, setCurrentStep] = useState(3);
     const [selectedPayment, setSelectedPayment] = useState("");
 
-
     return (
         <div>
             {/* StepIcon */}
@@ -24,8 +23,7 @@ function CartStep3COD() {
                     <Link to="/CartStep2">
                         <Button
                             label="返回"
-                            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
-                        >
+                            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}>
                         </Button>
                     </Link>
 
