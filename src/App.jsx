@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
 import QA from "./pages/QA";
 import ForgetPassword from "./pages/ForgetPassword";
+import CartEmpty from "./pages/CartEmpty";
 import CartStep1 from "./pages/CartStep1";
 import CartStep2 from "./pages/CartStep2";
 import CartStep3COD from "./pages/CartStep3COD";
@@ -36,6 +37,7 @@ function App() {
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="qa" element={<QA />} />
           <Route path="forgetPassword" element={<ForgetPassword />} />
+          <Route path="cartEmpty" element={<CartEmpty />} />
           <Route path="CartStep1" element={<CartStep1 />} />
           <Route path="cartStep2" element={<CartStep2 />} />
           <Route path="cartStep3COD" element={<CartStep3COD />} />
