@@ -11,6 +11,7 @@ import CartStep1 from "./pages/CartStep1";
 import CartStep2 from "./pages/CartStep2";
 import CartStep3COD from "./pages/CartStep3COD";
 import CartStep3Credit from "./pages/CartStep3Credit"
+import CartStep4 from "./pages/CartStep4"
 import MemberInfo from "./pages/MemberInfo";
 import MyKeep from "./pages/MyKeep";
 import MyOrders from "./pages/MyOrders";
@@ -38,10 +39,11 @@ function App() {
           <Route path="qa" element={<QA />} />
           <Route path="forgetPassword" element={<ForgetPassword />} />
           <Route path="cartEmpty" element={<CartEmpty />} />
-          <Route path="CartStep1" element={<CartStep1 />} />
+          <Route path="cartStep1" element={<CartStep1 />} />
           <Route path="cartStep2" element={<CartStep2 />} />
           <Route path="cartStep3COD" element={<CartStep3COD />} />
           <Route path="cartStep3Credit" element={<CartStep3Credit />} />
+          <Route path="cartStep4" element={<CartStep4 />} />
           <Route path="MemberInfo" element={<MemberInfo />}>
             <Route path="MyKeep" element={<MyKeep />} />
             <Route path="MyOrders" element={<MyOrders />} />
