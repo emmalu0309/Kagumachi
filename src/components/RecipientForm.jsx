@@ -41,87 +41,88 @@ const RecipientForm = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+        <div className="border p-4 bg-white shadow rounded">
             <h2 className="text-lg font-semibold mb-4">收件人資訊</h2>
             <form>
-                {/* 姓名欄位 */}
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm mb-2" htmlFor="name">
+                {/* 姓名 */}
+                <div className="mb-4 flex items-center">
+                    <label className="w-1/6 text-gray-700 text-base" htmlFor="name">
                         姓名
                     </label>
                     <input
                         id="name"
                         type="text"
                         placeholder="請輸入姓名"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
                     />
                 </div>
 
                 {/* 手機號碼欄位 */}
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm mb-2" htmlFor="phone">
+                <div className="mb-4 flex items-center">
+                    <label className="w-1/6 text-gray-700 text-base" htmlFor="phone">
                         手機號碼
                     </label>
                     <input
                         id="phone"
                         type="text"
                         placeholder="請輸入手機號碼"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
                     />
                 </div>
 
                 {/* 縣市選單 */}
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm mb-2" htmlFor="city">
-                        請選擇縣市
-                    </label>
-                    <select
-                        id="city"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        onChange={handleCityChange}
-                    >
-                        <option value="" disabled selected>
+                <div className="mb-4 flex items-center">
+                    <div className="flex flex-1 gap-4 items-center">
+                        <label className="w-1/4 text-gray-700 text-base" htmlFor="city">
                             請選擇縣市
-                        </option>
-                        {Object.keys(cityDistrictData).map((city) => (
-                            <option key={city} value={city}>
-                                {city}
+                        </label>
+                        <select
+                            id="city"
+                            className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
+                            onChange={handleCityChange}
+                        >
+                            <option value="" disabled selected>
+                                請選擇縣市
                             </option>
-                        ))}
-                    </select>
-                </div>
+                            {Object.keys(cityDistrictData).map((city) => (
+                                <option key={city} value={city}>
+                                    {city}
+                                </option>
+                            ))}
+                        </select>
 
-                {/* 地區選單 */}
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm mb-2" htmlFor="district">
-                        請選擇地區
-                    </label>
-                    <select
-                        id="district"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={!selectedCity}
-                    >
-                        <option value="" disabled selected>
-                            {selectedCity ? "請選擇地區" : "請先選擇縣市"}
-                        </option>
-                        {districts.map((district) => (
-                            <option key={district} value={district}>
-                                {district}
+                        {/* 地區選單 */}
+
+                        <label className="w-1/4 text-gray-700 text-base" htmlFor="district">
+                            請選擇地區
+                        </label>
+                        <select
+                            id="district"
+                            className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
+                            disabled={!selectedCity}
+                        >
+                            <option value="" disabled selected>
+                                {selectedCity ? "請選擇地區" : "請先選擇縣市"}
                             </option>
-                        ))}
-                    </select>
+                            {districts.map((district) => (
+                                <option key={district} value={district}>
+                                    {district}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
                 {/* 地址欄位 */}
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm mb-2" htmlFor="address">
+                <div className="mb-4 flex items-center">
+                    <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
                         請輸入地址
                     </label>
                     <input
                         id="address"
                         type="text"
                         placeholder="請輸入地址"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
                     />
                 </div>
             </form>

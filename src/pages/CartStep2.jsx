@@ -26,7 +26,7 @@ function CartStep2() {
             {/* StepIcon */}
             <StepIcon step={currentStep.toString()} />
 
-            <div className="max-w-4xl mx-auto p-6 bg-gray-100 min-h-screen">
+            <div className="max-w-4xl mx-auto p-6 min-h-screen">
 
                 {/* 付款方式選擇 */}
                 <PaymentOptions
