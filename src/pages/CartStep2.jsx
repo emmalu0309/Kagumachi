@@ -46,10 +46,10 @@ function CartStep2() {
                 {/* 按鈕 */}
                 <div className="flex justify-between mt-6">
 
-                    <Link to="/cartStep1">
-                        <Button
-                            label="返回"
-                            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
+                <Link to="/ShoppingCart">
+                    <Button
+                        label="返回"
+                        onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
                         >
                         </Button>
                     </Link>
