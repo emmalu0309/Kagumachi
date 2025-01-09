@@ -1,90 +1,72 @@
 // by 大瑋
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
-
-
-
 // 網站圖片
-const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
+// const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
 
-const Product1 = () => {
+const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice }) => {
     const [isLiked, setIsLiked] = useState(false);
     const liked = () => setIsLiked(!isLiked);
-    const maxPrice = '5000'; //商品價錢
-    const dataPrice = '2999'; //商品價錢
 
-    // const [isLiked, setIsLiked] = useState(false);
-    // const [product, setProduct] = useState(null); // 用來存放從 API 獲取的商品資料
-    // const [loading, setLoading] = useState(true); // 載入狀態
-    // const [error, setError] = useState(null); // 錯誤狀態
+    // const [data, setData] = useState([]);
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await fetch('http://localhost:8080/test/test3');
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         const result = await response.json();
+    //         setData({
+    //             dataname: result.dataname,
+    //             dataimage: result.dataimage,
+    //             datalink: result.datalink,
+    //             dataprice: result.dataprice,
+    //             originalprice: result.originalprice
+    //         });
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
+
+    
+    //   {product1list}
 
     // useEffect(() => {
-    //     // 使用 fetch 獲取商品資料
-    //     const fetchProduct = async () => {
-    //         try {
-    //             const response = await fetch("https://api.example.com/products/1"); // 替換為您的 API URL
-    //             if (!response.ok) {
-    //                 throw new Error("Network response was not ok");
-    //             }
-    //             const data = await response.json();
-    //             setProduct(data);
-    //         } catch (err) {
-    //             setError(err.message);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchProduct();
+    //     fetchData();
     // }, []);
-
-    // const liked = () => setIsLiked(!isLiked);
-
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
-
-    // if (error) {
-    //     return <div>Error: {error}</div>;
-    // }
-
-    // if (!product) {
-    //     return <div>No product data available</div>;
-    // }
 
     return (
         <>
             <div className="w-4/5  mt-2 mx-auto items-center ">
                 <div className="mx-auto ">
-                    {/* 1 */}
                     <div className="relative ">
                         <div className="inline-block items-center">
-                            <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer"> 
-                            {/* <a href={product.link} target="_blank" rel="noopener noreferrer"> */}
-                                <img src={Logo1} alt="Image 1" className="w-62 h-50 object-contain rounded " />
-                                {/* <img
-                                    src={product.image}
-                                    alt={product.name}
+                            {/* <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">  */}
+                            <a href={datalink} target="_blank" rel="noopener noreferrer">
+                                {/* <img src={Logo1} alt="Image 1" className="w-62 h-50 object-contain rounded " />  */}
+                                <img
+                                    src={dataimage}
+                                    alt={dataname}
                                     className="w-62 h-50 object-contain rounded"
-                                /> */}
+                                />
                             </a>
                         </div>
                         <div className="absolute top-1 right-1 text-2xl cursor-pointer">
                             {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)} />}
                         </div>
                         <div className="cardbody">
-                            <p>TONSTAD </p>
-                            <p>邊桌, 淺乳白色, 64x40 公分</p>
-                            {/* <p>{product.name}</p>
-                            <p>{product.description}</p> */}
+                            {/* <p>TONSTAD </p> */}
+                            {/* <p>邊桌, 淺乳白色, 64x40 公分</p> */}
+                            <p>{dataname}</p>
+                            {/* <p>{description}</p> */}
                         </div>
                         <div className="flex  grid-cols-3">
-                            <div className="text-2xl text-center">${dataPrice}</div>
-                            <div className="text-1xl line-through text-left">${maxPrice}</div>
-                            {/* <div className="text-2xl text-center">${product.price}</div>
-                            <div className="text-1xl line-through text-left">${product.originalPrice}</div> */}
+                            {/* <div className="text-2xl text-center">${dataPrice}</div>
+                            <div className="text-1xl line-through text-left">${maxPrice}</div> */}
+                            <div className="text-2xl text-center">{dataprice}</div>
+                            <div className="text-1xl line-through text-left">{originalprice}</div>
                             <div className=""></div>
                         </div>
 

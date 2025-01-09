@@ -22,6 +22,7 @@ import SearchTwo from "./pages/SearchTwo";
 import Chat from "./pages/Chat";
 import "./App.css";
 
+
 function App() {
   
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="homepage" element={<HomePage />} />
           <Route path="searchone" element={<SearchOne />} />
           <Route path="searchtwo" element={<SearchTwo />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>
