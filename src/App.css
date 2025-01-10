@@ -73,9 +73,6 @@
     /* transform: scale(1.05);  //滑鼠移過去時放大圖片 */
   }
   
-  .cardbody{
-    /* border: 1px solid green; */
-  }
  
 @tailwind base;
 @tailwind components;
