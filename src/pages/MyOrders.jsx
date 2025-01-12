@@ -19,7 +19,7 @@ function MyOrders() {
         key={order.orderid}
         orderDate={order.orderdate}
         orderNumber={order.ordernumber}
-        paymentMethodId={order.paymentmethodid}
+        paymentMethod={order.paymentmethod}
         orderStatus={order.orderstatus}
         shippingDate={order.deliverydate}
         estimatedDeliveryDate={order.estimateddeliverydate}

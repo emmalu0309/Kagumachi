@@ -63,8 +63,13 @@ function Profile() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   const onSubmit = (data) => {
+    setShowAnimation(true);
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 1000);
     console.log(data);
   };
 
@@ -619,11 +624,14 @@ function Profile() {
             </li>
           </ul>
           <div className="flex justify-center">
-            <input
-              className="absolute mt-16 px-20 py-3 border border-gray-300 rounded-md bg-[#5E3B25] text-gray-100 hover:bg-[#C3A789] hover:text-gray-100 hover:cursor-pointer"
-              type="submit"
-              value="送出"
-            />
+            <button className="absolute mt-16 px-20 py-3 border border-gray-300 rounded-md bg-[#5E3B25] text-gray-100 hover:bg-[#C3A789] hover:text-gray-100 hover:cursor-pointer">
+              送出
+            </button>
+            {showAnimation && (
+              <div className="text-[#aeddef] absolute transform -translate-x-1/2 pt-11 pl-3 animate-riseAndFade">
+                會員資料已修改！
+              </div>
+            )}
           </div>
         </form>
       </div>

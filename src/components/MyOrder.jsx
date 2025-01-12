@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function MyOrder({
   orderDate,
   orderNumber,
-  paymentMethodId,
+  paymentMethod,
   orderStatus,
   shippingDate,
   estimatedDeliveryDate,
@@ -18,7 +18,7 @@ function MyOrder({
             {orderNumber}
         </Link>
       </td>
-      <td className={tableTd}>{paymentMethodId === 1 ? "信用卡" : "現金"}</td>
+      <td className={tableTd}>{paymentMethod}</td>
       <td className={tableTd}>{orderStatus}</td>
       <td className={tableTd}>{shippingDate}</td>
       <td className={tableTd}>{estimatedDeliveryDate}</td>
