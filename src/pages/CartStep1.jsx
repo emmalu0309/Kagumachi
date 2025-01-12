@@ -131,16 +131,11 @@ function CartStep1() {
             <CartProductCard
               key={data.cartsid}
               id={data.cartsid}
-              name={data.product.productname}
-              color={data.productColor.colorname}
+              name={data.productname}
+              color={data.colorname}
               count={data.quantity}
-              price={data.product.unitprice}
-              picture={
-                data.product.productimage.find(
-                  (img) =>
-                    img.productColor.colorname === data.productColor.colorname
-                )?.imageurl || ""
-              }
+              price={data.unitprice}
+              picture={data.imageurl}
               purchase={data.ispurchase}
               selectAll={selectAll}
               onDelete={handleDelete}
