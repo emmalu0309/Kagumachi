@@ -3,39 +3,10 @@ import React, { useState, useEffect } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
-// 網站圖片
-// const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
 
-const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice }) => {
+const Product1 = ({ dataname,supplierid, dataimage, datalink, dataprice, originalprice }) => {
     const [isLiked, setIsLiked] = useState(false);
     const liked = () => setIsLiked(!isLiked);
-
-    // const [data, setData] = useState([]);
-    // const fetchData = async () => {
-    //     try {
-    //         const response = await fetch('http://localhost:8080/test/test3');
-    //         if (!response.ok) {
-    //             throw new Error('Network response was not ok');
-    //         }
-    //         const result = await response.json();
-    //         setData({
-    //             dataname: result.dataname,
-    //             dataimage: result.dataimage,
-    //             datalink: result.datalink,
-    //             dataprice: result.dataprice,
-    //             originalprice: result.originalprice
-    //         });
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    // };
-
-    
-    //   {product1list}
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
 
     return (
         <>
@@ -56,18 +27,16 @@ const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice }) =
                         <div className="absolute top-1 right-1 text-2xl cursor-pointer">
                             {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)} />}
                         </div>
-                        <div className="cardbody">
-                            {/* <p>TONSTAD </p> */}
-                            {/* <p>邊桌, 淺乳白色, 64x40 公分</p> */}
-                            <p>{dataname}</p>
-                            {/* <p>{description}</p> */}
+                        <div className="">
+                            <p className="text-xl font-semibold">{dataname}</p>
+                            {/* <p className="text-lg">{supplierid}</p> */}
                         </div>
-                        <div className="flex  grid-cols-3">
+                        <div className="flex  grid-cols-3 ">
                             {/* <div className="text-2xl text-center">${dataPrice}</div>
                             <div className="text-1xl line-through text-left">${maxPrice}</div> */}
-                            <div className="text-2xl text-center">{dataprice}</div>
-                            <div className="text-1xl line-through text-left">{originalprice}</div>
-                            <div className=""></div>
+                            <div className="text-2xl text-center  font-bold mr-2">${dataprice}</div>
+                            <div className="text-1xl line-through text-center ">{originalprice}</div>
+                            <div className="ml-2">優惠價</div>
                         </div>
 
                         <div className="flex">

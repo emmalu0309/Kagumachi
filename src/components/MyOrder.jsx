@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function MyOrder({
   orderDate,
   orderNumber,
-  paymentMethod,
+  paymentMethodId,
   orderStatus,
   shippingDate,
   estimatedDeliveryDate,
@@ -15,15 +15,15 @@ function MyOrder({
       <td className={tableTd}>{orderDate}</td>
       <td className={tableTd}>
         <Link to="/orderdetail" className="hover:underline">
-          {orderNumber}
+            {orderNumber}
         </Link>
       </td>
-      <td className={tableTd}>{paymentMethod}</td>
+      <td className={tableTd}>{paymentMethodId === 1 ? "信用卡" : "現金"}</td>
       <td className={tableTd}>{orderStatus}</td>
       <td className={tableTd}>{shippingDate}</td>
       <td className={tableTd}>{estimatedDeliveryDate}</td>
       <td className={tableTd}>{price}</td>
-      <td className={tableTd}>客服</td>
+      {/* <td className={tableTd}>客服</td> */}
       <td className={tableTd}>
         <Link to="/customerreviews" className="hover:underline">
           評論

@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      'chat': ['Noto Sans Mono', 'Noto Sans TC'],
+    },
   },
   plugins: [],
 }
