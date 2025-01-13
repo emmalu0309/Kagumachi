@@ -15,9 +15,9 @@ function CartStep2() {
     ];
 
     const orderData = {
-        itemsCount: 2,
-        totalPrice: 998,
-        shippingFee: 98,
+        itemsCount: 0,
+        totalPrice: 0,
+        shippingFee: 0,
         discount: 0,
     };
 
@@ -46,7 +46,7 @@ function CartStep2() {
                 {/* 按鈕 */}
                 <div className="flex justify-between mt-6">
 
-                <Link to="/ShoppingCart">
+                <Link to="/CartStep1">
                     <Button
                         label="返回"
                         onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
@@ -54,13 +54,17 @@ function CartStep2() {
                         </Button>
                     </Link>
 
-                    <Link to={
+                    <Link to=
+                    // "/CartStep3"
+
+                    {
                         selectedPayment === "cod"
                             ? "/CartStep3COD"
                             : selectedPayment === "credit"
                                 ? "/CartStep3Credit"
                                 : "#"  // 未選擇付款方式時，導航設為 "#"（空連結）
-                    }>
+                    }
+                    >
                         <Button
                             label="下一步"
                             onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 4))}
