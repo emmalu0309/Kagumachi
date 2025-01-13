@@ -1,6 +1,7 @@
 // by 大瑋
 import React, { useState } from "react";
 import Product1 from "../components/Product1";
+import { useLocation } from 'react-router-dom';
 
 const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
 const PAGE_SIZE = 16; // 每頁顯示的商品數量
@@ -9,6 +10,10 @@ const abc = <Product1 />
 export default function SearchTwo() {
     const count = 100;
     const [currentPage, setCurrentPage] = useState(1);
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const query = queryParams.get('query');
 
     const products = Array.from({ length: count }, (_, i) => ({
         id: i + 1,
@@ -41,11 +46,11 @@ export default function SearchTwo() {
     return (
         <>
         <div className="p-2 w-11/12 mx-auto ">
-            <div className="flex items-center justify-between border w-11/12  mx-auto text-base p-2">
-                <div>"{bigla}"搜尋結果</div>
+            <div className="flex items-center justify-between  w-11/12  mx-auto text-base p-2">
+                <div>"{query}"搜尋結果</div>
             </div>
 
-            <div className="flex items-center justify-normal mb-2 border p-2 mx-auto w-11/12 ">
+            <div className="flex items-center justify-normal mb-2  p-2 mx-auto w-11/12 ">
                 <select
                     value={filter}
                     onChange={handleFilterChange}
@@ -68,7 +73,7 @@ export default function SearchTwo() {
 
             </div>
 
-            <div className="mt-2 flex justify-end space-x-4 border w-11/12 mx-auto">
+            <div className="mt-2 flex justify-end space-x-4  w-11/12 mx-auto">
                 <button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
@@ -90,7 +95,7 @@ export default function SearchTwo() {
             <h1 className="text-xl font-bold mb-4 p-2 w-11/12 mx-auto">商品列表</h1>
         </div>
         <div className=" w-[80vw] mx-auto grid grid-cols-4 gap-4">
-        {abc}{abc}{abc}{abc}{abc}{abc}{abc}{abc}
+        {/* {abc}{abc}{abc}{abc}{abc}{abc}{abc}{abc} */}
         </div>
         
         </>
