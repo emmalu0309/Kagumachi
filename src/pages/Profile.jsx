@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState, useEffect } from "react";
 
-const memberid = 100; // 測試用memberid
+const memberid = 102; // 測試用memberid
 
 const schema = z
   .object({
@@ -23,13 +23,26 @@ const schema = z
         "請輸入有效的手機號碼，格式範例：0912-345-678。"
       ),
     email: z.string().email("請輸入有效的電子郵件"),
-    password: z.string().min(6, "密碼至少需要6個字"),
-    check_password: z.string(),
+    password: z
+      .string()
+      .min(6, "密碼至少需要6個字")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s)[A-Za-z\d]{6,}$/,
+        "密碼必須為大寫字母、小寫字母及數字的組合，且不可包含空白字元"
+      )
+      .optional()
+      .or(z.string().length(0)),
+    check_password: z.string().optional().or(z.string().length(0)),
     zip_code: z.string().nonempty("請選擇郵遞區號"),
     address: z.string().nonempty("請輸入聯絡地址"),
   })
-  .refine((data) => data.password === data.check_password, {
-    message: "確認密碼必須和密碼相同",
+  .refine((data) => {
+    if (data.password && data.password.length > 0) {
+      return data.password === data.check_password;
+    }
+    return true;
+  }, {
+    message: "確認密碼必須和修改密碼相同",
     path: ["check_password"],
   });
 
