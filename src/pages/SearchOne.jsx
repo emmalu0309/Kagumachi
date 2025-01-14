@@ -1,5 +1,5 @@
 // by 大瑋
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Product1 from "../components/Product1";
 
 const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
@@ -10,11 +10,42 @@ export default function SearchOne() {
     const count = 100;
     const [currentPage, setCurrentPage] = useState(1);
 
+    const [data, setData] = useState([]);
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/myhome/test');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log(result);
+            setData(result);
+            console.log(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const product1list = data.map((item) => {
+        return <Product1 dataname={item.dataname}
+            // supplierid={item.supplierid}
+            dataimage={item.dataimage}
+            // datalink={item.datalink}
+            dataprice={item.dataprice} />
+            // originalprice={item.originalprice} />
+    })
+
+
     const products = Array.from({ length: count }, (_, i) => ({
         id: i + 1,
         name: `商品 ${i + 1}`,
         price: 100,
-        img:<img src={Logo1} alt="Image 1" className="carousel-image" />
+        img: <img src={Logo1} alt="Image 1" className="carousel-image" />
     }));
 
     const totalPages = Math.ceil(products.length / PAGE_SIZE);
@@ -40,58 +71,58 @@ export default function SearchOne() {
 
     return (
         <>
-        <div className="p-2 w-11/12 mx-auto ">
-            <div className="flex items-center justify-between border w-11/12  mx-auto text-base p-2">
-                <div>"{bigla}"搜尋結果</div>
+            <div className="p-2 w-11/12 mx-auto ">
+                <div className="flex items-center justify-between border w-11/12  mx-auto text-base p-2">
+                    <div>"{bigla}"搜尋結果</div>
+                </div>
+
+                <div className="flex items-center justify-normal mb-2 border p-2 mx-auto w-11/12 ">
+                    <select
+                        value={filter}
+                        onChange={handleFilterChange}
+                        className="border rounded-xl px-2 py-1 ">
+                        <option value="排序方式">排序方式</option>
+                        <option value="選項一">低到高</option>
+                        <option value="選項二">高到低</option>
+                    </select>
+
+                    <select
+                        value={filter}
+                        onChange={handleFilterChange}
+                        className="border rounded-xl px-2 py-1 mx-4">
+                        <option value="篩選">篩選</option>
+                        <option value="選項一">選項一</option>
+                        <option value="選項二">選項二</option>
+                    </select>
+
+                    <div className=" absolute left-3/4">產品數量:{count}</div>
+
+                </div>
+
+                <div className="mt-2 flex justify-end space-x-4 border w-11/12 mx-auto">
+                    <button
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1 bg-gray-300 text-white rounded disabled:bg-gray-100"
+                    >
+                        &lt;
+                    </button>
+                    <span className="text-lg">
+                        {currentPage} / {totalPages}
+                    </span>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1 bg-gray-300 text-white rounded disabled:bg-gray-100"
+                    >
+                        &gt;
+                    </button>
+                </div>
+                <h1 className="text-xl font-bold mb-4 p-2 w-11/12 mx-auto">商品列表</h1>
             </div>
-
-            <div className="flex items-center justify-normal mb-2 border p-2 mx-auto w-11/12 ">
-                <select
-                    value={filter}
-                    onChange={handleFilterChange}
-                    className="border rounded-xl px-2 py-1 ">
-                    <option value="排序方式">排序方式v</option>
-                    <option value="選項一">選項一</option>
-                    <option value="選項二">選項二</option>
-                </select>
-
-                <select
-                    value={filter}
-                    onChange={handleFilterChange}
-                    className="border rounded-xl px-2 py-1 mx-4">
-                    <option value="排序方式">篩選</option>
-                    <option value="選項一">選項一</option>
-                    <option value="選項二">選項二</option>
-                </select>
-
-                <div className=" absolute left-3/4">產品數量:{count}</div>
-
+            <div className=" w-[80vw] mx-auto grid grid-cols-4 gap-4">
+                {product1list}
             </div>
-
-            <div className="mt-2 flex justify-end space-x-4 border w-11/12 mx-auto">
-                <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className="px-3 py-1 bg-gray-300 text-white rounded disabled:bg-gray-100"
-                >
-                    &lt;	
-                </button>
-                <span className="text-lg">
-                    {currentPage} / {totalPages}
-                </span>
-                <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className="px-3 py-1 bg-gray-300 text-white rounded disabled:bg-gray-100"
-                >
-                    &gt;
-                </button>
-            </div>
-            <h1 className="text-xl font-bold mb-4 p-2 w-11/12 mx-auto">商品列表</h1>
-        </div>
-        <div className=" w-[80vw] mx-auto grid grid-cols-4 gap-4">
-        {abc}{abc}{abc}{abc}{abc}{abc}{abc}{abc}
-        </div>
         </>
     );
 }

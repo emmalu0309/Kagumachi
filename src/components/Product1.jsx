@@ -4,7 +4,7 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
 
-const Product1 = ({ dataname,supplierid, dataimage, datalink, dataprice, originalprice }) => {
+const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice }) => {
     const [isLiked, setIsLiked] = useState(false);
     const liked = () => setIsLiked(!isLiked);
 
@@ -32,15 +32,13 @@ const Product1 = ({ dataname,supplierid, dataimage, datalink, dataprice, origina
                             {/* <p className="text-lg">{supplierid}</p> */}
                         </div>
                         <div className="flex  grid-cols-3 ">
-                            {/* <div className="text-2xl text-center">${dataPrice}</div>
-                            <div className="text-1xl line-through text-left">${maxPrice}</div> */}
                             <div className="text-2xl text-center  font-bold mr-2">${dataprice}</div>
                             <div className="text-1xl line-through text-center ">{originalprice}</div>
                             <div className="ml-2">優惠價</div>
                         </div>
 
                         <div className="flex">
-                            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer">
+                            {/* <a href="https://www.example.com" target="_blank" rel="noopener noreferrer">
                                 <button className="w-10 h-10 border bg-white rounded-3xl"></button>
                             </a>
                             <a href="https://www.example1.com" target="_blank" rel="noopener noreferrer">
@@ -48,7 +46,7 @@ const Product1 = ({ dataname,supplierid, dataimage, datalink, dataprice, origina
                             </a>
                             <a href="https://www.example2.com" target="_blank" rel="noopener noreferrer">
                                 <button className="w-10 h-10 border bg-yellow-600 rounded-3xl"></button>
-                            </a>
+                            </a> */}
                         </div>
 
                     </div>

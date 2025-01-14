@@ -27,7 +27,7 @@ const NewProduct = () => {
     const [data, setData] = useState([]);
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/test/test3');
+            const response = await fetch('http://localhost:8080/myhome/test');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -48,11 +48,11 @@ const NewProduct = () => {
 
     const product1list = data.map((item) => {
         return <Product1 dataname={item.dataname}
-            supplierid={item.supplierid}
+            // supplierid={item.supplierid}
             dataimage={item.dataimage}
-            datalink={item.datalink}
-            dataprice={item.dataprice}
-            originalprice={item.originalprice} />
+            // datalink={item.datalink}
+            dataprice={item.dataprice} />
+            // originalprice={item.originalprice} />
     })
 
     const settings = {
