@@ -51,31 +51,33 @@ const NewProduct = () => {
             // supplierid={item.supplierid}
             dataimage={item.dataimage}
             // datalink={item.datalink}
-            dataprice={item.dataprice} />
             // originalprice={item.originalprice} />
+            dataprice={item.dataprice} 
+            count={item.count}
+            />
     })
 
     const settings = {
         dots: true, // 顯示下方點點
-        infinite: false, // 無限循環
+        infinite: true, // 無限循環
         speed: 500,
         slidesToShow: 5, // 每次顯示一個「頁面」
         slidesToScroll: 2, // 每次滾動一個「頁面」
         autoplay: false, // 自動播放
         autoplaySpeed: 3000, // 每 3 秒滾動一次
-        // cssEase : "liner",
+        cssEase : "liner",
         responsive: [
             {
                 breakpoint: 1500,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 5,
                     slidesToScroll: 1,
                 },
             },
             {
                 breakpoint: 1200,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                 },
             },

@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
 const PAGE_SIZE = 16; // 每頁顯示的商品數量
-const abc = <Product1 />
+
 
 export default function SearchTwo() {
     const count = 100;

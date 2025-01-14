@@ -18,7 +18,7 @@ const NavBar = () => {
       if (event.key === 'Enter') {
           event.preventDefault();
           if (query.trim()) {
-              navigate(`/SearchTwo?query=${encodeURIComponent(query)}`);
+              navigate(`/SearchOne?query=${encodeURIComponent(query)}`);
           }
       }
   };

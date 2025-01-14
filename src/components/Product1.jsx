@@ -4,7 +4,7 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
 
-const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice }) => {
+const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice ,count}) => {
     const [isLiked, setIsLiked] = useState(false);
     const liked = () => setIsLiked(!isLiked);
 
@@ -13,14 +13,14 @@ const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice }) =
             <div className="w-4/5  mt-2 mx-auto items-center ">
                 <div className="mx-auto ">
                     <div className="relative ">
-                        <div className="inline-block items-center">
+                        <div className=" inline-block items-center">
                             {/* <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">  */}
                             <a href={datalink} target="_blank" rel="noopener noreferrer">
                                 {/* <img src={Logo1} alt="Image 1" className="w-62 h-50 object-contain rounded " />  */}
                                 <img
                                     src={dataimage}
                                     alt={dataname}
-                                    className="w-62 h-50 object-contain rounded"
+                                    className="w-40 h-40 object-contain rounded"
                                 />
                             </a>
                         </div>
