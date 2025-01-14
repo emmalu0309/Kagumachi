@@ -15,7 +15,7 @@ function MyOrder({
       <td className={tableTd}>{orderDate}</td>
       <td className={tableTd}>
         <Link to="/orderdetail" className="hover:underline">
-          {orderNumber}
+            {orderNumber}
         </Link>
       </td>
       <td className={tableTd}>{paymentMethod}</td>
@@ -23,7 +23,7 @@ function MyOrder({
       <td className={tableTd}>{shippingDate}</td>
       <td className={tableTd}>{estimatedDeliveryDate}</td>
       <td className={tableTd}>{price}</td>
-      <td className={tableTd}>客服</td>
+      {/* <td className={tableTd}>客服</td> */}
       <td className={tableTd}>
         <Link to="/customerreviews" className="hover:underline">
           評論

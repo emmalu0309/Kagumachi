@@ -27,7 +27,7 @@ function CartStep3COD() {
                         </Button>
                     </Link>
 
-                    <Link to="/">
+                    <Link to="/CartStep4">
                         <Button
                             label="下一步"
                             onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 4))}

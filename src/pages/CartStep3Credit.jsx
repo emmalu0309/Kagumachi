@@ -17,7 +17,7 @@ function CartStep3Credit() {
             <div className="max-w-4xl mx-auto p-6 min-h-screen">
 
                 <RecipientForm />
-                <CreditForm />
+                {/* <CreditForm /> */}
 
                 {/* 按鈕 */}
                 <div className="flex justify-between mt-6">
@@ -29,7 +29,7 @@ function CartStep3Credit() {
                         </Button>
                     </Link>
 
-                    <Link to="/">
+                    <Link to="/CartStep4">
                         <Button
                             label="下一步"
                             onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 4))}

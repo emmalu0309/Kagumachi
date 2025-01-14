@@ -36,6 +36,7 @@ function MyKeep() {
   const renderedMyKeepItems = itemList.map((item) => (
     <MyKeepItem
       key={item.productid}
+      productid={item.productid}
       productName={item.productname}
       width={item.width}
       depth={item.depth}
