@@ -1,4 +1,4 @@
-// by 大瑋
+// by 大瑋(綁Navbar)
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import Product1 from "../components/Product1";
