@@ -67,11 +67,24 @@ const Register = () => {
                 throw new Error("註冊失敗");
             }
 
-            const data = await response.json(); // 解析後端回傳的 JSON (包含 token 和 memberId)
+            // =========================
+            // Emma:
+            // const data = await response.json(); // 解析後端回傳的 JSON (包含 token 和 memberId)
+            // HongJun:
+            let data = await response.json(); // 解析後端回傳的 JSON (包含 token 和 memberId)
+            // =========================
 
             // 存儲 token 並更新全局狀態
             localStorage.setItem("token", data.token);
-            login(data.token, data.memberId); // 更新 AuthContext，讓 Navbar 立即顯示登入狀態
+            
+            // =========================
+            // Emma:
+            // login(data.token, data.memberId); // 更新 AuthContext，讓 Navbar 立即顯示登入狀態
+            
+            // HongJun:
+            data = {...data, memberId: data.memberid};
+            login(data); // 更新 AuthContext，讓 Navbar 立即顯示登入狀態
+            // =========================
 
             alert("註冊成功");
             navigate("/MemberInfo/Profile");

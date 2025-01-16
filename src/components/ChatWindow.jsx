@@ -1,4 +1,3 @@
-// ChatWindow.jsx
 import React, { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -53,7 +52,7 @@ const ChatWindow = ({ messages, memberId }) => {
       renderedMessages.push(
         <div
           key={index}
-          className={`mt-3 flex ${isSender ? "justify-end" : "justify-start"}`}
+          className={`mt-3 flex ${isSender ? "justify-end" : "justify-start"} ${msg.isfrontread ? "" : "font-bold"}`}
         >
           <div
             className={`relative p-3 rounded break-words whitespace-pre-wrap ${

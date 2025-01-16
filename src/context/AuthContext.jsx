@@ -15,7 +15,12 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     // 登入函式
-    const login = (token, memberId) => {
+    // ================
+    // Emma:
+    // const login = (token, memberId) => {
+    // HongJun:
+    const login = ({token, memberId}) => {
+    // ================
         localStorage.setItem("token", token);
         localStorage.setItem("memberId", memberId);
         setUser({ token, memberId });

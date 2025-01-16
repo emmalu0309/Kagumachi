@@ -1,17 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import MyKeepItem from "../components/MyKeepItem";
+import { AuthContext } from "../context/AuthContext";
 
 function MyKeep() {
+  const { user } = useContext(AuthContext);
+  const memberId = user.memberId;
+
   const [itemList, setItemList] = useState([]);
 
   const fetchMyKeeps = async () => {
-    const response = await fetch("http://localhost:8080/mykeep?memberid=100"); // 先假設memberid為100。
+    const response = await fetch(`http://localhost:8080/mykeep?memberid=${memberId}`);
     setItemList(await response.json());
   };
 
   useEffect(() => {
     fetchMyKeeps();
-  }, []);
+  }, [memberId]);
   
   const removeItem = async (memberid, productid) => {
     await fetch(`http://localhost:8080/mykeep`, {
@@ -44,7 +48,7 @@ function MyKeep() {
       // productLink={item.productlink} // 後端目前沒給
       discountprice={item.discountprice}
       productDetails={item.productdetails}
-      onRemove={() => removeItem(100, item.productid)} // 先假設memberid為100。
+      onRemove={() => removeItem(memberId, item.productid)}
     />
   ));
 

@@ -1,17 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import MyOrder from "../components/MyOrder";
+import { AuthContext } from "../context/AuthContext";
 
 function MyOrders() {
+  const { user } = useContext(AuthContext);
+  const memberId = user.memberId;
+
   const [orderList, setOrderList] = useState([]);
 
   const fetchOrderList = async () => {
-    const response = await fetch("http://localhost:8080/myorders?memberid=100"); // 先假設memberid為100。
+    const response = await fetch(`http://localhost:8080/myorders?memberid=${memberId}`);
     setOrderList(await response.json());
   };
 
   useEffect(() => {
     fetchOrderList();
-  }, []);
+  }, [memberId]);
 
   const renderedOrderList = orderList.map((order) => {
     return (
@@ -43,7 +47,7 @@ function MyOrders() {
             <th className={tableTh}>出貨日期</th>
             <th className={tableTh}>預計送達日</th>
             <th className={tableTh}>應付金額</th>
-            {/* <th className={tableTh}>客服</th> */}
+            <th className={tableTh}>客服問答</th>
             <th className={tableTh}>評論</th>
           </tr>
         </thead>

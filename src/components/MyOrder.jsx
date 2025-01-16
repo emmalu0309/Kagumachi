@@ -14,7 +14,7 @@ function MyOrder({
     <tr>
       <td className={tableTd}>{orderDate}</td>
       <td className={tableTd}>
-        <Link to="/orderdetail" className="hover:underline">
+        <Link to={`/orderdetail/${orderNumber}`} className="hover:underline">
             {orderNumber}
         </Link>
       </td>
@@ -23,9 +23,9 @@ function MyOrder({
       <td className={tableTd}>{shippingDate}</td>
       <td className={tableTd}>{estimatedDeliveryDate}</td>
       <td className={tableTd}>{price}</td>
-      {/* <td className={tableTd}>客服</td> */}
+      <td className={tableTd}>聯絡客服</td>
       <td className={tableTd}>
-        <Link to="/customerreviews" className="hover:underline">
+        <Link to={`/customerreviews/${orderNumber}`} className="hover:underline">
           評論
         </Link>
       </td>
