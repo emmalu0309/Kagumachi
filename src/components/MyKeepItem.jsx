@@ -1,68 +1,166 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaRegTrashCan } from "react-icons/fa6";
 
-function MyKeepItem({ itemName, itemSrc, imgSrc, itemPrice }) {
+function MyKeepItem({
+  productid,
+  productName,
+  width,
+  depth,
+  height,
+  productLink,
+  discountprice,
+  productDetails,
+  onRemove,
+}) {
+  const [selectedColorValue, setSelectedColorValue] = useState("default");
+  const [selectedColorQty, setSelectedColorQty] = useState("");
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [maxQuantity, setMaxQuantity] = useState(0);
+  const [isColorSelected, setIsColorSelected] = useState(false);
+  const [selectedImageSrc, setSelectedImageSrc] = useState(
+    productDetails[0].imgsrc
+  );
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const colorOptions = productDetails.map((item, index) => {
+    return (
+      <option key={index} value={item.color}>
+        {item.color}
+      </option>
+    );
+  });
+
+  const selectColorChange = (event) => {
+    const selectedColor = event.target.value;
+    setSelectedColorValue(selectedColor);
+    const selectedIndex = productDetails.findIndex(
+      (item) => item.color === selectedColor
+    );
+    const qty = productDetails[selectedIndex].qty;
+    setSelectedColorQty(`剩餘${qty}件`);
+    setMaxQuantity(qty);
+    setSelectedQuantity(1);
+    setIsColorSelected(true);
+    setSelectedImageSrc(productDetails[selectedIndex].imgsrc);
+  };
+
+  const handleQuantityChange = (event) => {
+    const newQuantity = parseInt(event.target.value);
+    if (newQuantity >= 1 && newQuantity <= maxQuantity) {
+      setSelectedQuantity(newQuantity);
+    }
+  };
+
+  const handlePurchase = async () => {
+    const selectedProduct = productDetails.find(
+      (item) => item.color === selectedColorValue
+    );
+    const requestBody = {
+      memberid: 100, // 假設memberid為100
+      productid: productid,
+      color: selectedProduct.color,
+      quantity: selectedQuantity,
+    };
+    console.log(requestBody);
+
+    try {
+      const response = await fetch("http://localhost:8080/mykeep", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      setShowAnimation(true);
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setShowAnimation(false);
+        setIsButtonDisabled(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
-    <li className="w-48 h-72 justify-self-center relative text-center p-2 border border-gray-200">
-      <img
-        className="h-5 w-5 absolute top-2 left-2 hover:cursor-pointer"
-        src="https://s1.lativ.com.tw/images/btn_del.png"
+    <div className="w-60 justify-self-center relative text-center p-2 border border-gray-200 overflow-hidden">
+      <FaRegTrashCan
+        className="h-5 w-5 absolute top-2 left-2 hover:cursor-pointer hover:scale-125 transition-transform duration-200"
+        color="gray"
+        onClick={onRemove}
       />
-      {/* 點商品圖片會到該商品頁面 */}
-      <Link to={itemSrc}>
-        {/* 切換顏色應切換商品圖片(未完成) */}
-        <img className="h-36 w-36 ml-3.5 hover:cursor-pointer" src={imgSrc} />
+
+      <Link to={productLink}>
+        <img
+          className="h-40 w-40 ml-9 hover:cursor-pointer"
+          src={selectedImageSrc}
+        />
       </Link>
-      <h3 className="text-xs my-2.5 text-gray-500 truncate ">{itemName}</h3>
-      <h3 className="text-xs m-3 text-gray-400">{itemPrice}</h3>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <select className="text-sm w-24 border border-gray-300 rounded text-gray-400">
-                <option value="" disabled selected>
-                  顏色
-                </option>
-                {/* 再想顏色要怎放進來 */}
-                <option value="白色">白色</option>
+      <div className="h-11 mt-2">
+        <h3 className={"text-sm text-gray-600 truncate"}>{productName}</h3>
+        <h3 className="text-sm mt-1 text-gray-500 truncate ">
+          {`${height}x${width}x${depth}公分`}
+        </h3>
+      </div>
+      <h3 className="text-sm m-1 text-gray-500 truncate">${discountprice}</h3>
+      <div className="flex">
+        <select
+          className="text-sm w-28 border border-gray-300 rounded text-gray-500"
+          value={selectedColorValue}
+          onChange={selectColorChange}
+        >
+          <option value="default" disabled>
+            請選擇顏色
+          </option>
+          {colorOptions}
+        </select>
 
-                <option value="卡其">卡其</option>
-
-                <option value="軍綠">軍綠</option>
-
-                <option value="藍色">藍色</option>
-
-                <option value="灰藍">灰藍</option>
-
-                <option value="藏青">藏青</option>
-              </select>
-            </td>
-            <td>
-              <select className="text-sm w-16 float-right border border-gray-300 rounded text-gray-400">
-                <option disabled selected>
-                  尺寸
-                </option>
-                {/* 再想尺寸要怎放進來 */}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select className="text-sm w-16 float-left mt-2 border border-gray-300 rounded text-gray-400">
-                <option disabled selected>
-                  數量
-                </option>
-                {/* 再想數量要怎放進來 */}
-              </select>
-            </td>
-            <td>
-              <button className="ml-7 px-1 py-0 mt-1 border border-gray-300 rounded-md bg-gray-100 text-gray-600 hover:bg-[#E4D8CC] hover:text-white">
-                <span>選購</span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
+        <h3 className="text-sm ml-7 text-gray-500 truncate">
+          {selectedColorQty}
+        </h3>
+      </div>
+      <hr className="mt-2" />
+      <div className="flex items-center mt-1">
+        <h3 className="text-sm text-center ml-1 mt-1 text-gray-500 truncate">
+          請選擇數量
+        </h3>
+        <input
+          type="number"
+          className="w-14 ml-5 mt-1 text-sm text-center border border-gray-300 rounded text-gray-400"
+          value={selectedQuantity}
+          onChange={handleQuantityChange}
+          min={1}
+          max={maxQuantity}
+        />
+        <button
+          className={`ml-5 px-1 py-0 mt-1 border border-gray-300 rounded-md ${
+            isColorSelected && maxQuantity > 0
+              ? "bg-gray-100 text-gray-500 hover:bg-[#E4D8CC] hover:text-white"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+          }`}
+          disabled={!isColorSelected || maxQuantity === 0 || isButtonDisabled}
+          onClick={handlePurchase}
+        >
+          選購
+        </button>
+        {showAnimation && (
+          <div className="text-[#cc99cc] absolute left-1/2 transform -translate-x-1/2 mt-1 animate-riseAndFade">
+            已加入購物車！
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 

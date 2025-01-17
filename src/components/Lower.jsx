@@ -72,7 +72,7 @@ import abc10 from "../img/10.jpg";
 
 
   return (
-    <div
+    <div className="p-3"
       style={{ width: "80%", margin: "0 auto", position: "relative" }}
       onMouseEnter={() => setIsHovered(true)} // 滑鼠進入
       onMouseLeave={() => setIsHovered(false)} // 滑鼠離開
