@@ -13,8 +13,7 @@ const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice ,cou
             <div className="w-4/5  mt-2 mx-auto items-center ">
                 <div className="mx-auto ">
                     <div className="relative ">
-                        <div className=" inline-block items-center">
-                            {/* <a href="https://example.com/link1" target="_blank" rel="noopener noreferrer">  */}
+                        <div className=" inline-block items-center">                    
                             <a href={datalink} target="_blank" rel="noopener noreferrer">
                                 {/* <img src={Logo1} alt="Image 1" className="w-62 h-50 object-contain rounded " />  */}
                                 <img
@@ -26,6 +25,7 @@ const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice ,cou
                         </div>
                         <div className="absolute top-1 right-1 text-2xl cursor-pointer">
                             {isLiked ? <FaHeart size={35} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={35} onClick={() => setIsLiked(!isLiked)} />}
+                        {/*  */}
                         </div>
                         <div className="">
                             <p className="text-xl font-semibold">{dataname}</p>
@@ -34,7 +34,7 @@ const Product1 = ({ dataname, dataimage, datalink, dataprice, originalprice ,cou
                         <div className="flex  grid-cols-3 ">
                             <div className="text-2xl text-center  font-bold mr-2">${dataprice}</div>
                             <div className="text-1xl line-through text-center ">{originalprice}</div>
-                            <div className="ml-2">優惠價</div>
+                            {/* <div className="ml-2">優惠價</div> */}
                         </div>
 
                         <div className="flex">
