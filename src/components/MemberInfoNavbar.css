@@ -1,0 +1,15 @@
+@keyframes backgroundColorChange {
+  0% {
+    background-color: #F0EDE5;
+  }
+  50% {
+    background-color: #DDDDDD;
+  }
+  100% {
+    background-color: #F0EDE5;
+  }
+}
+
+.notification-animation {
+  animation: backgroundColorChange 1s infinite;
+}

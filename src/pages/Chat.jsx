@@ -1,15 +1,29 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useContext } from "react";
 import SockJS from "sockjs-client/dist/sockjs";
 import { Client } from "@stomp/stompjs";
 import { Input } from "antd";
 import ChatWindow from "../components/ChatWindow";
-
-const memberId = 100; // 測試時請自行更改。
+import useWebSocket from "../hooks/useWebSocket";
+import { AuthContext } from "../context/AuthContext";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const stompClientRef = useRef(null);
+  const { user } = useContext(AuthContext);
+  const memberId = user.memberId;
+
+  const { markMessagesAsReadFront } = useWebSocket(memberId, (message) => {
+    setMessages((prevMessages) => {
+      const messageExists = prevMessages.some(
+        (msg) => msg.id === message.id
+      );
+      if (messageExists) {
+        return prevMessages;
+      }
+      return [...prevMessages, message].sort((a, b) => a.timestamp - b.timestamp);
+    });
+  });
 
   useEffect(() => {
     const client = new Client({
@@ -31,21 +45,23 @@ const Chat = () => {
             message.receiverid === memberId.toString() ||
             message.senderid === memberId.toString()
           ) {
-            setMessages((prevMessages) =>
-              [...prevMessages, message].sort(
-                (a, b) => a.timestamp - b.timestamp
-              )
-            );
+            setMessages((prevMessages) => {
+              const messageExists = prevMessages.some(
+                (msg) => msg.id === message.id
+              );
+              if (messageExists) {
+                return prevMessages;
+              }
+              return [...prevMessages, message].sort((a, b) => a.timestamp - b.timestamp);
+            });
           }
         });
 
         client.subscribe("/topic/historyFront", (messageOutput) => {
           const historyMessages = JSON.parse(messageOutput.body);
           console.log("Received history from server:", historyMessages);
-          setMessages((prevMessages) =>
-            [...prevMessages, ...historyMessages].sort(
-              (a, b) => a.timestamp - b.timestamp
-            )
+          setMessages(
+            historyMessages.sort((a, b) => a.timestamp - b.timestamp)
           );
         });
 
@@ -74,15 +90,23 @@ const Chat = () => {
         stompClientRef.current.deactivate();
       }
     };
-  }, []);
+  }, [memberId]);
 
-  const sendMessage = () => {
+  useEffect(() => {
+    if (location.pathname === '/MemberInfo/Chat') {
+      console.log("Entering /MemberInfo/Chat, marking messages as read");
+      markMessagesAsReadFront(memberId);
+    }
+  }, [location.pathname, markMessagesAsReadFront]);
+
+  const sendMessage = useCallback(() => {
     if (input.trim() === "") {
       // console.error("訊息不可為空");
       return;
     }
     if (stompClientRef.current && stompClientRef.current.connected) {
       const message = {
+        id: Date.now(),
         senderid: memberId.toString(),
         content: input,
         receiverid: "0",
@@ -100,7 +124,7 @@ const Chat = () => {
     } else {
       console.error("The connection has not been established yet");
     }
-  };
+  }, [input, memberId]);
 
   return (
     <div className="p-5 flex justify-center">
