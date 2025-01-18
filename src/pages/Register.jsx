@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useContext} from "react";
 import {AuthContext} from "../context/AuthContext";
+import {registerWithEmail, signInWithGoogle} from "../firebase";
 
 
 const Register = () => {
@@ -43,43 +44,74 @@ const Register = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-
         if (emailError || passwordError || !email.trim() || !password.trim()) {
             alert("請修正錯誤後再提交！");
             return;
         }
 
-
-        const url = `http://localhost:8080/login/register`;
-        const memberData = {
-            email,
-            password,
-        };
-
         try {
-            const response = await fetch(url, {
+            const userCredential = await registerWithEmail(email, password);
+            const token = await userCredential.user.getIdToken();
+            console.log("Firebase 註冊成功:", userCredential.user);
+
+            const response = await fetch(`http://localhost:8080/login/register`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(memberData),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ email }),
             });
 
-            if (!response.ok) {
-                throw new Error("註冊失敗");
-            }
+            if (!response.ok) throw new Error("註冊失敗");
 
-            const data = await response.json(); // 解析後端回傳的 JSON (包含 token 和 memberId)
+            const data = await response.json();
+            console.log("後端註冊成功:", data);
 
-            // 存儲 token 並更新全局狀態
-            localStorage.setItem("token", data.token);
-            login(data.token, data.memberId); // 更新 AuthContext，讓 Navbar 立即顯示登入狀態
+            // 存入 localStorage 並更新登入狀態
+            localStorage.setItem("token", token);
+            localStorage.setItem("memberId", data.memberId);
+            login(token, data.memberId);
 
             alert("註冊成功");
             navigate("/MemberInfo/Profile");
         } catch (err) {
-            console.error("登入失敗:", err);
-
+            console.error("註冊失敗:", err);
         }
-    }
+    };
+
+    // Google 註冊
+    const handleGoogleRegister = async () => {
+        try {
+            const userCredential = await signInWithGoogle();
+            const token = await userCredential.user.getIdToken();
+            console.log("Google 註冊成功:", userCredential.user);
+
+            const response = await fetch(`http://localhost:8080/login/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({email: userCredential.user.email}), // Google 註冊的 email
+            });
+
+            if (!response.ok) throw new Error("Google 註冊失敗");
+
+            const data = await response.json();
+            console.log("後端 Google 註冊成功:", data);
+
+            // 存入 localStorage 並更新登入狀態
+            localStorage.setItem("token", token);
+            localStorage.setItem("memberId", data.memberId);
+            login(token, data.memberId);
+
+            alert("Google 註冊成功");
+            navigate("/MemberInfo/Profile");
+        } catch (err) {
+            console.error("Google 註冊失敗:", err);
+        }
+    };
     const registerDivStyle = "w-full mx-auto px-2 flex border items-center focus-within:border-2 focus-within:border-[#aa8670]";
     const registerInput = " ml-2 p-1 outline-none w-full";
     const GoogleButton = "w-[65%] flex items-center justify-center px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]";
@@ -145,7 +177,7 @@ const Register = () => {
                         <div className="flex justify-center items-center">
                             <button
                                 className={GoogleButton}
-                                // onClick={handleGoogleLogin}
+                                onClick={handleGoogleRegister}
                             >
                                 <FcGoogle size={25} className="mr-1"/>
                                 {/* <span className="absolute left-1/2 -translate-x-1/2">使用Google登入</span> */}

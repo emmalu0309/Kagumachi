@@ -4,14 +4,15 @@ import {FaFacebook} from "react-icons/fa";
 import {MdOutlineMailOutline} from "react-icons/md";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import {useContext} from "react";
+import {AuthContext} from "../context/AuthContext";
 
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
+    const {signInWithGoogle} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -25,7 +26,10 @@ const Login = () => {
         try {
             const response = await fetch(`http://localhost:8080/login/login`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
                 body: JSON.stringify(memberData),
             });
 
@@ -33,7 +37,7 @@ const Login = () => {
                 throw new Error("登入失敗!");
             }
             const data = await response.json();
-            login({ memberId: data.memberId, token: data.token });
+            login({memberId: data.memberId, token: data.token});
 
             // alert("登入成功");
             navigate("/MemberInfo/MyOrders");
@@ -90,7 +94,7 @@ const Login = () => {
                         <div className="flex justify-center items-center">
                             <button
                                 className="w-[65%] flex items-center justify-between px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]"
-                                // onClick={handleGoogleLogin}
+                                onClick={signInWithGoogle}
                             >
                                 <FcGoogle size={25}/>
                                 <span className="flex-1 text-center ">使用Google登入</span>
@@ -120,7 +124,7 @@ const Login = () => {
             </form>
         </div>
 
-)
+    )
 }
 
 export default Login

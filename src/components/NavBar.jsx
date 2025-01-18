@@ -2,14 +2,14 @@ import { IoSearch } from "react-icons/io5";
 import { LuUserRound } from "react-icons/lu";
 import { MdAddShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
+
 // By 大瑋
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
-
   const { user, logout } = useContext(AuthContext);
 
   const [query, setQuery] = useState('');
@@ -53,12 +53,17 @@ const NavBar = () => {
         </div>
         {user ? (
             <div className="ml-auto mr-6 flex items-center">
-              <Link to="/MemberInfo/MyOrders">訂單查詢 / </Link>
-              <button onClick={logout}> &nbsp;登出</button>
+                {/*<Link to="/MemberInfo/MyOrders">訂單查詢 /{user.memberId} </Link>*/}
+                <Link to="/MemberInfo/MyOrders">訂單查詢 </Link>
+                <button onClick={() => {
+                    logout();
+                    navigate('/homepage');
+                }}> &nbsp;登出
+                </button>
             </div>
         ) : (
             <button className="ml-auto mr-6 flex items-center">
-              <LuUserRound className="m-1 text-xl"/>
+                <LuUserRound className="m-1 text-xl"/>
               <Link to="login">註冊 / 登入</Link>
             </button>
         )}
