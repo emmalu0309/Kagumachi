@@ -26,7 +26,7 @@ import "./App.css";
 
 
 function App() {
-  
+
   return (
     <BrowserRouter basename="/Kagumachi">
       <Routes>
@@ -56,10 +56,10 @@ function App() {
           <Route path="homepage" element={<HomePage />} />
           <Route path="searchone" element={<SearchOne />} />
           <Route path="searchtwo" element={<SearchTwo />} />
-          
+
         </Route>
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 

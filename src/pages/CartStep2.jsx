@@ -1,31 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import PaymentOptions from "../components/PaymentOptions";
 import OrderSummary from "../components/OrderSummary";
-import Button from "../components/Button";
-import { Link } from "react-router-dom";
 
 function CartStep2() {
     const [currentStep, setCurrentStep] = useState(2);
     const [selectedPayment, setSelectedPayment] = useState("");
-
-    const paymentOptions = [
-        { id: "cod", label: "宅配貨到付款" },
-        { id: "credit", label: "信用卡付款" },
-    ];
-
-    const orderData = {
+    const [OrderData, setOrderData] = useState({
         itemsCount: 0,
         totalPrice: 0,
         shippingFee: 0,
         discount: 0,
+        payableAmount: 0,
+    });
+
+    const paymentOptions = [
+        { id: "credit", label: "信用卡付款" },
+        { id: "cod", label: "貨到付款" },
+    ];
+
+    // 使用 async/await 獲取訂單摘要
+    const fetchOrderSummary = async () => {
+        const memberId = 1; // 假設目前登入的會員 ID 為 1
+        try {
+            const response = await fetch(
+                `http://localhost:8080/ordersummary/cartstep2/${memberId}`
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch order summary.");
+            }
+            const data = await response.json();
+            setOrderData(data); // 更新訂單摘要數據
+        } catch (error) {
+            console.error("Error fetching order summary:", error);
+        }
     };
+
+    useEffect(() => {
+        fetchOrderSummary();
+    }, []);
 
     return (
         <div>
             {/* StepIcon */}
             <ShoppingcartStepIcon step={currentStep.toString()} />
-
             <div className="max-w-4xl mx-auto p-6 min-h-screen">
 
                 {/* 付款方式選擇 */}
@@ -36,43 +55,45 @@ function CartStep2() {
                 />
 
                 {/* 訂單摘要 */}
+
                 <OrderSummary
-                    itemsCount={orderData.itemsCount}
-                    totalPrice={orderData.totalPrice}
-                    shippingFee={orderData.shippingFee}
-                    discount={orderData.discount}
+                    itemsCount={OrderData.itemsCount}
+                    totalPrice={OrderData.totalPrice}
+                    shippingFee={OrderData.shippingFee}
+                    discount={OrderData.totalDiscount}
+                    payableAmount={OrderData.payableAmount}
+                    step={"CartStep2"}
                 />
+
 
                 {/* 按鈕 */}
                 <div className="flex justify-between mt-6">
 
-                <Link to="/CartStep1">
-                    <Button
-                        label="返回"
-                        onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
-                        >
-                        </Button>
+                    <Link to="/CartStep1">
+                        <button className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
+                            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}>
+                            返回
+                        </button>
                     </Link>
 
                     <Link to=
-                    // "/CartStep3"
-
-                    {
-                        selectedPayment === "cod"
-                            ? "/CartStep3COD"
-                            : selectedPayment === "credit"
-                                ? "/CartStep3Credit"
-                                : "#"  // 未選擇付款方式時，導航設為 "#"（空連結）
-                    }
+                        // "/CartStep3"
+                        {
+                            selectedPayment === "cod"
+                                ? "/CartStep3COD"
+                                : selectedPayment === "credit"
+                                    ? "/CartStep3Credit"
+                                    : "#"  // 未選擇付款方式時，導航設為空連結
+                        }
                     >
-                        <Button
-                            label="下一步"
+                        <button
+                            className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
                             onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 4))}
-                        // disabled={!selectedPayment}  // 未選擇付款方式時，Link不會觸發
+                            disabled={!selectedPayment} // 未選擇付款方式時，Link不會觸發
                         >
-                        </Button>
+                            下一步
+                        </button>
                     </Link>
-
                 </div>
             </div>
         </div>
