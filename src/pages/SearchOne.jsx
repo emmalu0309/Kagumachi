@@ -12,64 +12,53 @@ export default function SearchOne() {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get('query');
 
-    var memberid;
-
     const [currentPage, setCurrentPage] = useState(1);
     const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
+    const [priceRange, setPriceRange] = useState(null);
+    
 
     const fetchData = async () => {
+        try {
+            var response;
+            if(!priceRange){
+                console.log('無職');
+                response = await fetch(`http://localhost:8080/mysearch/sone/${query}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            }else{
+                console.log('有職');
+                response = await fetch(`http://localhost:8080/mysearch/sone/${query}/${priceRange}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            }
+            
 
-        // if (!memberid) {
-        //     try {
-        //         const response = await fetch(`http://localhost:8080/mysearch/sone/${query}`, {
-        //             method: "GET",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-
-        //         const result = await response.json();
-
-        //         console.log(result);
-        //         setCount(result[0].count);
-        //         setData(result);
-        //         // console.log(data);
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //     }
-        // } else {
-        //     try {
-        //         const response = await fetch(`http://localhost:8080/mysearch/sone/${memberid}/${query}`, {
-        //             method: "GET",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-
-        //         const result = await response.json();
-
-        //         console.log(result);
-        //         setCount(result[0].count);
-        //         setData(result);
-        //         // console.log(data);
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //     }
-        // }
-
-
+            const result = await response.json();
+            console.log(result);
+            setCount(result[0].count);
+            setData(result);
+            // console.log(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     useEffect(() => {
         fetchData();
-    }, [query]);
+    }, [query,priceRange]);
 
 
 
@@ -116,6 +105,12 @@ export default function SearchOne() {
         setData(sortedData); // 
     };
 
+    const priceFilterChange = (event) => {
+        const selectedValue = parseInt(event.target.value);
+        setPriceRange(selectedValue);
+        console.log(selectedValue);
+        
+    };
 
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -125,12 +120,12 @@ export default function SearchOne() {
     const clearFilters = () => {
         // 重置篩選條件的邏輯
         console.log('篩選條件已清除');
-      };
-      
-      const viewResults = () => {
+    };
+
+    const viewResults = () => {
         // 查詢篩選結果的邏輯
         console.log('查看篩選結果');
-      };
+    };
 
     return (
         <>
@@ -149,16 +144,17 @@ export default function SearchOne() {
                         <option value="高到低">高到低</option>
                     </select>
 
-                    {/* <select
-                        value={filter}
-                        onChange={handleFilterChange}
+                    <select
+                        value={priceRange}
+                        onChange={priceFilterChange}
                         className="border rounded-xl px-2 py-1 mx-4">
                         <option value="篩選">篩選</option>
-                        <option value="選項一">選項一</option>
-                        <option value="選項二">選項二</option>
-                    </select> */}
+                        <option value='500'>500以下</option>
+                        <option value='3000'>3000以下</option>
+                        <option value='5000'>5000以下</option>
+                    </select>
 
-                    <div className="relative">
+                    {/* <div className="relative">
                         <button
                             onClick={toggleSidebar}
                             className="border rounded-xl px-2 py-1 mx-4">
@@ -176,7 +172,7 @@ export default function SearchOne() {
                                 <label className="block mb-2">
                                     <input type="checkbox" className="mr-2" /> 可供線上購買
                                 </label>
-                                {/* 添加更多篩選條件 */}
+                                
                             </div>
                             <div className="mt-auto flex justify-between items-center">
                                 <button
@@ -194,7 +190,7 @@ export default function SearchOne() {
                             </div>
                         </div>
                     </div>
-                    <div className=" absolute left-3/4">產品數量:{count}</div>
+                    <div className=" absolute left-3/4">產品數量:{count}</div> */}
 
                 </div>
 
@@ -221,6 +217,7 @@ export default function SearchOne() {
             </div>
             <div className=" w-[80vw] mx-auto grid grid-cols-4 gap-4">
                 {product1list}
+                
             </div>
         </>
     );

@@ -20,7 +20,13 @@ const CategoryList = () => {
                         <div className={smCategoryDiv}>
                             <ul>
                                 <li className={smCategoryLi}>
-                                    <Link to="SearchTwo">衣櫃</Link>
+                                    <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=衣櫃",
+                                        }}>
+                                        衣櫃
+                                    </Link>
                                 </li>
                                 <li className={smCategoryLi}>鞋櫃</li>
                                 <li className={smCategoryLi}>書櫃</li>
@@ -43,13 +49,20 @@ const CategoryList = () => {
                                     <Link
                                         to={{
                                             pathname: "/SearchTwo",
-                                            search: "?query=流行桌子",
-                                        }}
-                                    >
-                                        流行桌子
+                                            search: "?query=餐桌",
+                                        }}>
+                                        餐桌
                                     </Link>
-                                </li>
-                                <li className={smCategoryLi}>餐桌</li>
+                                </li>    
+                                <li className={smCategoryLi}>
+                                    <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=桌子",
+                                        }}>
+                                        桌子
+                                    </Link>
+                                </li>                           
                                 <li className={smCategoryLi}>茶几</li>
                                 <li className={smCategoryLi}>書桌</li>
                                 <li className={smCategoryLi}>升降桌</li>
@@ -64,11 +77,19 @@ const CategoryList = () => {
 
                         <div className={smCategoryDiv}>
                             <ul>
-                                <li className={smCategoryLi}>餐椅</li>
+                            <li className={smCategoryLi}>
+                                    <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=餐椅",
+                                        }}>
+                                        餐椅
+                                    </Link>
+                                </li>
                                 <li className={smCategoryLi}>椅凳</li>
                                 <li className={smCategoryLi}>辦公椅</li>
                                 <li className={smCategoryLi}>電競椅</li>
-                                <li className={smCategoryLi}>吧台椅</li>
+                                <li className={smCategoryLi}>吧台椅</li>                               
                             </ul>
                         </div>
                     </div>
@@ -80,7 +101,14 @@ const CategoryList = () => {
 
                         <div className={smCategoryDiv}>
                             <ul>
-                                <li className={smCategoryLi}>單人</li>
+                                <li className={smCategoryLi}>
+                                <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=單人",
+                                        }}>
+                                        單人
+                                    </Link></li>
                                 <li className={smCategoryLi}>雙人</li>
                                 <li className={smCategoryLi}>L型</li>
                             </ul>
@@ -94,7 +122,14 @@ const CategoryList = () => {
 
                         <div className={smCategoryDiv}>
                             <ul>
-                                <li className={smCategoryLi}>坎燈</li>
+                                <li className={smCategoryLi}>
+                                <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=坎燈",
+                                        }}>
+                                        坎燈
+                                    </Link>坎燈</li>
                                 <li className={smCategoryLi}>吊燈</li>
                                 <li className={smCategoryLi}>檯燈</li>
                                 <li className={smCategoryLi}>壁燈</li>
@@ -109,7 +144,14 @@ const CategoryList = () => {
 
                         <div className={`${smCategoryDiv} right-0`}>
                             <ul>
-                                <li className={smCategoryLi}>床架</li>
+                                <li className={smCategoryLi}>
+                                <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=床架",
+                                        }}>
+                                        床架
+                                    </Link></li>
                                 <li className={smCategoryLi}>床墊</li>
                                 <li className={smCategoryLi}>床包/棉被/枕頭</li>
                             </ul>
