@@ -12,7 +12,6 @@ const Footer = () => {
                 </div>
 
                 <div>
-                    <Link to="/MemberInfo">登入後頁面&nbsp;&nbsp;&nbsp;&nbsp;</Link>
                     <Link to="/aboutus">關於我們</Link>
                 </div>
 

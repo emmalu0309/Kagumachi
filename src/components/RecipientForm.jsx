@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const cityDistrictData = {
     台北市: ["中正區", "大同區", "中山區", "松山區", "大安區", "萬華區", "信義區", "士林區", "北投區", "內湖區", "南港區", "文山區"],
@@ -19,126 +19,173 @@ const cityDistrictData = {
     屏東縣: ["屏東市", "潮州鎮", "東港鎮", "恆春鎮", "萬丹鄉", "長治鄉", "麟洛鄉", "九如鄉", "里港鄉", "鹽埔鄉", "高樹鄉", "萬巒鄉", "內埔鄉", "竹田鄉", "新埤鄉", "枋寮鄉", "新園鄉", "崁頂鄉", "林邊鄉", "南州鄉", "佳冬鄉", "琉球鄉", "車城鄉", "滿州鄉", "枋山鄉", "霧台鄉", "瑪家鄉", "泰武鄉", "來義鄉", "春日鄉", "獅子鄉", "牡丹鄉", "三地門鄉"],
     宜蘭縣: ["宜蘭市", "羅東鎮", "蘇澳鎮", "頭城鎮", "礁溪鄉", "壯圍鄉", "員山鄉", "冬山鄉", "五結鄉", "三星鄉", "大同鄉", "南澳鄉"],
     花蓮縣: ["花蓮市", "鳳林鎮", "玉里鎮", "新城鄉", "吉安鄉", "壽豐鄉", "光復鄉", "豐濱鄉", "瑞穗鄉", "萬榮鄉", "卓溪鄉"],
-    台東縣: ["台東市", "成功鎮", "關山鎮", "卑南鄉", "鹿野鄉", "池上鄉", "東河鄉", "長濱鄉", "太麻里鄉", "大武鄉", "綠島鄉", "海端鄉", "延平鄉", "金峰鄉", "達仁鄉"], 
+    台東縣: ["台東市", "成功鎮", "關山鎮", "卑南鄉", "鹿野鄉", "池上鄉", "東河鄉", "長濱鄉", "太麻里鄉", "大武鄉", "綠島鄉", "海端鄉", "延平鄉", "金峰鄉", "達仁鄉"],
     金門縣: ["金城鎮", "金湖鎮", "金沙鎮", "金寧鄉", "烈嶼鄉", "烏坵鄉"],
     連江縣: ["南竿鄉", "北竿鄉", "莒光鄉", "東引鄉"],
     澎湖縣: ["馬公市", "湖西鄉", "白沙鄉", "西嶼鄉", "望安鄉", "七美鄉"]
 };
 
-const RecipientForm = () => {
+const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) => {
     const [selectedCity, setSelectedCity] = useState("");
+    const [minDate, setMinDate] = useState("");
     const [districts, setDistricts] = useState([]);
 
     const handleCityChange = (event) => {
         const city = event.target.value;
         setSelectedCity(city);
         setDistricts(cityDistrictData[city] || []);
+        // console.log(city.slice(0, 2));
+        const city2 = city.slice(0, 2);
+        // console.log(shipRateData);
+        for (let i = 0; i < shipRateData.length; i++) {
+            // console.log(shipRateData[i].region);
+            if (city2 === shipRateData[i].region) {
+                setSelectedShipRate(shipRateData[i].rate);
+            }
+        }
     };
+
+    useEffect(() => {
+        // 設定最小日期為當下日期 + 3 天
+        const today = new Date();
+        const futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + 3);
+        const formattedDate = futureDate.toISOString().split("T")[0];
+        setMinDate(formattedDate);
+    }, []);
 
     return (
         <div className="border p-4 bg-white shadow rounded">
             <h2 className="text-lg font-semibold mb-4">收件人資訊</h2>
-            <form>
-                {/* 姓名 */}
-                <div className="mb-4 flex items-center">
-                    <label className="w-1/6 text-gray-700 text-base" htmlFor="name">
-                        姓名
-                    </label>
-                    <input
-                        id="name"
-                        type="text"
-                        placeholder="請輸入姓名"
-                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
-                    />
-                </div>
 
-                {/* 手機號碼 */}
-                <div className="mb-4 flex items-center">
-                    <label className="w-1/6 text-gray-700 text-base" htmlFor="phone">
-                        手機號碼
-                    </label>
-                    <input
-                        id="phone"
-                        type="text"
-                        placeholder="請輸入手機號碼"
-                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
-                    />
-                </div>
+            {/* 姓名 */}
+            <div className="mb-4 flex items-center">
+                <label className="w-1/6 text-gray-700 text-base" htmlFor="chinese_name">
+                    姓名
+                </label>
+                <input
+                    id="chinese_name"
+                    type="text"
+                    placeholder="請輸入姓名"
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    {...register("chinese_name")}
+                />
+                {errors.chinese_name && (
+                    <p className="inline ml-4 text-red-500">
+                        {errors.chinese_name.message}
+                    </p>
+                )}
+            </div>
 
-                {/* 選單 */}
-                <div className="mb-4 flex items-center">
-                    <div className="flex flex-1 gap-4 items-center">
-                        {/* 縣市選單 */}
-                        <label className="w-1/4 text-gray-700 text-base" htmlFor="city">
+            {/* 手機號碼 */}
+            <div className="mb-4 flex items-center">
+                <label className="w-1/6 text-gray-700 text-base" htmlFor="phone">
+                    手機號碼
+                </label>
+                <input
+                    id="phone"
+                    type="text"
+                    placeholder="請輸入手機號碼"
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    {...register("phone")}
+                />
+                {errors.phone && (
+                    <p className="inline ml-4 text-red-500">
+                        {errors.phone.message}
+                    </p>
+                )}
+            </div>
+
+            {/* 選單 */}
+            <div className="mb-4 flex items-center">
+                <div className="flex flex-1 gap-4 items-center">
+                    {/* 縣市選單 */}
+                    <label className="w-1/4 text-gray-700 text-base" htmlFor="city">
+                        請選擇縣市
+                    </label>
+                    <select
+                        id="city"
+                        onChange={(event) => {
+                            handleCityChange(event); // 更新 selectedCity 狀態
+                            register("city").onChange(event); // 更新 React Hook Form 的值
+                        }}
+                        value={selectedCity}
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none">
+
+                        <option value="" disabled >
                             請選擇縣市
-                        </label>
-                        <select
-                            id="city"
-                            className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
-                            onChange={handleCityChange}
-                            value={selectedCity}
-                        >
-                            <option value="" disabled >
-                                請選擇縣市
-                            </option>
-                            {Object.keys(cityDistrictData).map((city) => {
-                                return (
-                                    <option key={city} value={city}>
-                                        {city}
-                                    </option>
-                                )
-                            })}
-                        </select>
+                        </option>
+                        {Object.keys(cityDistrictData).map((city) => {
+                            return (
+                                <option key={city} value={city}>
+                                    {city}
+                                </option>
+                            )
+                        })}
+                    </select>
 
-                        {/* 地區選單 */}
-                        <label className="w-1/4 text-gray-700 text-base" htmlFor="district">
-                            請選擇地區
-                        </label>
-                        <select
-                            id="district"
-                            className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
-                            disabled={!selectedCity}
-                        >
-                            <option value="" disabled>
-                                {selectedCity ? "請選擇地區" : "請先選擇縣市"}
-                            </option>
-                            {districts.map((district) => {
-                                return (
-                                    <option key={district} value={district}>
-                                        {district}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                    </div>
-                </div>
-
-                {/* 地址 */}
-                <div className="mb-4 flex items-center">
-                    <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
-                        請輸入地址
+                    {/* 地區選單 */}
+                    <label className="w-1/4 text-gray-700 text-base" htmlFor="district">
+                        請選擇地區
                     </label>
-                    <input
-                        id="address"
-                        type="text"
-                        placeholder="請輸入地址"
-                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
-                    />
+                    <select
+                        id="district"
+                        disabled={!selectedCity}
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
+                        {...register("district")}
+                    >
+                        <option value="" disabled>
+                            {selectedCity ? "請選擇地區" : "請先選擇縣市"}
+                        </option>
+                        {districts.map((district) => {
+                            return (
+                                <option key={district} value={district}>
+                                    {district}
+                                </option>
+                            )
+                        })}
+                    </select>
                 </div>
+            </div>
 
-                {/* 預計送達日 */}
-                <div className="mb-4 flex items-center">
-                    <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
-                        希望送達日期
-                    </label>
-                    <input
-                        id="address"
-                        type="text"
-                        placeholder="請輸入日期"
-                        className="flex-1 px-4 py-2 rounded-md focus:outline-none"
-                    />
-                </div>
-            </form>
+            {/* 地址 */}
+            <div className="mb-4 flex items-center">
+                <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
+                    請輸入地址
+                </label>
+                <input
+                    id="address"
+                    type="text"
+                    placeholder="請輸入地址"
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    {...register("address")}
+                />
+                {errors.address && (
+                    <p className="inline ml-4 text-red-500">
+                        {errors.address.message}
+                    </p>
+                )}
+            </div>
+
+            {/* 預計送達日 */}
+            <div className="mb-4 flex items-center">
+                <label className="w-1/6 text-gray-700 text-base" htmlFor="deliveryDate">
+                    希望送達日期
+                </label>
+                <input
+                    id="deliveryDate"
+                    type="date"
+                    placeholder="請輸入日期"
+                    min={minDate}
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    {...register("deliveryDate")}
+                />
+                {errors.deliveryDate && (
+                    <p className="inline ml-4 text-red-500">
+                        {errors.deliveryDate.message}
+                    </p>
+                )}
+            </div>
         </div>
     );
 };

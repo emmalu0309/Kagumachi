@@ -2,9 +2,8 @@ import { FiFileText, FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState, useEffect } from "react";
-
-const memberid = 102; // 測試用memberid
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const schema = z
   .object({
@@ -47,6 +46,9 @@ const schema = z
   });
 
 function Profile() {
+  const { user } = useContext(AuthContext);
+  const memberId = user.memberId;
+
   const [data, setData] = useState({
     chinese_name: "",
     gender: "",
@@ -68,14 +70,14 @@ function Profile() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:8080/profile?memberid=${memberid}`)
+    fetch(`http://localhost:8080/profile?memberid=${memberId}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
         reset(data);
       })
       .catch((error) => console.error("Error fetching profile data:", error));
-  }, [reset]);
+  }, [reset, memberId]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
@@ -87,7 +89,7 @@ function Profile() {
     const city = selectedOption.textContent.split(" ")[2];
     data.county = county;
     data.address = `${city}${data.address}`;
-    data.memberid = memberid;
+    data.memberid = memberId;
     setShowAnimation(true);
     console.log("送出的資料:", data);
     fetch("http://localhost:8080/profile", {
