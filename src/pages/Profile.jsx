@@ -2,7 +2,8 @@ import { FiFileText, FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const schema = z
   .object({
@@ -10,7 +11,9 @@ const schema = z
       .string()
       .nonempty("請輸入名字")
       .regex(/^[\u4e00-\u9fa5]+$/, "必須皆為中文字"),
-    gender: z.enum(["1", "0"], "請選擇性別"),
+    gender: z.string().refine((value) => value === "1" || value === "0", {
+      message: "請選擇性別",
+    }),
     birthday: z.string().nonempty("請選擇生日"),
     phone: z
       .string()
@@ -19,53 +22,97 @@ const schema = z
         "請輸入有效的手機號碼，格式範例：0912-345-678。"
       ),
     email: z.string().email("請輸入有效的電子郵件"),
-    password: z.string().min(6, "密碼至少需要6個字"),
-    check_password: z.string(),
+    password: z
+      .string()
+      .min(6, "密碼至少需要6個字")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*\s)[A-Za-z\d]{6,}$/,
+        "密碼必須為大寫字母、小寫字母及數字的組合，且不可包含空白字元"
+      )
+      .optional()
+      .or(z.string().length(0)),
+    check_password: z.string().optional().or(z.string().length(0)),
     zip_code: z.string().nonempty("請選擇郵遞區號"),
     address: z.string().nonempty("請輸入聯絡地址"),
   })
-  .refine((data) => data.password === data.check_password, {
-    message: "確認密碼必須和密碼相同",
+  .refine((data) => {
+    if (data.password && data.password.length > 0) {
+      return data.password === data.check_password;
+    }
+    return true;
+  }, {
+    message: "確認密碼必須和修改密碼相同",
     path: ["check_password"],
   });
 
 function Profile() {
-  // =========================
-  const data = {
-    chinese_name: "布萊德",
-    gender: "1",
-    birthday: "1990-01-01",
-    phone: "0912-345-678",
-    email: "brad@big.com",
-    zip_code: "408",
-    address: "公益路二段51號18樓",
-  };
-  // =========================
+  const { user } = useContext(AuthContext);
+  const memberId = user.memberId;
+
+  const [data, setData] = useState({
+    chinese_name: "",
+    gender: "",
+    birthday: "",
+    phone: "",
+    email: "",
+    zip_code: "",
+    address: "",
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: {
-      chinese_name: data.chinese_name,
-      gender: data.gender,
-      birthday: data.birthday,
-      phone: data.phone,
-      email: data.email,
-      password: "",
-      check_password: "",
-      zip_code: data.zip_code,
-      address: data.address,
-    },
+    defaultValues: data,
   });
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/profile?memberid=${memberId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        reset(data);
+      })
+      .catch((error) => console.error("Error fetching profile data:", error));
+  }, [reset, memberId]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const selectedOption = document.querySelector(`#zip_code option[value="${data.zip_code}"]`);
+    const county = selectedOption.textContent.split(" ")[1];
+    const city = selectedOption.textContent.split(" ")[2];
+    data.county = county;
+    data.address = `${city}${data.address}`;
+    data.memberid = memberId;
+    setShowAnimation(true);
+    console.log("送出的資料:", data);
+    fetch("http://localhost:8080/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then((result) => {
+        console.log("Success:", result);
+        setTimeout(() => {
+          setShowAnimation(false);
+        }, 1000);
+
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setTimeout(() => {
+          setShowAnimation(false);
+        }, 1000);
+      });
   };
 
   const titleLabel = "font-medium text-sm inline text-gray-600";
@@ -619,11 +666,14 @@ function Profile() {
             </li>
           </ul>
           <div className="flex justify-center">
-            <input
-              className="absolute mt-16 px-20 py-3 border border-gray-300 rounded-md bg-[#5E3B25] text-gray-100 hover:bg-[#C3A789] hover:text-gray-100 hover:cursor-pointer"
-              type="submit"
-              value="送出"
-            />
+            <button className="absolute mt-16 px-20 py-3 border border-gray-300 rounded-md bg-[#5E3B25] text-gray-100 hover:bg-[#C3A789] hover:text-gray-100 hover:cursor-pointer">
+              送出
+            </button>
+            {showAnimation && (
+              <div className="text-[#aeddef] absolute transform -translate-x-1/2 pt-11 pl-3 animate-riseAndFade">
+                會員資料已修改！
+              </div>
+            )}
           </div>
         </form>
       </div>

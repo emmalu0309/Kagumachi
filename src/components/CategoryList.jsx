@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import SearchTwo from "../pages/SearchTwo";
 
 const CategoryList = () => {
     const categoryTitle = "px-4 py-3 text-gray-800 relative group text-sm";
@@ -20,7 +20,7 @@ const CategoryList = () => {
                         <div className={smCategoryDiv}>
                             <ul>
                                 <li className={smCategoryLi}>
-                                    <Link to="productpage">衣櫃</Link>
+                                    <Link to="SearchTwo">衣櫃</Link>
                                 </li>
                                 <li className={smCategoryLi}>鞋櫃</li>
                                 <li className={smCategoryLi}>書櫃</li>
@@ -39,6 +39,16 @@ const CategoryList = () => {
 
                         <div className={smCategoryDiv}>
                             <ul>
+                                <li className={smCategoryLi}>
+                                    <Link
+                                        to={{
+                                            pathname: "/SearchTwo",
+                                            search: "?query=流行桌子",
+                                        }}
+                                    >
+                                        流行桌子
+                                    </Link>
+                                </li>
                                 <li className={smCategoryLi}>餐桌</li>
                                 <li className={smCategoryLi}>茶几</li>
                                 <li className={smCategoryLi}>書桌</li>
