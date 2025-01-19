@@ -40,6 +40,7 @@ function MyKeep() {
   const renderedMyKeepItems = itemList.map((item) => (
     <MyKeepItem
       key={item.productid}
+      memberId={memberId}
       productid={item.productid}
       productName={item.productname}
       width={item.width}

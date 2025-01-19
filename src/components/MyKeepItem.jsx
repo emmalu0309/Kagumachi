@@ -4,6 +4,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 
 function MyKeepItem({
   productid,
+  memberId,
   productName,
   width,
   depth,
@@ -58,7 +59,7 @@ function MyKeepItem({
       (item) => item.color === selectedColorValue
     );
     const requestBody = {
-      memberid: 100, // 假設memberid為100
+      memberid: parseInt(memberId),
       productid: productid,
       color: selectedProduct.color,
       quantity: selectedQuantity,
