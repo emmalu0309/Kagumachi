@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,9 +44,18 @@ const schema = z.object({
 function CartStep3COD() {
     const [currentStep, setCurrentStep] = useState(3);
     const navigate = useNavigate();
+    const [orderData, setOrderData] = useState({
+        itemsCount: 0,
+        totalPrice: 0,
+        shippingFee: 0,
+        discount: 0,
+        payableAmount: 0,
+    });
+    const [shipRate, setShipRate] = useState([]);
+    const [selectedShipRate, setSelectedShipRate] = useState(0);
 
     // 顯示預設值
-    const data = {
+    const defaultData = {
         chinese_name: "布萊德",
         phone: "0912-345-678",
     };
@@ -58,28 +67,89 @@ function CartStep3COD() {
     } = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-            chinese_name: data.chinese_name,
-            phone: data.phone,
-            city: data.city,
-            district: data.district,
-            address: data.address,
+            chinese_name: defaultData.chinese_name,
+            phone: defaultData.phone,
+            city: defaultData.city,
+            district: defaultData.district,
+            address: defaultData.address,
         },
     }
     );
 
-    // 表單送出時的處理
-    const onSubmit = (formData) => {
-        console.log("提交的表單資料：", formData);
-        // 成功後要導去 /CartStep4
-        navigate("/CartStep4");
+    const fetchOrderSummary = async () => {
+        const memberId = 1; // 假設目前登入的會員 ID 為 1
+        try {
+            const response = await fetch(
+                `http://localhost:8080/ordersummary/cartstep2/${memberId}`
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch order summary.");
+            }
+            const data = await response.json();
+            setOrderData(data); // 更新訂單摘要數據
+        } catch (error) {
+            console.error("Error fetching order summary:", error);
+        }
     };
 
-    const orderData = {
-        itemsCount: 2,
-        totalPrice: 2000,
-        shippingFee: 60,
-        discount: 0,
+    const fetchShipRate = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:8080/shiprate`
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch shiprate.");
+            }
+            const data = await response.json();
+            // console.log(data);
+            setShipRate(data);
+
+        } catch (error) {
+            console.error("Error fetching shiprate.", error);
+        }
     };
+
+    useEffect(() => {
+        fetchOrderSummary();
+        fetchShipRate();
+    }, []);
+
+    // 表單送出時的處理
+    const onSubmit = async (formData) => {
+        const orderData = {
+            ...formData,
+            itemsCount: orderData.itemsCount,
+            totalPrice: orderData.totalPrice,
+            shippingFee: orderData.shippingFee,
+            discount: orderData.discount,
+            payableAmount: orderData.payableAmount,
+        }
+        console.log("提交的表單資料：", formData);
+
+        try {
+            const response = await fetch("http://localhost:8080/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to save order");
+            }
+
+            const result = await response.json();
+            console.log("Order saved successfully:", result);
+
+            // 成功後要導去 /CartStep4
+            navigate("/CartStep4");
+        } catch (error) {
+            console.error("Error saving order:", error.message);
+        }
+    };
+
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,19 +159,20 @@ function CartStep3COD() {
 
                 <div className="max-w-4xl mx-auto p-6 min-h-screen">
 
-                    <RecipientForm register={register} errors={errors} />
+                    <RecipientForm register={register} errors={errors} shipRateData={shipRate} setSelectedShipRate={setSelectedShipRate}/>
 
                     <OrderSummary
-                        itemsCount={OrderData.itemsCount}
-                        totalPrice={OrderData.totalPrice}
-                        shippingFee={OrderData.shippingFee}
-                        discount={OrderData.totalDiscount}
-                        payableAmount={OrderData.payableAmount}
+                        itemsCount={orderData.itemsCount}
+                        totalPrice={orderData.totalPrice}
+                        shippingFee={selectedShipRate}
+                        discount={orderData.totalDiscount}
+                        payableAmount={orderData.payableAmount}
                         step={"CartStep3COD"}
                     />
 
+                    {/* 按鈕 */}
                     <div className="flex justify-between mt-6">
-                        {/* 返回 */}
+
                         <Link to="/CartStep2">
                             <button
                                 className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
@@ -109,7 +180,7 @@ function CartStep3COD() {
                                 返回
                             </button>
                         </Link>
-                        {/* 下一步 */}
+
                         <button
                             type="submit"
                             className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
