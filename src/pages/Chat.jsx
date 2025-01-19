@@ -5,13 +5,16 @@ import { Input } from "antd";
 import ChatWindow from "../components/ChatWindow";
 import useWebSocket from "../hooks/useWebSocket";
 import { AuthContext } from "../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
   const stompClientRef = useRef(null);
   const { user } = useContext(AuthContext);
   const memberId = user.memberId;
+  const location = useLocation();
+  const { orderNumber } = location.state || {};
+  const [input, setInput] = useState(orderNumber ? `您好，關於訂單編號${orderNumber}有些疑問，請協助處理。` : "");
 
   const { markMessagesAsReadFront } = useWebSocket(memberId, (message) => {
     setMessages((prevMessages) => {
