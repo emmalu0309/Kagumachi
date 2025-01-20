@@ -86,14 +86,14 @@ function CartProductCard(props) {
   return (
     <div
       id={props.id}
-      className="flex flex-col px-4 py-4 border-b-2 border-gray-200"
+      className="flex flex-col px-4 py-4 border-b border-gray-200"
     >
       <div className="flex justify-end">
         <button
           className="cursor-pointer"
           onClick={() => props.onDelete(props.id)}
         >
-          <IoMdClose className="w-8 h-8 fill-gray-300 hover:fill-black" />
+          <IoMdClose className="w-6 h-6 fill-gray-300 hover:fill-black" />
         </button>
       </div>
       <div className="flex flex-row justify-between">
@@ -109,19 +109,20 @@ function CartProductCard(props) {
           </label>
           <div className="flex flex-col ml-8">
             <span className="flex-grow">商品名稱：{props.name}</span>
+            <span className="flex-grow">商品顏色：{props.color}</span>
             <span className="flex-grow">商品規格：{props.color}</span>
             <span className="flex-grow">優惠推薦</span>
           </div>
         </div>
         <div className="flex items-center w-60">
           <div className="flex pr-16">
-            <button className="border-2" onClick={subQuantity}>
+            <button className="border" onClick={subQuantity}>
               <IoIosRemove className="hover:fill-black" />
             </button>
-            <span className="w-12 border-t-2 border-b-2 text-center">
+            <span className="w-12 border-t border-b text-center">
               {quantity}
             </span>
-            <button className="border-2 " onClick={addQuantity}>
+            <button className="border " onClick={addQuantity}>
               <IoMdAdd className="hover:fill-black" />
             </button>
           </div>

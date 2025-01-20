@@ -4,7 +4,8 @@ import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import CartProductCard from "../components/CartProductCard";
 
 function CartStep1() {
-  // 待使用session抓取會員ID
+  // const {user} = useContext(AuthContext);
+  // {user.memberId}
   const purchaseAllUrl = `http://localhost:8080/shoppingcart/step1/purchaseAll/1`;
   const url = `http://localhost:8080/shoppingcart/step1/1`;
   const [products, setProducts] = useState([]);
@@ -114,7 +115,7 @@ function CartStep1() {
     <>
       <ShoppingcartStepIcon step="1" />
       <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
-        <div className="pl-4 py-2 border">
+        <div className="pl-4 py-2 border-b">
           <label className="cursor-pointer">
             <input
               className="cursor-pointer scale-150"
@@ -147,22 +148,18 @@ function CartStep1() {
             />
           ))}
         </div>
-        <div className="flex justify-end border-b-2 border-gray-200">
+        <div className="flex justify-end border-b border-gray-200 pt-2 pb-2">
           <span className="w-[13%] py-2">共 {sumTotalCount} 件商品</span>
           <div className="w-[13%]">
             <p className="py-2">商品金額</p>
             <p className="pb-2">活動特惠</p>
-            <p className="pb-2">運費</p>
-            <p className="pb-2">帳戶折抵</p>
           </div>
           <div className="w-[11%]">
             <p className="py-2">{sumTotalPrice}</p>
             <p className="pb-2">無</p>
-            <p className="pb-2">免運</p>
-            <p className="pb-2">無</p>
           </div>
         </div>
-        <div className="flex justify-end pr-10">
+        <div className="flex justify-end pr-10 pt-2">
           <span className="w-[13%] pt-2">小計</span>
           <p className="w-[8%] pt-2">{sumTotalPrice}</p>
         </div>
