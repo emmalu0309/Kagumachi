@@ -48,11 +48,13 @@ const NewProduct = () => {
 
     const product1list = data.map((item) => {
         return <Product1 dataname={item.dataname}
+            productid={item.productid}
             // supplierid={item.supplierid}
-            dataimage={item.dataimage}
+            // dataimage={item.dataimage}
             // datalink={item.datalink}
-            // originalprice={item.originalprice} />
-            dataprice={item.dataprice} 
+            // unitprice={item.unitprice} />
+            discountprice={item.discountprice} 
+            productDetails={item.productdetails}
             count={item.count}
             />
     })

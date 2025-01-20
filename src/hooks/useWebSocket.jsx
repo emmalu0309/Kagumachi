@@ -57,7 +57,7 @@ const useWebSocket = (memberId, onMessageReceived) => {
       });
       console.log("Message sent to /app/markAsReadFront");
     } else {
-      console.error("WebSocket is not connected, retrying...");
+      // console.error("WebSocket is not connected, retrying...");
       setTimeout(() => markMessagesAsReadFront(userId), 1000);
     }
   }, []);

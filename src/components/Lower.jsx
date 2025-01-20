@@ -80,7 +80,7 @@ import abc10 from "../img/10.jpg";
 
 <Slider {...settings}>
       {slides.map((slide, index) => (
-        <div key={index}>
+        <div key={index} className="mt-5">
           <a href={slide.link} target="_blank" rel="noopener noreferrer">
             <img
               src={slide.imageSrc}

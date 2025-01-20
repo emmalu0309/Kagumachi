@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import Product1 from "../components/Product1";
-import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 16; // 每頁顯示的商品數量
 
@@ -13,10 +12,11 @@ export default function SearchTwo() {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get('query');
 
-    
+
     const [currentPage, setCurrentPage] = useState(1);
     const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
+    const [priceRange, setPriceRange] = useState("");
 
     const fetchData = async () => {
 
@@ -44,7 +44,7 @@ export default function SearchTwo() {
 
     useEffect(() => {
         fetchData();
-    }, [query]);
+    }, [query,priceRange]);
 
 
 
@@ -88,9 +88,28 @@ export default function SearchTwo() {
             sortedData.sort((a, b) => a.dataprice - b.dataprice);
         } else if (selectedValue === '高到低') {
             sortedData.sort((a, b) => b.dataprice - a.dataprice);
+            
         }
-        setData(sortedData); 
+        setData(sortedData);
     };
+
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setSidebarOpen(!isSidebarOpen);
+    };
+
+
+    const clearFilters = () => {
+        // 重置篩選條件的邏輯
+        console.log('篩選條件已清除');
+    };
+
+    const viewResults = () => {
+        // 查詢篩選結果的邏輯
+        console.log('查看篩選結果');
+    };
+
 
 
     return (
@@ -98,8 +117,8 @@ export default function SearchTwo() {
             <div className="p-2 w-11/12 mx-auto ">
                 <div className="flex items-center  w-11/12  mx-auto text-base p-2">
                     <div>
-                        <a href="http://localhost:5173/Kagumachi/">首頁</a>
-                    </div>&gt;{query}(分類路徑)
+                        <a href="http://localhost:5173/Kagumachi/">首頁&nbsp;&nbsp;</a>
+                    </div>&gt;&nbsp;&nbsp;{query}
                 </div>
 
                 <div className="flex items-center justify-normal mb-2  p-2 mx-auto w-11/12 ">
@@ -112,14 +131,62 @@ export default function SearchTwo() {
                         <option value="高到低">高到低</option>
                     </select>
 
-                    <select
-                        value={filter}
-                        onChange={handleFilterChange}
-                        className="border rounded-xl px-2 py-1 mx-4">
-                        <option value="篩選">篩選</option>
-                        <option value="選項一">選項一</option>
-                        <option value="選項二">選項二</option>
-                    </select>
+                    <div className="relative">
+                        <button
+                            onClick={toggleSidebar}
+                            className="border rounded-xl px-2 py-1 mx-4">
+                            篩選
+                        </button>
+
+                        <div
+                            className={`fixed top-0 right-0 h-full bg-white border-l shadow-lg p-4 transition-transform transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+                                } w-1/4 z-50`}>
+                            <h3 className="text-xl font-bold mb-4">篩選</h3>
+                            <div>
+                                <label className="block mb-2">
+                                    <input type="checkbox" className="mr-2" /> 500以下
+                                </label>
+                                <label className="block mb-2">
+                                    <input type="checkbox" className="mr-2" /> 可供線上購買
+                                </label>
+                                {/* 添加更多篩選條件 */}
+                                <div className="flex space-x-2">
+                                    {/* <input
+                                        type="range"
+                                        min="0"
+                                        max="24000"
+                                        value={priceRange[0]}
+                                        onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
+                                    /> */}
+                                    {/* <input
+                                        type="checkbox"
+                                        min="0"
+                                        max="24000"
+                                        value={priceRange[1]}
+                                        onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
+                                    /> */}
+                                    {/* <p>Selected Range: ${priceRange[0]} - ${priceRange[1]}</p> */}
+
+                                </div>
+
+
+                            </div>
+                            <div className="mt-auto flex justify-between items-center">
+                                <button
+                                    onClick={clearFilters}
+                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
+                                >
+                                    清除
+                                </button>
+                                <button
+                                    onClick={viewResults}
+                                    className="px-4 py-2 bg-black text-white rounded"
+                                >
+                                    查看 (41)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
                     <div className=" absolute left-3/4">產品數量:{count}</div>
 
@@ -145,7 +212,7 @@ export default function SearchTwo() {
                     </button>
                 </div>
                 <h1 className="text-xl font-bold mb-4 p-2 w-11/12 mx-auto">商品列表</h1>
-            </div>
+            </div >
             <div className=" w-[80vw] mx-auto grid grid-cols-4 gap-4">
                 {product1list}
             </div>
