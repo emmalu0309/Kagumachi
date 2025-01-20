@@ -189,8 +189,8 @@ export default function SearchOne() {
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <div className=" absolute left-3/4">產品數量:{count}</div> */}
+                    </div>*/}
+                 <div className=" absolute left-3/4">產品數量:{count}</div> 
 
                 </div>
 

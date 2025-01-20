@@ -117,8 +117,8 @@ export default function SearchTwo() {
             <div className="p-2 w-11/12 mx-auto ">
                 <div className="flex items-center  w-11/12  mx-auto text-base p-2">
                     <div>
-                        <a href="http://localhost:5173/Kagumachi/">首頁</a>
-                    </div>&gt;{query}(分類路徑)
+                        <a href="http://localhost:5173/Kagumachi/">首頁&nbsp;&nbsp;</a>
+                    </div>&gt;&nbsp;&nbsp;{query}
                 </div>
 
                 <div className="flex items-center justify-normal mb-2  p-2 mx-auto w-11/12 ">
