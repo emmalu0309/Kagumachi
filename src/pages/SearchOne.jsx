@@ -64,11 +64,14 @@ export default function SearchOne() {
 
     const product1list = data.map((item) => {
         return <Product1 dataname={item.dataname}
-            // supplierid={item.supplierid}
-            dataimage={item.dataimage}
-            // datalink={item.datalink}
-            dataprice={item.dataprice}
-        // originalprice={item.originalprice} />
+        productid={item.productid}
+        // supplierid={item.supplierid}
+        // dataimage={item.dataimage}
+        // datalink={item.datalink}
+        // unitprice={item.unitprice} />
+        discountprice={item.discountprice} 
+        productDetails={item.productdetails}
+        count={item.count}
         />
     })
 
@@ -112,20 +115,7 @@ export default function SearchOne() {
         
     };
 
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-    const toggleSidebar = (event) => {
-        setSidebarOpen(!isSidebarOpen);
-    };
-    const clearFilters = () => {
-        // 重置篩選條件的邏輯
-        console.log('篩選條件已清除');
-    };
-
-    const viewResults = () => {
-        // 查詢篩選結果的邏輯
-        console.log('查看篩選結果');
-    };
 
     return (
         <>

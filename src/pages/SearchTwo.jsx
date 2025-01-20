@@ -12,6 +12,33 @@ export default function SearchTwo() {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get('query');
 
+    const categoryMap = {
+        '衣櫃': { main: 1, sub: 1 },
+        '鞋櫃': { main: 1, sub: 2 },
+        '書櫃': { main: 1, sub: 3 },
+        '櫥櫃': { main: 1, sub: 4 },
+        '電視櫃': { main: 1, sub: 5 },
+        '浴櫃': { main: 1, sub: 6 },
+        '餐桌': { main: 1, sub: 7 },
+        '茶几': { main: 2, sub: 8 },
+        '書桌': { main: 2, sub: 9 },
+        '升降桌': { main: 2, sub: 10 },
+        '餐椅': { main: 3, sub: 11 },
+        '小椅凳': { main: 3, sub: 12 },
+        '辦公椅': { main: 3, sub: 13 },
+        '藤椅': { main: 3, sub: 14 },
+        '吧台椅': { main: 3, sub: 15 },
+        '單人沙發': { main: 4, sub: 16 },
+        '雙人沙發': { main: 4, sub: 17 },
+        'L型沙發': { main: 4, sub: 18 },
+        '矮燈': { main: 5, sub: 19 },
+        '吊燈': { main: 5, sub: 20 },
+        '檯燈': { main: 5, sub: 21 },
+        '壁燈': { main: 5, sub: 22 },
+        '床架': { main: 6, sub: 23 },
+        '床墊': { main: 6, sub: 24 },
+        '床包/棉被/枕頭': { main: 6, sub: 25 }
+      };
 
     const [currentPage, setCurrentPage] = useState(1);
     const [data, setData] = useState([]);
@@ -19,16 +46,30 @@ export default function SearchTwo() {
     const [priceRange, setPriceRange] = useState("");
 
     const fetchData = async () => {
+        var { main, sub } = categoryMap[query] || { main: 0, sub: 0 };
 
         try {
-            const response = await fetch(`http://localhost:8080/mysearch/sone/${query}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            var response;
+            if(!priceRange){
+                response = await fetch(`http://localhost:8080/mysearchtwo/stwo/${main}/${sub}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            }else{
+                response = await fetch(`http://localhost:8080/mysearchtwo/stwo/${main}/${sub}/${priceRange}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
             }
 
             const result = await response.json();
@@ -50,11 +91,14 @@ export default function SearchTwo() {
 
     const product1list = data.map((item) => {
         return <Product1 dataname={item.dataname}
-            // supplierid={item.supplierid}
-            dataimage={item.dataimage}
-            // datalink={item.datalink}
-            dataprice={item.dataprice}
-        // originalprice={item.originalprice} />
+        productid={item.productid}
+        // supplierid={item.supplierid}
+        // dataimage={item.dataimage}
+        // datalink={item.datalink}
+        // unitprice={item.unitprice} />
+        discountprice={item.discountprice} 
+        productDetails={item.productdetails}
+        count={item.count}
         />
     })
 
@@ -77,7 +121,6 @@ export default function SearchTwo() {
     };
 
     const [filter, setFilter] = useState("排序方式");
-    // const handleFilterChange = (e) => setFilter(e.target.value);
 
     const handleFilterChange = (event) => {
         const selectedValue = event.target.value;
@@ -93,22 +136,13 @@ export default function SearchTwo() {
         setData(sortedData);
     };
 
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-    const toggleSidebar = () => {
-        setSidebarOpen(!isSidebarOpen);
+    const priceFilterChange = (event) => {
+        const selectedValue = parseInt(event.target.value);
+        setPriceRange(selectedValue);
+        console.log(selectedValue);
+        
     };
 
-
-    const clearFilters = () => {
-        // 重置篩選條件的邏輯
-        console.log('篩選條件已清除');
-    };
-
-    const viewResults = () => {
-        // 查詢篩選結果的邏輯
-        console.log('查看篩選結果');
-    };
 
 
 
@@ -131,62 +165,15 @@ export default function SearchTwo() {
                         <option value="高到低">高到低</option>
                     </select>
 
-                    <div className="relative">
-                        <button
-                            onClick={toggleSidebar}
-                            className="border rounded-xl px-2 py-1 mx-4">
-                            篩選
-                        </button>
-
-                        <div
-                            className={`fixed top-0 right-0 h-full bg-white border-l shadow-lg p-4 transition-transform transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-                                } w-1/4 z-50`}>
-                            <h3 className="text-xl font-bold mb-4">篩選</h3>
-                            <div>
-                                <label className="block mb-2">
-                                    <input type="checkbox" className="mr-2" /> 500以下
-                                </label>
-                                <label className="block mb-2">
-                                    <input type="checkbox" className="mr-2" /> 可供線上購買
-                                </label>
-                                {/* 添加更多篩選條件 */}
-                                <div className="flex space-x-2">
-                                    {/* <input
-                                        type="range"
-                                        min="0"
-                                        max="24000"
-                                        value={priceRange[0]}
-                                        onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
-                                    /> */}
-                                    {/* <input
-                                        type="checkbox"
-                                        min="0"
-                                        max="24000"
-                                        value={priceRange[1]}
-                                        onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
-                                    /> */}
-                                    {/* <p>Selected Range: ${priceRange[0]} - ${priceRange[1]}</p> */}
-
-                                </div>
-
-
-                            </div>
-                            <div className="mt-auto flex justify-between items-center">
-                                <button
-                                    onClick={clearFilters}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
-                                >
-                                    清除
-                                </button>
-                                <button
-                                    onClick={viewResults}
-                                    className="px-4 py-2 bg-black text-white rounded"
-                                >
-                                    查看 (41)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <select
+                        value={priceRange}
+                        onChange={priceFilterChange}
+                        className="border rounded-xl px-2 py-1 mx-4">
+                        <option value="篩選">篩選</option>
+                        <option value='500'>500以下</option>
+                        <option value='3000'>3000以下</option>
+                        <option value='5000'>5000以下</option>
+                    </select>
 
                     <div className=" absolute left-3/4">產品數量:{count}</div>
 
