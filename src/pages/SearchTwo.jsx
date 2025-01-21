@@ -95,7 +95,7 @@ export default function SearchTwo() {
         // supplierid={item.supplierid}
         // dataimage={item.dataimage}
         // datalink={item.datalink}
-        // unitprice={item.unitprice} />
+        unitprice={item.unitprice} 
         discountprice={item.discountprice} 
         productDetails={item.productdetails}
         count={item.count}
@@ -128,10 +128,9 @@ export default function SearchTwo() {
 
         let sortedData = [...data];
         if (selectedValue === '低到高') {
-            sortedData.sort((a, b) => a.dataprice - b.dataprice);
+            sortedData.sort((a, b) => a.discountprice - b.discountprice);
         } else if (selectedValue === '高到低') {
-            sortedData.sort((a, b) => b.dataprice - a.dataprice);
-            
+            sortedData.sort((a, b) => b.discountprice - a.discountprice);
         }
         setData(sortedData);
     };
