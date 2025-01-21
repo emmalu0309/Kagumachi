@@ -207,7 +207,6 @@ export default function SearchOne() {
             </div>
             <div className=" w-[80vw] mx-auto grid grid-cols-4 gap-4">
                 {product1list}
-                
             </div>
         </>
     );
