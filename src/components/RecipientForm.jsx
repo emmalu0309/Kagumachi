@@ -25,20 +25,20 @@ const cityDistrictData = {
     澎湖縣: ["馬公市", "湖西鄉", "白沙鄉", "西嶼鄉", "望安鄉", "七美鄉"]
 };
 
-const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) => {
+const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, phoneValue, handlePhoneChange, setValue }) => {
     const [selectedCity, setSelectedCity] = useState("");
-    const [minDate, setMinDate] = useState("");
     const [districts, setDistricts] = useState([]);
+    const [minDate, setMinDate] = useState("");
 
     const handleCityChange = (event) => {
         const city = event.target.value;
+
         setSelectedCity(city);
         setDistricts(cityDistrictData[city] || []);
-        // console.log(city.slice(0, 2));
+        setValue("city", city); // 同步到 React Hook Form
+
         const city2 = city.slice(0, 2);
-        // console.log(shipRateData);
         for (let i = 0; i < shipRateData.length; i++) {
-            // console.log(shipRateData[i].region);
             if (city2 === shipRateData[i].region) {
                 setSelectedShipRate(shipRateData[i].rate);
             }
@@ -64,11 +64,11 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     姓名
                 </label>
                 <input
-                    id="chinese_name"
+                    id="chineseName"
                     type="text"
                     placeholder="請輸入姓名"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
-                    {...register("chinese_name")}
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none "
+                    {...register("chineseName")}
                 />
                 {errors.chinese_name && (
                     <p className="inline ml-4 text-red-500">
@@ -88,6 +88,8 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     placeholder="請輸入手機號碼"
                     className="flex-1 px-4 py-2 rounded-md focus:outline-none"
                     {...register("phone")}
+                    value={phoneValue}
+                    onChange={handlePhoneChange} // 自動格式化
                 />
                 {errors.phone && (
                     <p className="inline ml-4 text-red-500">
@@ -105,12 +107,11 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     </label>
                     <select
                         id="city"
+                        value={selectedCity}
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
                         onChange={(event) => {
                             handleCityChange(event); // 更新 selectedCity 狀態
-                            register("city").onChange(event); // 更新 React Hook Form 的值
-                        }}
-                        value={selectedCity}
-                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none">
+                        }}>
 
                         <option value="" disabled >
                             請選擇縣市

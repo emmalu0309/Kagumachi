@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import PaymentOptions from "../components/PaymentOptions";
 import OrderSummary from "../components/OrderSummary";
+import { AuthContext } from "../context/AuthContext";
 
 function CartStep2() {
+    const { user } = useContext(AuthContext);
+    // const memberid = user.memberId;
+    const memberid = 102;
+    
     const [currentStep, setCurrentStep] = useState(2);
     const [selectedPayment, setSelectedPayment] = useState("");
     const [OrderData, setOrderData] = useState({
         itemsCount: 0,
         totalPrice: 0,
         shippingFee: 0,
-        discount: 0,
         payableAmount: 0,
     });
 
@@ -22,10 +26,9 @@ function CartStep2() {
 
     // 使用 async/await 獲取訂單摘要
     const fetchOrderSummary = async () => {
-        const memberId = 1; // 假設目前登入的會員 ID 為 1
         try {
             const response = await fetch(
-                `http://localhost:8080/ordersummary/cartstep2/${memberId}`
+                `http://localhost:8080/ordersummary/cartstep2/${memberid}`
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch order summary.");
@@ -55,16 +58,13 @@ function CartStep2() {
                 />
 
                 {/* 訂單摘要 */}
-
                 <OrderSummary
                     itemsCount={OrderData.itemsCount}
                     totalPrice={OrderData.totalPrice}
                     shippingFee={OrderData.shippingFee}
-                    discount={OrderData.totalDiscount}
                     payableAmount={OrderData.payableAmount}
                     step={"CartStep2"}
                 />
-
 
                 {/* 按鈕 */}
                 <div className="flex justify-between mt-6">

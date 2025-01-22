@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-function OrderSummary({ itemsCount, totalPrice, shippingFee, discount, step, payableAmount }) {
-    // const payableAmount = totalPrice + shippingFee - discount;
-    const payableAmountWithShipping = payableAmount + shippingFee;
-
+function OrderSummary({ itemsCount, totalPrice, shippingFee, step}) {
+    // 計算應付金額（含運費與不含運費）
+    const payableAmount = totalPrice; 
+    const payableAmountWithShipping = totalPrice + shippingFee;
     return (
         <div className="border p-4 bg-white shadow rounded">
             <h2 className="text-xl font-bold mb-4">訂單摘要</h2>
@@ -17,10 +17,6 @@ function OrderSummary({ itemsCount, totalPrice, shippingFee, discount, step, pay
                     <span>+ ${shippingFee}</span>
                 </div>
             )}
-            <div className="flex justify-between mb-2">
-                <span>折扣：</span>
-                <span>- ${discount}</span>
-            </div>
             <div className="flex justify-between font-bold text-lg">
                 <span>
                     {step === "CartStep2" ? "應付金額(未含運)：" : "應付金額："}
