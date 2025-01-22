@@ -3,65 +3,112 @@ import React, { useState, useEffect } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
+import Login from "../pages/Login";
+
 
 const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice, count, productid }) => {
     // const { user } = useContext(AuthContext);
     // const memberId = user.memberId;
+    var memberid = null;
 
+    const [data, setData] = useState([]);
     const [isLiked, setIsLiked] = useState(false);
     const liked = () => setIsLiked(!isLiked);
 
-    const [products, setProducts] = useState([]); // 存储所有产品
-    const [favorites, setFavorites] = useState([]); // 存储已收藏产品的 ID
 
-    // useEffect(() => {
-    //     // 获取产品列表
-    //     fetch('http://localhost:8080/myhome/test')
-    //         .then(response => response.json())
-    //         .then(data => setProducts(data))
-    //         .catch(error => console.error('Error fetching products:', error));
-    
-    //     // 获取收藏的产品 ID 列表
-    //     fetch('http://localhost:8080/weikeep/test')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (Array.isArray(data)) {
-    //                 setFavorites(data.map(item => item.productid));
-    //             } else {
-    //                 console.error('Expected an array but got:', data);
-    //                 setFavorites([]);
-    //             }
-    //         })
-    //         .catch(error => console.error('Error fetching favorites:', error));
-    // }, []);
+    var handleLikeClick = () => {
+        if (isLiked) {
+            removeFavorite();// 当前已收藏，执行取消收藏     
+        } else {
+            addFavorite(); // 当前未收藏，执行添加收藏
+        }
+    };
 
-    // const toggleFavorite = async (productId) => {
-    //     const isFavorited = favorites.includes(productId);
-    //     const method = isFavorited ? 'DELETE' : 'POST';
+    if (memberid == null) {
+        <Login />
+    } else {
+        const fetchData = async () => {
+            try {
+                var response;
+                response = await fetch(`http://localhost:8080/weikeep/test?memberid=${memberid}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
+                // console.log(result);
+                setData(result);
+                // console.log(data[0].productid);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
 
-    //     try {
-    //         const response = await fetch(`http://localhost:8080/weikeep/${productId}`, {
-    //             method: method,
-    //             headers: { 'Content-Type': 'application/json' }
-    //         });
+        // 添加收藏
+        const addFavorite = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/weikeep`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ memberid, productid }),
+                });
 
-    //         if (response.ok) {
-    //             setFavorites(prevFavorites => {
-    //                 if (isFavorited) {
-    //                     // 移除收藏
-    //                     return prevFavorites.filter(id => id !== productId);
-    //                 } else {
-    //                     // 添加收藏
-    //                     return [...prevFavorites, productId];
-    //                 }
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    // };
+                if (response.ok) {
+                    setIsLiked(true); // 更新收藏状态
+                } else {
+                    console.error("Failed to add favorite");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        // 取消收藏
+        const removeFavorite = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/weikeep`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ memberid, productid }),
+                });
+
+                if (response.ok) {
+                    setIsLiked(false); // 更新收藏状态
+                } else {
+                    console.error("Failed to remove favorite");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
 
 
+        var handleLikeClick = () => {
+            if (isLiked) {
+                removeFavorite(); // 当前已收藏，执行取消收藏
+            } else {
+                addFavorite(); // 当前未收藏，执行添加收藏
+            }
+        };
+
+        useEffect(() => {
+            fetchData();
+        }, []);
+
+        useEffect(() => {
+            const isProductLiked = data.some((item) => item.productid === productid);
+            setIsLiked(isProductLiked);
+        }, [data, productid]);
+    }
 
     return (
         <>
@@ -79,12 +126,9 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
                             </a>
                         </div>
                         <div className="absolute top-1 right-1 text-2xl cursor-pointer">
-                            {/* {isLiked ? <FaHeart size={30} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={30} onClick={() => setIsLiked(!isLiked)} />} */}
-                            <button
-                                onClick={() => toggleFavorite(dataname.id)}
-                                className={`p-2 ${favorites.includes(dataname.id) ? 'text-red-500' : 'text-gray-500'}`}
-                            >
-                                {favorites.includes(dataname.id) ? <FaHeart size={30} color="red" />: <CiHeart size={30}/> }
+
+                            <button onClick={handleLikeClick}>
+                                {isLiked ? <FaHeart size={30} color="red" onClick={() => setIsLiked(!isLiked)} /> : <CiHeart size={30} onClick={() => setIsLiked(!isLiked)} />}   
                             </button>
                         </div>
                         <div className="">

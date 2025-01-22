@@ -107,9 +107,9 @@ const NewProduct = () => {
                 </div>
                 <div className="w-4/5  mt-2 mx-auto items-center mb-10">
                     <div className="mx-auto">
-                        {/* <Slider {...settings}>
+                        <Slider {...settings}>
                         {product1list}
-                        </Slider> */}
+                        </Slider>
 
                     </div>
                 </div>
