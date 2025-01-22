@@ -50,8 +50,8 @@ import { AuthContext } from "../context/AuthContext";
 
 function CartStep3Credit() {
     const { user } = useContext(AuthContext);
-    // const memberid = user.memberId;
-    const memberid = 102;
+    const memberid = user.memberId;
+    // const memberid = 102;
 
     const [currentStep, setCurrentStep] = useState(3);
     const navigate = useNavigate();
