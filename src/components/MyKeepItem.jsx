@@ -9,7 +9,6 @@ function MyKeepItem({
   width,
   depth,
   height,
-  productLink,
   discountprice,
   productDetails,
   onRemove,
@@ -102,7 +101,7 @@ function MyKeepItem({
         onClick={onRemove}
       />
 
-      <Link to={productLink}>
+      <Link to={`/productpage/${productid}`}>
         <img
           className="h-40 w-40 ml-9 hover:cursor-pointer"
           src={selectedImageSrc}

@@ -10,7 +10,7 @@ import Login from "../pages/Login";
 const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice, count, productid }) => {
     // const { user } = useContext(AuthContext);
     // const memberId = user.memberId;
-    var memberid = null;
+    var memberid = 101;
 
     const [data, setData] = useState([]);
     const [isLiked, setIsLiked] = useState(false);
