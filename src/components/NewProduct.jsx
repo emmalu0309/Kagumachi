@@ -48,11 +48,13 @@ const NewProduct = () => {
 
     const product1list = data.map((item) => {
         return <Product1 dataname={item.dataname}
+            productid={item.productid}
             // supplierid={item.supplierid}
-            dataimage={item.dataimage}
+            // dataimage={item.dataimage}
             // datalink={item.datalink}
-            // originalprice={item.originalprice} />
-            dataprice={item.dataprice} 
+            unitprice={item.unitprice}
+            discountprice={item.discountprice} 
+            productDetails={item.productdetails}
             count={item.count}
             />
     })
@@ -100,7 +102,7 @@ const NewProduct = () => {
                 onMouseLeave={() => setIsHovered(false)} // 滑鼠離開
             >
                 <div className="w-4/5  mt-2 mx-auto items-center">
-                    <strong className="inline text-3xl">猜你喜歡</strong>
+                    <strong className="inline text-3xl">新品上市</strong>
                     <br />
                 </div>
                 <div className="w-4/5  mt-2 mx-auto items-center mb-10">

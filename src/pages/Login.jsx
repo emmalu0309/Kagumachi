@@ -12,38 +12,39 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {login} = useContext(AuthContext);
-    const {signInWithGoogle} = useContext(AuthContext);
+    // const {signInWithGoogle} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const memberData = {
-            email,
-            password,
-        };
+        if (!email.trim() || !password.trim()) {
+            setError("請輸入信箱與密碼");
+            return;
+        }
 
         try {
             const response = await fetch(`http://localhost:8080/login/login`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                },
-                body: JSON.stringify(memberData),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
-                throw new Error("登入失敗!");
+                throw new Error("登入失敗");
             }
-            const data = await response.json();
-            login({memberId: data.memberId, token: data.token});
 
-            // alert("登入成功");
+            const data = await response.json();
+            console.log("登入成功:", data);
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("memberId", data.memberId);
+            login(data.token, data.memberId);
+
+            alert("登入成功");
             navigate("/MemberInfo/MyOrders");
         } catch (err) {
-            console.error("登入失敗", err);
-
+            setError(err.message || "登入發生錯誤");
         }
     }
     return (
@@ -94,7 +95,7 @@ const Login = () => {
                         <div className="flex justify-center items-center">
                             <button
                                 className="w-[65%] flex items-center justify-between px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]"
-                                onClick={signInWithGoogle}
+                                // onClick={signInWithGoogle}
                             >
                                 <FcGoogle size={25}/>
                                 <span className="flex-1 text-center ">使用Google登入</span>

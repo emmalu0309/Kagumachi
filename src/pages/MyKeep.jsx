@@ -46,7 +46,6 @@ function MyKeep() {
       width={item.width}
       depth={item.depth}
       height={item.height}
-      // productLink={item.productlink} // 後端目前沒給
       discountprice={item.discountprice}
       productDetails={item.productdetails}
       onRemove={() => removeItem(memberId, item.productid)}

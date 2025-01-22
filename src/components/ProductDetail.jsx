@@ -1,32 +1,42 @@
+import {useContext} from "react";
+import {AuthContext} from "../context/AuthContext.jsx";
 
 
-const ProductDetail = () => {
+const ProductDetail = ({product, selectedColor}) => {
+
+    // const {products} = useContext(AuthContext);
+    //
+    // if (!products) {
+    //     return <p>載入中...</p>;
+    // }
+    //
+    // //等分類頁面好傳入資料
+    // const product = products[0];
+
+
+
     const InfoStyleDiv = "my-2 text-gray-500 flex";
     const InfoStyleTitle = "w-[20%]";
     const InfoStyleSpan = "text-gray-800 px-10 w-[80%]";
     return (
         <div className="mt-20">
             <div className="text-xl">產品資訊</div>
-            <div>
-                滑門打開時不佔空間，可提供更多空間擺放家具
-
-                對整個家庭來說，家應是安全的地方；產品附安全配件，讓你將衣櫃固定在牆上
-
-                根據空間和個人需求，可單獨使用，或搭配其他RAKKESTAD衣櫃
+            <div className="text-sm mt-1">
+                {product.productdescription}
             </div>
             <div className="mt-6">
                 <div className="text-xl">尺寸</div>
                 <div className={InfoStyleDiv}>
                     <div className={InfoStyleTitle}>寬度</div>
-                    <div className={InfoStyleSpan}>117公分</div>
+                    <div className={InfoStyleSpan}>{product.width}公分</div>
                 </div>
                 <div className={InfoStyleDiv}>
                     <div className={InfoStyleTitle}>深度</div>
-                    <div className={InfoStyleSpan}>55公分</div>
+                    <div className={InfoStyleSpan}>{product.depth}公分</div>
                 </div>
                 <div className={InfoStyleDiv}>
                     <div className={InfoStyleTitle}>高度</div>
-                    <div className={InfoStyleSpan}>176公分</div>
+                    <div className={InfoStyleSpan}>{product.height}公分</div>
                 </div>
             </div>
 
