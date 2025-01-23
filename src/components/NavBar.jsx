@@ -12,8 +12,6 @@ import {useNavigate} from 'react-router-dom';
 const NavBar = () => {
     const {user, logout} = useContext(AuthContext);
     const {navbar} = useContext(AuthContext);
-    console.log("NavBar值",navbar);
-    console.log(user)
 
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
