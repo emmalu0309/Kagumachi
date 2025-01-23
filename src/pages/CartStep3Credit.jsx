@@ -141,24 +141,24 @@ function CartStep3Credit() {
     fetchShipRate();
   }, [memberid]);
 
-  // 表單送出時的處理
-  const onSubmit = async (formData) => {
-    // console.log("orderData:", orderData);
-    localStorage.setItem("orderserial", memberid.toString() + Date.now()); // 存訂單編號在localstorage
-    const completeOrderData = {
-      orderstatus: "準備中",
-      paymentmethod: "信用卡付款",
-      shippingmethod: "宅配",
-      ordercity: formData.city,
-      address: formData.address,
-      recipient: formData.chineseName,
-      phone: formData.phone,
-      district: formData.district,
-      estimateddeliverydate: formData.deliveryDate,
-      totalprice: orderData.totalPrice + selectedShipRate,
-      orderserial: localStorage.getItem("orderserial"),
-    };
-    console.log("提交的完整訂單資料：", completeOrderData);
+    // 表單送出時的處理
+    const onSubmit = async (formData) => {
+        // console.log("orderData:", orderData);
+        localStorage.setItem('orderserial', memberid.toString() + Date.now()); // 存訂單編號在localstorage
+        const completeOrderData = {
+            orderstatus: "準備中",
+            paymentmethod: "信用卡付款",
+            shippingmethod: "宅配",
+            ordercity: formData.city,
+            address: formData.address,
+            recipient: formData.chineseName,
+            phone: formData.phone,
+            district: formData.district,
+            estimateddeliverydate: formData.deliveryDate,
+            totalprice: orderData.totalPrice + selectedShipRate,
+            orderserial: localStorage.getItem('orderserial')
+        };
+        // console.log("提交的完整訂單資料：", completeOrderData);
 
     try {
       // 1. 先創建訂單主資料
@@ -176,18 +176,17 @@ function CartStep3Credit() {
         throw new Error("Failed to save order");
       }
 
-      // 獲取返回的 orderId
-      const orderId = await response.json();
-      console.log("Order created successfully, orderId:", orderId);
+            // 獲取返回的 orderId
+            const orderId = await response.json();
+            console.log("Order created successfully");
 
-      // 2. 使用 orderId 提交訂單詳情
-      const orderDetails = orderData.itemDetails.map((item) => ({
-        productId: item.productId,
-        colorsId: item.colorsId,
-        quantity: item.quantity,
-      }));
-
-      console.log("Order details being submitted:", orderDetails);
+            // 2. 使用 orderId 提交訂單詳情
+            const orderDetails = orderData.itemDetails.map(item => ({
+                productId: item.productId,
+                colorsId: item.colorsId,
+                quantity: item.quantity
+            }));
+            // console.log("Order details being submitted:", orderDetails);
 
       const detailResponse = await fetch(
         `http://localhost:8080/orderdetail/${orderId}`,

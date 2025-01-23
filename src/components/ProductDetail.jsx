@@ -4,17 +4,6 @@ import {AuthContext} from "../context/AuthContext.jsx";
 
 const ProductDetail = ({product, selectedColor}) => {
 
-    // const {products} = useContext(AuthContext);
-    //
-    // if (!products) {
-    //     return <p>載入中...</p>;
-    // }
-    //
-    // //等分類頁面好傳入資料
-    // const product = products[0];
-
-
-
     const InfoStyleDiv = "my-2 text-gray-500 flex";
     const InfoStyleTitle = "w-[20%]";
     const InfoStyleSpan = "text-gray-800 px-10 w-[80%]";

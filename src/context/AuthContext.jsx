@@ -8,7 +8,7 @@ export const AuthProvider = ({children}) => {
     const [navbar, setNavbar] = useState(null);
     const [user, setUser] = useState(null);
     const [products, setProducts] = useState(null);
-    const [error, setError] = useState(null);
+    const [cart, setCart] = useState([]);
 
     function isTokenExpired(token) {
         try {
@@ -20,17 +20,21 @@ export const AuthProvider = ({children}) => {
         }
     }
 
-    // function getMemberIdFromToken(token) {
-    //     try {
-    //         if (!token || typeof token !== "string") return null;
-    //         const payload = JSON.parse(atob(token.split('.')[1]));
-    //
-    //         return payload.memberId || payload.user_id || payload.sub;
-    //
-    //     } catch (error) {
-    //         return null;
-    //     }
-    // }
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const storedToken = localStorage.getItem("token");
+            const storedMemberId = localStorage.getItem("memberId");
+
+            if (storedToken && storedMemberId) {
+                setUser({ token: storedToken, memberId: storedMemberId });
+            } else {
+                setUser(null);
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => window.removeEventListener("storage", handleStorageChange);
+    }, []);
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -38,7 +42,7 @@ export const AuthProvider = ({children}) => {
 
         if (storedToken && storedMemberId) {
             if (isTokenExpired(storedToken)) {
-                logout(); // Token 過期則登出
+                logout();
             } else {
                 setUser({ token: storedToken, memberId: storedMemberId });
             }
@@ -50,12 +54,11 @@ export const AuthProvider = ({children}) => {
 
         if (!token || !memberId) return;
 
-        // 更新 State
         setUser({ token, memberId });
 
-        // 儲存到 LocalStorage
         localStorage.setItem("token", token);
         localStorage.setItem("memberId", memberId);
+        setUser({ token, memberId });
     };
 
     const logout = () => {
@@ -75,7 +78,6 @@ export const AuthProvider = ({children}) => {
             })
             .then((data) => {
                 setNavbar(data);
-                console.log("網站data",data)
             })
             .catch((error) => {
                 console.error("Error fetching website info:", error);
@@ -93,16 +95,30 @@ export const AuthProvider = ({children}) => {
             })
             .then((data) => {
                 setProducts(data);
-                console.log(data)
             })
             .catch((error) => {
                 console.error("Error fetching product info:", error);
             });
     }, []);
 
+    const addToCart = (item) => {
+        setCart(prevCart => {
+            const existingItem = prevCart.find(cartItem => cartItem.id === item.id && cartItem.color === item.color);
+            if (existingItem) {
+                return prevCart.map(cartItem =>
+                    cartItem.id === item.id && cartItem.color === item.color
+                        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                        : cartItem
+                );
+            } else {
+                return [...prevCart, { ...item, quantity: 1 }];
+            }
+        });
+    };
+
 
     return (
-        <AuthContext.Provider value={{user, login, logout, navbar, products}}>
+        <AuthContext.Provider value={{user, login, logout, navbar, products,cart, addToCart }}>
             {children}
         </AuthContext.Provider>
     );

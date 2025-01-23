@@ -66,6 +66,7 @@ const Register = () => {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("memberId", data.memberId);
+            console.log(data.memberId)
             login(data.token, data.memberId);
 
             alert("註冊成功");

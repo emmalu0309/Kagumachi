@@ -105,7 +105,7 @@ function CartStep1() {
           console.Error(error.message);
         });
     }
-  }, [memberId]);
+  }, [memberId, handleDelete]);
 
   //全選的狀態
   useEffect(() => {
