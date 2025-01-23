@@ -46,10 +46,10 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
     };
 
     useEffect(() => {
-        // 設定最小日期為當下日期 + 3 天
+        // 設定最早貨到日期為當下日期 + 5 天
         const today = new Date();
         const futureDate = new Date(today);
-        futureDate.setDate(today.getDate() + 3);
+        futureDate.setDate(today.getDate() + 5);
         const formattedDate = futureDate.toISOString().split("T")[0];
         setMinDate(formattedDate);
     }, []);

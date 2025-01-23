@@ -45,7 +45,7 @@ import { AuthContext } from "../context/AuthContext";
 function CartStep3COD() {
     const { user } = useContext(AuthContext);
     const memberid = user.memberId;
-    // const memberid = 102;
+    // const memberid = 103;
 
     const [currentStep, setCurrentStep] = useState(3);
     const navigate = useNavigate();
@@ -54,6 +54,7 @@ function CartStep3COD() {
         totalPrice: 0,
         shippingFee: 0,
         payableAmount: 0,
+        itemDetails: []
     });
     const [shipRate, setShipRate] = useState([]);
     const [selectedShipRate, setSelectedShipRate] = useState(0);
@@ -137,6 +138,8 @@ function CartStep3COD() {
 
     // 表單送出時的處理
     const onSubmit = async (formData) => {
+        // console.log("orderData:", orderData);
+        localStorage.setItem('orderserial', memberid.toString() + Date.now()); // 存訂單編號在localstorage
         const completeOrderData = {
             orderstatus: "準備中",
             paymentmethod: "貨到付款",
@@ -146,12 +149,14 @@ function CartStep3COD() {
             recipient: formData.chineseName, 
             phone: formData.phone, 
             district: formData.district,
-            deliverydate: formData.deliveryDate,
-            totalprice:orderData.payableAmount + selectedShipRate
+            estimateddeliverydate: formData.deliveryDate,
+            totalprice: orderData.payableAmount + selectedShipRate,
+            orderserial: localStorage.getItem('orderserial')
         }
         console.log("提交的完整訂單資料：", completeOrderData);
 
         try {
+            // 1. 先創建訂單主資料
             const response = await fetch(`http://localhost:8080/order/${memberid}`, {
                 method: "POST",
                 headers: {
@@ -166,10 +171,36 @@ function CartStep3COD() {
                 throw new Error("Failed to save order");
             }
 
-            const result = await response.text();
-            console.log("Order saved successfully:", result);
+            // 獲取返回的 orderId
+            const orderId = await response.json();
+            console.log("Order created successfully, orderId:", orderId);
 
-            // 成功後導去 CartStep4
+            // 2. 使用 orderId 提交訂單詳情
+            const orderDetails = orderData.itemDetails.map(item => ({
+                productId: item.productId,
+                colorsId: item.colorsId,
+                quantity: item.quantity
+            }));
+
+            console.log("Order details being submitted:", orderDetails);
+
+            const detailResponse = await fetch(`http://localhost:8080/orderdetail/${orderId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderDetails),
+            });
+
+            if (!detailResponse.ok) {
+                const errorMessage = await detailResponse.text();
+                console.error("後端返回的錯誤信息：", errorMessage);
+                throw new Error("Failed to save order details");
+            }
+
+            console.log("Order details saved successfully");
+
+            // 3. 成功後導去下一步
             navigate("/CartStep4");
         } catch (error) {
             console.error("Error saving order:", error.message);

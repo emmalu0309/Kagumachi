@@ -8,7 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 function CartStep2() {
     const { user } = useContext(AuthContext);
     const memberid = user.memberId;
-    // const memberid = 102;
+    // const memberid = 103;
     
     const [currentStep, setCurrentStep] = useState(2);
     const [selectedPayment, setSelectedPayment] = useState("");
