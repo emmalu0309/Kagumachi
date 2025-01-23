@@ -24,7 +24,7 @@ function CartStep2() {
         { id: "cod", label: "貨到付款" },
     ];
 
-    // 使用 async/await 獲取訂單摘要
+    // 獲取訂單摘要
     const fetchOrderSummary = async () => {
         try {
             const response = await fetch(

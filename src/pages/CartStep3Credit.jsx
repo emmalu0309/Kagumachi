@@ -159,7 +159,7 @@ function CartStep3Credit() {
             totalprice: orderData.totalPrice + selectedShipRate,
             orderserial: localStorage.getItem('orderserial')
         };
-        console.log("提交的完整訂單資料：", completeOrderData);
+        // console.log("提交的完整訂單資料：", completeOrderData);
 
         try {
             // 1. 先創建訂單主資料
@@ -179,7 +179,7 @@ function CartStep3Credit() {
 
             // 獲取返回的 orderId
             const orderId = await response.json();
-            console.log("Order created successfully, orderId:", orderId);
+            console.log("Order created successfully");
 
             // 2. 使用 orderId 提交訂單詳情
             const orderDetails = orderData.itemDetails.map(item => ({
@@ -187,8 +187,7 @@ function CartStep3Credit() {
                 colorsId: item.colorsId,
                 quantity: item.quantity
             }));
-
-            console.log("Order details being submitted:", orderDetails);
+            // console.log("Order details being submitted:", orderDetails);
 
             const detailResponse = await fetch(`http://localhost:8080/orderdetail/${orderId}`, {
                 method: "POST",
@@ -203,7 +202,6 @@ function CartStep3Credit() {
                 console.error("後端返回的錯誤信息：", errorMessage);
                 throw new Error("Failed to save order details");
             }
-
             console.log("Order details saved successfully");
 
             // 3. 成功後跳轉下一頁
