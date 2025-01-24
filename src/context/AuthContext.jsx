@@ -9,6 +9,7 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [products, setProducts] = useState(null);
     const [cart, setCart] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
 
     function isTokenExpired(token) {
         try {
@@ -59,11 +60,15 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem("token", token);
         localStorage.setItem("memberId", memberId);
         setUser({ token, memberId });
+
+        fetchCartCount(memberId);
     };
 
     const logout = () => {
         localStorage.removeItem("token");
         setUser(null);
+
+        setCartCount(0);
     };
 
 
@@ -101,24 +106,50 @@ export const AuthProvider = ({children}) => {
             });
     }, []);
 
-    const addToCart = (item) => {
-        setCart(prevCart => {
-            const existingItem = prevCart.find(cartItem => cartItem.id === item.id && cartItem.color === item.color);
-            if (existingItem) {
-                return prevCart.map(cartItem =>
-                    cartItem.id === item.id && cartItem.color === item.color
-                        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-                        : cartItem
-                );
-            } else {
-                return [...prevCart, { ...item, quantity: 1 }];
+    // 取得購物車數量
+    const fetchCartCount = async (memberid) => {
+        if (!memberid) return;
+        try {
+            const response = await fetch(`http://localhost:8080/productcart/count?memberid=${memberid}`);
+            const data = await response.json();
+            setCartCount(data.count);
+
+            console.log(data.count);
+        } catch (error) {
+            console.error("獲取購物車數量失敗:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (user?.memberId) {
+            fetchCartCount(user.memberId); // ✅ 登入時同步購物車數量
+        }
+    }, [user]);
+
+
+    const addToCart = async (payload) => {
+        const {memberid, productid, color, quantity} = payload;
+
+        try {
+            const response = await fetch("http://localhost:8080/productcart/addToCart", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ memberid, productid, color, quantity }),
+            });
+
+            if (response.ok) {
+                fetchCartCount(memberid);
             }
-        });
+        } catch (error) {
+            console.error("加入購物車失敗:", error);
+        }
     };
 
 
     return (
-        <AuthContext.Provider value={{user, login, logout, navbar, products,cart, addToCart }}>
+        <AuthContext.Provider value={{user, login, logout, navbar, products,cart, cartCount, addToCart }}>
             {children}
         </AuthContext.Provider>
     );

@@ -6,9 +6,8 @@ import {AuthContext} from "../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
-    const {user} = useContext(AuthContext);
+    const {user, addToCart} = useContext(AuthContext);
     const navigate = useNavigate();
-
     if (!product) {
         return <p >錯誤：產品資料缺失</p>;
     }
@@ -17,41 +16,6 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
         return <p>請選擇一種顏色</p>;
     }
 
-    const handleAddToCart = async () => {
-        if (!user) {
-            alert("請先登入");
-            navigate(`/login`);
-            return;
-        }
-
-        const cartData = {
-            memberid: Number(user.memberId),  // 確保是數字
-            productid: Number(product.productid),  // 確保是數字
-            color: selectedColor.colorname || "default",  // 確保不為 null
-            quantity: 1,  // 設定默認數量
-            isPurchase: false
-        };
-        try {
-            const response = await fetch("http://localhost:8080/productcart/addToCart", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(cartData)
-            });
-
-            if (response.ok) {
-                alert("已加入購物車！");
-            } else {
-                alert("加入購物車失敗");
-            }
-        } catch (error) {
-            console.error("加入購物車失敗:", error);
-            alert("無法連接伺服器");
-        }
-
-        console.log(cartData);
-    };
 
     const handleMyKeep = async () => {
         if (!user) {
@@ -135,7 +99,14 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
                         </div>
                     </div>
                     <button
-                        onClick={handleAddToCart}
+                        onClick={() => addToCart(
+                            {
+                                memberid: Number(user.memberId),
+                                productid: Number(product.productid),
+                                color: selectedColor.colorname || "default",
+                                quantity: 1
+                            }
+                        )}
                         className="flex justify-center items-center w-[100%] bg-[#5E3B25] hover:bg-[#C3A789] p-2 mb-3 mt-6 rounded-md text-white">
                         <MdOutlineShoppingCart className="m-1"/>
                         <span>加入購物車</span>
