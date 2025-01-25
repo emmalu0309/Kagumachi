@@ -1,13 +1,14 @@
 import {FaStar} from "react-icons/fa6";
 import {MdOutlineShoppingCart} from "react-icons/md";
 import {IoIosHeartEmpty} from "react-icons/io";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {AuthContext} from "../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
     const {user, addToCart} = useContext(AuthContext);
     const navigate = useNavigate();
+
     if (!product) {
         return <p >錯誤：產品資料缺失</p>;
     }
@@ -49,26 +50,59 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
         }
     };
 
+    const rating = Math.round(product.rating) || 0; // 四捨五入到最近的整數
+    const totalStars = 5;
+
 
     return (
         <div>
             <div className="w-[100%]">
                 <div className="w-[80%] mx-auto m-1">
-                    <div className="text-[20px]">
+                    <div className="text-[18px]">
                         {product.productname}, {selectedColor.colorname}, {product.width}x{product.height} 公分
                     </div>
-                    <div className="flex my-3 items-center ">
-                        <FaStar/>
-                        <FaStar/>
-                        <FaStar/>
-                        <FaStar/>
-                        <FaStar/>
-                        <div className="px-2">5.0</div>
-                        <div className="text-[rgb(60,150,187)]">({product.reviewcount ?? "沒有評論"})</div>
+
+                    <div className="flex mt-3">
+                        {/*<div className="text-xl mr-4 text-[#11567b]">NT${product.unitprice}</div>*/}
+                        {product.unitprice === product.discountprice ? (
+                            <div className="text-2xl ">NT${product.unitprice}</div>
+                        ) : (
+                            <div className="flex items-center">
+                                <div className="text-2xl text-red-500 font-bold">NT${product.discountprice}</div>
+                                <div className="text-lg text-gray-500 line-through ml-3">NT${product.unitprice}</div>
+                            </div>
+                        )}
+
                     </div>
-                    <div className="flex">
-                        <div className="text-xl mr-4 text-[#11567b]">NT${product.unitprice}</div>
+
+                    <div>
+                        {product.mainCategory?.sales && (
+                            <div className=" rounded-md mt-3">
+                                <span>{product.mainCategory.sales.salesdesc}   </span>
+                                <span>折扣: {product.mainCategory.sales.discount * 100}%</span>
+                            </div>
+                        )}
                     </div>
+
+                    {/*<div className="flex my-3 items-center ">*/}
+                    {/*    <FaStar className="text-sm"/>*/}
+                    {/*    <FaStar className="text-sm"/>*/}
+                    {/*    <FaStar className="text-sm"/>*/}
+                    {/*    <FaStar className="text-sm"/>*/}
+                    {/*    <FaStar className="text-sm"/>*/}
+                    {/*    <div className="px-2 text-sm">5.0</div>*/}
+                    {/*    <div className="text-[rgb(60,150,187)] text-sm">({product.reviewcount ?? "沒有評論"})</div>*/}
+                    {/*</div>*/}
+
+                    <div className="flex my-3 items-center">
+                        {[...Array(totalStars)].map((_, index) => (
+                            <FaStar key={index}
+                                    className={`text-sm ${index < rating ? "text-yellow-500" : "text-gray-300"}`}/>
+                        ))}
+                        <div className="px-2 text-sm">{product.rating?.toFixed(1) || "0.0"}</div>
+                        <div className="text-gray-500 text-sm">({product.reviewcount ?? "沒有評論"})</div>
+                    </div>
+                    <div className="mt-3 text-sm">{product.unitsold || 0} 個人購買過</div>
                     <div className="flex my-3">
 
                     </div>
