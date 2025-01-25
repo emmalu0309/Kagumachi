@@ -1,9 +1,13 @@
 import { IoMdClose, IoMdAdd, IoIosRemove } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 // { id, name, color, count, price, picture, purchase
 // addTotalCount(Map), addToTotalPrice(Map)
 // delTotalCount(Map), delToTotalPrice(Map)}
 function CartProductCard(props) {
+//Emma
+  const { user, fetchCartCount } = useContext(AuthContext);
+
   const addUrl = `http://localhost:8080/shoppingcart/step1/add/${props.id}`;
   const subUrl = `http://localhost:8080/shoppingcart/step1/sub/${props.id}`;
   const purchaseUrl = `http://localhost:8080/shoppingcart/step1/purchase/${props.id}`;
@@ -107,6 +111,10 @@ function CartProductCard(props) {
       .then(() => {
         props.onDelete(props.id);
         console.log("DELECT OK");
+        //Emma
+        if (user) {
+          fetchCartCount(user.memberId);
+        }
       })
       .catch((error) => {
         console.Error(error.message);

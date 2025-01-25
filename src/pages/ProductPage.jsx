@@ -8,7 +8,7 @@ import {useParams} from "react-router-dom";
 
 const ProductPage = () => {
 
-    const { productid } = useParams(); // 獲取 URL 中的 `productid`
+    const { productid } = useParams();
     const [product, setProduct] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
 

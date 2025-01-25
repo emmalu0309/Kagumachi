@@ -29,7 +29,7 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
     };
     // Emma
     const handleClick = () => {
-        navigate(`/productpage/${productid}`);  // 導航到商品詳情頁，並攜帶 productid
+        navigate(`/productpage/${productid}`);
     };
 
     if (memberid == null) {
