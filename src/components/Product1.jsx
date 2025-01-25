@@ -5,12 +5,15 @@ import { FaHeart } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import Login from "../pages/Login";
+import { useNavigate } from "react-router-dom";
 
 
 const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice, count, productid }) => {
     // const { user } = useContext(AuthContext);
     // const memberId = user.memberId;
     var memberid = 101;
+    //Emma
+    const navigate = useNavigate();
 
     const [data, setData] = useState([]);
     const [isLiked, setIsLiked] = useState(false);
@@ -23,6 +26,10 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
         } else {
             addFavorite(); // 当前未收藏，执行添加收藏
         }
+    };
+    // Emma
+    const handleClick = () => {
+        navigate(`/productpage/${productid}`);
     };
 
     if (memberid == null) {
@@ -112,7 +119,12 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
 
     return (
         <>
-            <div className="w-4/5  mt-2 mx-auto items-center ">
+
+            <div
+                //Emma
+                className="w-4/5  mt-2 mx-auto items-center "
+                 onClick={handleClick}
+            >
                 <div className="mx-auto ">
                     <div className="relative ">
                         <div className=" inline-block items-center">

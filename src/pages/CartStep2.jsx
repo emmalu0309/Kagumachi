@@ -8,7 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 function CartStep2() {
     const { user } = useContext(AuthContext);
     const memberid = user.memberId;
-    // const memberid = 102;
+    // const memberid = 103;
     
     const [currentStep, setCurrentStep] = useState(2);
     const [selectedPayment, setSelectedPayment] = useState("");
@@ -24,7 +24,7 @@ function CartStep2() {
         { id: "cod", label: "貨到付款" },
     ];
 
-    // 使用 async/await 獲取訂單摘要
+    // 獲取訂單摘要
     const fetchOrderSummary = async () => {
         try {
             const response = await fetch(

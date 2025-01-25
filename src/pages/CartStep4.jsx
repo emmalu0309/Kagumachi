@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 
 function CartStep4() {
+  const orderserial = localStorage.getItem('orderserial');
+
   return (
     <>
       <ShoppingcartStepIcon step="4" />
       <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
         <div className="py-32 flex-cow justify-items-center">
           <p className="pb-20">訂單完成</p>
-          <p>訂單編號：123456789</p>
+          <p>訂單編號：{orderserial}</p>
         </div>
         <div className="flex justify-between mt-6">
           <Link to="/homepage">
