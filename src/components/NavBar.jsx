@@ -99,10 +99,6 @@ const NavBar = () => {
                     <button className="mx-3 flex items-center">
                         <MdAddShoppingCart className="text-xl"/>
                         {cartCount > 0 && (
-                            // <span
-                            //     className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-xs rounded-full px-2">
-                            //     {cartCount}
-                            // </span>
                             <span className="">
                         ({cartCount})
                     </span>

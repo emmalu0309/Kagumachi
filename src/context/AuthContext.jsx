@@ -100,6 +100,7 @@ export const AuthProvider = ({children}) => {
             })
             .then((data) => {
                 setProducts(data);
+                console.log(products)
             })
             .catch((error) => {
                 console.error("Error fetching product info:", error);
