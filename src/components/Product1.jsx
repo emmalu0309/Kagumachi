@@ -9,11 +9,12 @@ import { useNavigate } from "react-router-dom";
 
 const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice, count, productid }) => {
     const { user } = useContext(AuthContext);
-    // var memberid = user.memberId;
 
-    var memberid = 101;
-    // var memberid = null;
-    // var [memberid, setMemberid] = useState(null);
+    // var memberid = user.memberId;
+    // var [memberid, setMemberid] = useState(user.memberId);
+
+    // var memberid = 101;
+    var memberid = null;
 
     //Emma
     const navigate = useNavigate();
@@ -25,9 +26,9 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
             navigate(`/login`);
         } else {
             if (isLiked) {
-                removeFavorite();// 当前已收藏，执行取消收藏     
+                removeFavorite();  
             } else {
-                addFavorite(); // 当前未收藏，执行添加收藏
+                addFavorite(); 
             }
         }
     };
@@ -111,7 +112,7 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
     }, [data, productid]);
 
     // useEffect(() => {    
-    //     setMemberid(memberid);    
+    //     setMemberid(user.memberId);    
     // }, [memberid]);
 
 

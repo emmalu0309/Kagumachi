@@ -78,13 +78,13 @@ const NewProduct = () => {
 
     const settings = {
         dots: true, // 顯示下方點點
-        infinite: true, // 無限循環
+        infinite:false, // 無限循環
         speed: 500,
         slidesToShow: 5, // 每次顯示一個「頁面」
         slidesToScroll: 2, // 每次滾動一個「頁面」
         autoplay: false, // 自動播放
-        autoplaySpeed: 3000, // 每 3 秒滾動一次
-        cssEase : "liner",
+        autoplaySpeed: 5000, // 每 3 秒滾動一次
+        cssEase: "linear", 
         responsive: [
             {
                 breakpoint: 1500,
