@@ -19,7 +19,7 @@ export default function SearchTwo() {
         '櫥櫃': {main: 1, sub: 4},
         '電視櫃': {main: 1, sub: 5},
         '浴櫃': {main: 1, sub: 6},
-        '餐桌': {main: 1, sub: 7},
+        '餐桌': {main: 2, sub: 7},
         '茶几': {main: 2, sub: 8},
         '書桌': {main: 2, sub: 9},
         '升降桌': {main: 2, sub: 10},
