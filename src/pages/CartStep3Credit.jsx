@@ -216,7 +216,7 @@ function CartStep3Credit() {
             <div>
                 <ShoppingcartStepIcon step={currentStep.toString()} />
 
-                <div className="max-w-4xl mx-auto p-6 min-h-screen">
+                <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
                     <RecipientForm
                         register={register}
                         setValue={setValue}
@@ -234,6 +234,7 @@ function CartStep3Credit() {
                         totalPrice={orderData.totalPrice}
                         shippingFee={selectedShipRate}
                         payableAmount={orderData.totalPrice + selectedShipRate}
+                        itemDetails={orderData.itemDetails}
                         step={"CartStep3Credit"}
                     />
 

@@ -17,6 +17,7 @@ function CartStep2() {
         totalPrice: 0,
         shippingFee: 0,
         payableAmount: 0,
+        itemDetails: [],
     });
 
     const paymentOptions = [
@@ -44,11 +45,19 @@ function CartStep2() {
         fetchOrderSummary();
     }, []);
 
+    // 下一步按鈕處理
+    const handleNextStep = (e) => {
+        if (!selectedPayment) {
+            e.preventDefault(); // 阻止導航
+            alert("您尚未選擇付款方式");
+        }
+    };
+
     return (
         <div>
             {/* StepIcon */}
             <ShoppingcartStepIcon step={currentStep.toString()} />
-            <div className="max-w-4xl mx-auto p-6 min-h-screen">
+            <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
 
                 {/* 付款方式選擇 */}
                 <PaymentOptions
@@ -63,6 +72,7 @@ function CartStep2() {
                     totalPrice={OrderData.totalPrice}
                     shippingFee={OrderData.shippingFee}
                     payableAmount={OrderData.payableAmount}
+                    itemDetails={OrderData.itemDetails}
                     step={"CartStep2"}
                 />
 
@@ -85,11 +95,11 @@ function CartStep2() {
                                     ? "/CartStep3Credit"
                                     : "#"  // 未選擇付款方式時，導航設為空連結
                         }
+                        onClick={handleNextStep} // 在按鈕點擊時觸發提示
                     >
                         <button
                             className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
                             onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 4))}
-                            disabled={!selectedPayment} // 未選擇付款方式時，Link不會觸發
                         >
                             下一步
                         </button>
