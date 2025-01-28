@@ -39,7 +39,7 @@ function OrderSummary({ itemsCount, totalPrice, shippingFee, step, itemDetails }
                             <p>商品規格：{item.productSpecs}</p>
                         </div>
                         <p className="w-[13%] pt-2">數量 {item.quantity}</p>
-                        <p className="w-[13%] text-right">NT$ {item.price}</p>
+                        <p className="w-[13%] text-right">NT$ {item.price * item.quantity}</p>
                     </div>
                 ))}
             </div>
