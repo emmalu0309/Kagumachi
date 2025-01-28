@@ -1,13 +1,53 @@
-import imageTest from "../img/closet1.png";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+// import { AuthContext } from "../context/AuthContext";
 
-const orderdetail = () => {
+const Orderdetail = () => {
+  // const { user } = useContext(AuthContext);
+  // const memberId = user.memberId;
+
+  const { orderserial } = useParams();
+  const [orderData, setOrderData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      console.log("orderserial from useParams:", orderserial);
+      const response = await fetch(
+        `http://localhost:8080/orderdetail/${orderserial}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error Response:", errorText);
+        throw new Error(
+          `抓取訂單資料失敗: ${response.status} ${response.statusText} - ${errorText}`
+        );
+      }
+      const data = await response.json();
+      console.log("回傳資料:", data);
+      setOrderData(data);
+      setLoading(false);
+    };
+    fetchOrderData();
+  }, [orderserial]);
+
+  if (loading) {
+    return <div>載入中...</div>;
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen ">
       {/* 外層容器，水平垂直置中 */}
       <div className="w-3/4 space-y-6 mt-0">
         {/* 訂單編號區塊 */}
         <div className="text-left  text-gray-400 mt-8">
-          您的訂單編號為：<span className="font-semibold">241119011502</span>
+          您的訂單編號為：<span className="font-semibold">{orderserial}</span>
         </div>
 
         {/* 購物明細區塊 */}
@@ -18,99 +58,36 @@ const orderdetail = () => {
             <div id="pic" className="flex-[1]"></div>
             <div className="flex-[4] text-left">商品名稱</div>
             <div className="flex-[1] text-center">數量</div>
-            <div className="flex-[1] text-center">單價</div>
-            <div className="flex-[1] text-center">折扣價</div>
+            <div className="flex-[1] text-center">價格</div>
             <div className="flex-[1] text-center">小計</div>
           </div>
           <hr />
-          <div className="flex items-center m-2  text-gray-600">
-            <div
-              id="pic"
-              className="flex-[1] aspect-square max-w-[80px] max-h-[80px] overflow-hidden mr-6"
-            >
-              <img
-                src={imageTest}
-                alt="滑門衣櫃-黑棕色"
-                className="w-full h-full object-cover"
-              />
+          {orderData.map((item, index) => (
+            <div key={index}>
+              <div className="flex items-center m-2 text-gray-600">
+                <div
+                  id="pic"
+                  className="flex-[1] aspect-square max-w-[80px] max-h-[80px] overflow-hidden mr-6"
+                >
+                  <img
+                    src={item.imageurl}
+                    alt={item.productname}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-[4] text-left">
+                  <span className="block">{item.productname}</span>
+                  <span className="block">規格:{item.colorname}</span>
+                </div>
+                <div className="flex-[1] text-center">{item.quantity}</div>
+                <div className="flex-[1] text-center">{item.price}</div>
+                <div className="flex-[1] text-center">
+                  {item.price * item.quantity}
+                </div>
+              </div>
+              {index !== orderData.length - 1 && <hr />}
             </div>
-            <div className="flex-[4] text-left">
-              <span className="block">66200011</span>
-              <span className="block">滑門衣櫃</span>
-              <span className="block">黑棕色-117x176公分</span>
-            </div>
-            <div className="flex-[1] text-center">1</div>
-            <div className="flex-[1] text-center line-through">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-          </div>
-
-          <hr />
-          <div className="flex items-center m-2  text-gray-600">
-            <div
-              id="pic"
-              className="flex-[1] aspect-square max-w-[80px] max-h-[80px] overflow-hidden mr-6"
-            >
-              <img
-                src={imageTest}
-                alt="滑門衣櫃-黑棕色"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex-[4] text-left">
-              <span className="block">66200011</span>
-              <span className="block">滑門衣櫃</span>
-              <span className="block">黑棕色-117x176公分</span>
-            </div>
-            <div className="flex-[1] text-center">1</div>
-            <div className="flex-[1] text-center line-through">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-          </div>
-          <hr />
-          <div className="flex items-center m-2  text-gray-600">
-            <div
-              id="pic"
-              className="flex-[1] aspect-square max-w-[80px] max-h-[80px] overflow-hidden mr-6"
-            >
-              <img
-                src={imageTest}
-                alt="滑門衣櫃-黑棕色"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex-[4] text-left">
-              <span className="block">66200011</span>
-              <span className="block">滑門衣櫃</span>
-              <span className="block">黑棕色-117x176公分</span>
-            </div>
-            <div className="flex-[1] text-center">1</div>
-            <div className="flex-[1] text-center line-through">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-          </div>
-          <hr />
-          <div className="flex items-center m-2  text-gray-600">
-            <div
-              id="pic"
-              className="flex-[1] aspect-square max-w-[80px] max-h-[80px] overflow-hidden mr-6"
-            >
-              <img
-                src={imageTest}
-                alt="滑門衣櫃-黑棕色"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex-[4] text-left">
-              <span className="block">66200011</span>
-              <span className="block">滑門衣櫃</span>
-              <span className="block">黑棕色-117x176公分</span>
-            </div>
-            <div className="flex-[1] text-center">1</div>
-            <div className="flex-[1] text-center line-through">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-            <div className="flex-[1] text-center">4999</div>
-          </div>
+          ))}
         </div>
 
         {/* 寄送資料區塊 */}
@@ -125,4 +102,4 @@ const orderdetail = () => {
   );
 };
 
-export default orderdetail;
+export default Orderdetail;
