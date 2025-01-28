@@ -27,9 +27,8 @@ const Footer = () => {
                 </div>
             </div>
             <hr/>
-            <Link to="productpage">
+
             <div className="text-center my-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家具町股份有限公司</div>
-            </Link>
         </div>
     )
 }

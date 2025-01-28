@@ -25,20 +25,20 @@ const cityDistrictData = {
     澎湖縣: ["馬公市", "湖西鄉", "白沙鄉", "西嶼鄉", "望安鄉", "七美鄉"]
 };
 
-const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) => {
+const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, phoneValue, handlePhoneChange, setValue }) => {
     const [selectedCity, setSelectedCity] = useState("");
-    const [minDate, setMinDate] = useState("");
     const [districts, setDistricts] = useState([]);
+    const [minDate, setMinDate] = useState("");
 
     const handleCityChange = (event) => {
         const city = event.target.value;
+
         setSelectedCity(city);
         setDistricts(cityDistrictData[city] || []);
-        // console.log(city.slice(0, 2));
+        setValue("city", city); // 同步到 React Hook Form
+
         const city2 = city.slice(0, 2);
-        // console.log(shipRateData);
         for (let i = 0; i < shipRateData.length; i++) {
-            // console.log(shipRateData[i].region);
             if (city2 === shipRateData[i].region) {
                 setSelectedShipRate(shipRateData[i].rate);
             }
@@ -46,7 +46,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
     };
 
     useEffect(() => {
-        // 設定最小日期為當下日期 + 3 天
+        // 設定最早貨到日期為當下日期 + 3 天
         const today = new Date();
         const futureDate = new Date(today);
         futureDate.setDate(today.getDate() + 3);
@@ -55,7 +55,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
     }, []);
 
     return (
-        <div className="border p-4 bg-white shadow rounded">
+        <div className="justify-end mb-2 border-b">
             <h2 className="text-lg font-semibold mb-4">收件人資訊</h2>
 
             {/* 姓名 */}
@@ -64,11 +64,11 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     姓名
                 </label>
                 <input
-                    id="chinese_name"
+                    id="chineseName"
                     type="text"
                     placeholder="請輸入姓名"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
-                    {...register("chinese_name")}
+                    className="w-[50%] px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
+                    {...register("chineseName")}
                 />
                 {errors.chinese_name && (
                     <p className="inline ml-4 text-red-500">
@@ -86,8 +86,10 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     id="phone"
                     type="text"
                     placeholder="請輸入手機號碼"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    className="w-[50%] px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
                     {...register("phone")}
+                    value={phoneValue}
+                    onChange={handlePhoneChange} // 自動格式化
                 />
                 {errors.phone && (
                     <p className="inline ml-4 text-red-500">
@@ -105,12 +107,11 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     </label>
                     <select
                         id="city"
+                        value={selectedCity}
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none appearance-none"
                         onChange={(event) => {
                             handleCityChange(event); // 更新 selectedCity 狀態
-                            register("city").onChange(event); // 更新 React Hook Form 的值
-                        }}
-                        value={selectedCity}
-                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none">
+                        }}>
 
                         <option value="" disabled >
                             請選擇縣市
@@ -131,7 +132,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     <select
                         id="district"
                         disabled={!selectedCity}
-                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none appearance-none"
                         {...register("district")}
                     >
                         <option value="" disabled>
@@ -157,7 +158,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     id="address"
                     type="text"
                     placeholder="請輸入地址"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none appearance-none"
                     {...register("address")}
                 />
                 {errors.address && (
@@ -177,7 +178,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                     type="date"
                     placeholder="請輸入日期"
                     min={minDate}
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    className="w-[25%] px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-0 text-left"
                     {...register("deliveryDate")}
                 />
                 {errors.deliveryDate && (
@@ -185,6 +186,9 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate }) 
                         {errors.deliveryDate.message}
                     </p>
                 )}
+                <p className="text-sm text-gray-500 ml-[10%]">
+                    ※最早可選日期為 3 天後
+                </p>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,195 +7,290 @@ import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import RecipientForm from "../components/RecipientForm";
 import CreditForm from "../components/CreditForm";
 import OrderSummary from "../components/OrderSummary";
+import { AuthContext } from "../context/AuthContext";
 
-const schema = z.object({
-    chinese_name: z
-        .string()
-        .nonempty("請輸入名字")
-        .regex(
-            /^[\u4e00-\u9fa5]+$/, "必須皆為中文字"
-        ),
-    phone: z
-        .string()
-        .regex(
-            /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/,
-            "請輸入有效的手機號碼，格式範例：0912-345-678。"
-        ),
-    city: z
-        .string()
-        .nonempty("請選擇縣市"),
-    district: z
-        .string()
-        .nonempty("請選擇地區"),
-    address: z
-        .string()
-        .nonempty("請輸入地址"),
-    deliverDate: z
-        .string()
-        .nonempty("請選擇日期")
-        .refine((value) => {
-            // 這裡可以做更嚴謹的檢查，例如必須大於等於 3 天後
-            const chosenDate = new Date(value);
-            const todayPlus3 = new Date();
-            todayPlus3.setDate(todayPlus3.getDate() + 3);
-            return chosenDate >= todayPlus3;
-        }, "日期必須大於等於今日起 3 天之後"),
-});
+// const schema = z.object({
+//     chineseName: z
+//         .string()
+//         .nonempty("請輸入名字")
+//         .regex(
+//             /^[\u4e00-\u9fa5]+$/, "必須皆為中文字"
+//         ),
+//     phone: z
+//         .string()
+//         .regex(
+//             /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/,
+//             "請輸入有效的手機號碼，必須為09開頭的10碼數字"
+//         ),
+//     city: z
+//         .string()
+//         .nonempty("請選擇縣市"),
+//     district: z
+//         .string()
+//         .nonempty("請選擇地區"),
+//     address: z
+//         .string()
+//         .nonempty("請輸入地址"),
+//     deliveryDate: z
+//         .string()
+//         .nonempty("請選擇日期")
+//         .refine((value) => {
+//             // 必須大於等於 3 天後
+//             const chosenDate = new Date(value);
+//             const todayPlus3 = new Date();
+//             todayPlus3.setDate(todayPlus3.getDate() + 3);
+//             return chosenDate >= todayPlus3;
+//         }, "日期必須大於等於今日起 3 天之後"),
+
+//     itemsCount: z.number(),
+//     totalPrice: z.number(),
+//     shippingFee: z.number(),
+//     payableAmount: z.number(),
+// });
 
 function CartStep3Credit() {
-    const [currentStep, setCurrentStep] = useState(3);
-    const navigate = useNavigate();
-    const [orderData, setOrderData] = useState({
-        itemsCount: 0,
-        totalPrice: 0,
-        shippingFee: 0,
-        discount: 0,
-        payableAmount: 0,
-    });
-    const [shipRate, setShipRate] = useState([]);
-    const [selectedShipRate, setSelectedShipRate] = useState(0);
+  const { user } = useContext(AuthContext);
+  const memberid = user.memberId;
+  // const memberid = 103;
 
-    // 顯示預設值
-    const defaultData = {
-        chinese_name: "布萊德",
-        phone: "0912-345-678",
-    };
+  const [htmlContent, setHtmlContent] = useState(""); // 這行綠界要用
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: zodResolver(schema),
-        defaultValues: {
-            chinese_name: defaultData.chinese_name,
-            phone: defaultData.phone,
-            city: defaultData.city,
-            district: defaultData.district,
-            address: defaultData.address,
-        },
+  const [currentStep, setCurrentStep] = useState(3);
+  const navigate = useNavigate();
+  const [orderData, setOrderData] = useState({
+    itemsCount: 0,
+    totalPrice: 0,
+    shippingFee: 0,
+    payableAmount: 0,
+    itemDetails: [],
+  });
+  const [shipRate, setShipRate] = useState([]);
+  const [selectedShipRate, setSelectedShipRate] = useState(0);
+
+  // 顯示預設值
+  const defaultData = {
+    chineseName: "",
+    phone: "",
+    city: "",
+    district: "",
+    address: "",
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue, // 用於更新欄位值
+    watch,
+  } = useForm({
+    // resolver: zodResolver(schema),
+    defaultValues: {
+      chineseName: defaultData.chineseName,
+      phone: defaultData.phone,
+      city: defaultData.city,
+      district: defaultData.district,
+      address: defaultData.address,
+    },
+  });
+
+  // 監聽電話欄位的值
+  const phoneValue = watch("phone");
+
+  // 自動格式化電話號碼
+  const handlePhoneChange = (event) => {
+    const rawValue = event.target.value.replace(/\D/g, ""); // 移除非數字
+    const formattedValue = rawValue
+      .replace(/^(\d{4})(\d{3})(\d{0,3}).*$/, "$1-$2-$3")
+      .replace(/-$/, ""); // 格式化為 0912-345-678
+    setValue("phone", formattedValue); // 更新電話欄位值
+  };
+
+  // 獲取訂單摘要數據
+  const fetchOrderSummary = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/ordersummary/cartstep2/${memberid}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch order summary.");
+      }
+      const data = await response.json();
+      setOrderData(data); // 更新訂單摘要數據
+    } catch (error) {
+      console.error("Error fetching order summary:", error);
     }
-    );
+  };
 
-    const fetchOrderSummary = async () => {
-        const memberId = 1; // 假設目前登入的會員 ID 為 1
-        try {
-            const response = await fetch(
-                `http://localhost:8080/ordersummary/cartstep2/${memberId}`
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch order summary.");
-            }
-            const data = await response.json();
-            setOrderData(data); // 更新訂單摘要數據
-        } catch (error) {
-            console.error("Error fetching order summary:", error);
-        }
+  // 獲取運費數據
+  const fetchShipRate = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/shiprate`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch shiprate.");
+      }
+      const data = await response.json();
+      // console.log(data);
+      setShipRate(data);
+    } catch (error) {
+      console.error("Error fetching shiprate.", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrderSummary();
+    fetchShipRate();
+  }, [memberid]);
+
+  // 表單送出時的處理
+  const onSubmit = async (formData) => {
+    // console.log("orderData:", orderData);
+    localStorage.setItem("orderserial", memberid.toString() + Date.now()); // 存訂單編號在localstorage
+    const completeOrderData = {
+      orderstatus: "準備中",
+      paymentmethod: "信用卡付款",
+      shippingmethod: "宅配",
+      ordercity: formData.city,
+      address: formData.address,
+      recipient: formData.chineseName,
+      phone: formData.phone,
+      district: formData.district,
+      estimateddeliverydate: formData.deliveryDate,
+      totalprice: orderData.totalPrice + selectedShipRate,
+      orderserial: localStorage.getItem("orderserial"),
     };
+    // console.log("提交的完整訂單資料：", completeOrderData);
 
-    const fetchShipRate = async () => {
-        try {
-            const response = await fetch(
-                `http://localhost:8080/shiprate`
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch shiprate.");
-            }
-            const data = await response.json();
-            // console.log(data);
-            setShipRate(data); 
-            
-        } catch (error) {
-            console.error("Error fetching shiprate.", error);
+    try {
+      // 1. 先創建訂單主資料
+      const response = await fetch(`http://localhost:8080/order/${memberid}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(completeOrderData),
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        console.error("後端返回的錯誤信息：", errorMessage);
+        throw new Error("Failed to save order");
+      }
+
+      // 獲取返回的 orderId
+      const orderId = await response.json();
+      console.log("Order created successfully");
+
+      // 2. 使用 orderId 提交訂單詳情
+      const orderDetails = orderData.itemDetails.map((item) => ({
+        productId: item.productId,
+        colorsId: item.colorsId,
+        quantity: item.quantity,
+      }));
+      // console.log("Order details being submitted:", orderDetails);
+
+      const detailResponse = await fetch(
+        `http://localhost:8080/orderdetail/${orderId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderDetails),
         }
-    };
+      );
 
-    useEffect(() => {
-        fetchOrderSummary();
-        fetchShipRate();
-    }, []);
+      if (!detailResponse.ok) {
+        const errorMessage = await detailResponse.text();
+        console.error("後端返回的錯誤信息：", errorMessage);
+        throw new Error("Failed to save order details");
+      }
+      console.log("Order details saved successfully");
 
-    // 表單送出時的處理
-    const onSubmit = async (formData) => {
-        const orderData = {
-            ...formData,
-            itemsCount: orderData.itemsCount,
-            totalPrice: orderData.totalPrice,
-            shippingFee: orderData.shippingFee,
-            discount: orderData.discount,
-            payableAmount: orderData.payableAmount,
+      // ====== 串接綠界 ======
+      const ecpaydata = {
+        totalPrice: orderData.totalPrice + selectedShipRate,
+        orderDetailDTOs: orderDetails,
+      };
+
+      const ecpayResponse = await fetch(
+        `http://localhost:8080/ecpayCheckout/${memberid}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(ecpaydata),
         }
-        console.log("提交的表單資料：", formData);
+      );
 
-        try {
-            const response = await fetch("http://localhost:8080/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(orderData),
-            });
+      const html = await ecpayResponse.text();
+      setHtmlContent(html);
 
-            if (!response.ok) {
-                throw new Error("Failed to save order");
-            }
+      // Create a new Blob with the HTML content
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
 
-            const result = await response.json();
-            console.log("Order saved successfully:", result);
-
-            // 成功後要導去 /CartStep4
-            navigate("/CartStep4");
-        } catch (error) {
-            console.error("Error saving order:", error.message);
-        }
-    };
+      // Redirect to the new HTML content
+      window.location.href = url;
+      // ====== 串接綠界 ======
 
 
+      // 3. 成功後跳轉下一頁
+      // navigate("/CartStep4");
+    } catch (error) {
+      console.error("Error saving order:", error.message);
+    }
+  };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                {/* StepIcon */}
-                <ShoppingcartStepIcon step={currentStep.toString()} />
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <ShoppingcartStepIcon step={currentStep.toString()} />
 
-                <div className="max-w-4xl mx-auto p-6 min-h-screen">
+        <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
+          <RecipientForm
+            register={register}
+            setValue={setValue}
+            errors={errors}
+            shipRateData={shipRate}
+            setSelectedShipRate={setSelectedShipRate}
+            phoneValue={phoneValue}
+            handlePhoneChange={handlePhoneChange}
+          />
 
-                    <RecipientForm register={register} errors={errors} shipRateData={shipRate} setSelectedShipRate={setSelectedShipRate}/>
-                        
-                    {/* <CreditForm /> */}
+          {/* <CreditForm /> */}
 
-                    <OrderSummary
-                        itemsCount={orderData.itemsCount}
-                        totalPrice={orderData.totalPrice}
-                        shippingFee={selectedShipRate}
-                        discount={orderData.totalDiscount}
-                        payableAmount={orderData.payableAmount}
-                        step={"CartStep3Credit"}
-                    />
+          <OrderSummary
+            itemsCount={orderData.itemsCount}
+            totalPrice={orderData.totalPrice}
+            shippingFee={selectedShipRate}
+            payableAmount={orderData.totalPrice + selectedShipRate}
+            itemDetails={orderData.itemDetails}
+            step={"CartStep3Credit"}
+          />
 
-                    {/* 按鈕 */}
-                    <div className="flex justify-between mt-6">
+          {/* 按鈕 */}
+          <div className="flex justify-between mt-6">
+            <Link to="/CartStep2">
+              <button
+                className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
+                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
+              >
+                返回
+              </button>
+            </Link>
 
-                        <Link to="/CartStep2">
-                            <button
-                                className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
-                                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}>
-                                返回
-                            </button>
-                        </Link>
-
-                        <button
-                            type="submit"
-                            className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
-                        >
-                            下一步
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-        </form>
-    );
+            <button
+              type="submit"
+              className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
+            >
+              信用卡付款
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
 }
 
 export default CartStep3Credit;

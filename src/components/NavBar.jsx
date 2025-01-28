@@ -2,7 +2,7 @@ import {IoSearch} from "react-icons/io5";
 import {LuUserRound} from "react-icons/lu";
 import {MdAddShoppingCart} from "react-icons/md";
 import {Link} from "react-router-dom";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useCallback } from "react";
 import {AuthContext} from "../context/AuthContext";
 
 // By 大瑋
@@ -10,10 +10,9 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 const NavBar = () => {
-    const {user, logout} = useContext(AuthContext);
-    const {navbar} = useContext(AuthContext);
-    console.log("NavBar值",navbar);
-    console.log(user)
+    // const {user, logout} = useContext(AuthContext);
+    const { user, logout, navbar, cartCount } = useContext(AuthContext);
+    // const [cartCount, setCartCount] = useState(0);
 
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
@@ -29,6 +28,27 @@ const NavBar = () => {
             }
         }
     };
+
+    // const fetchCartCount = useCallback(async () => {
+    //     if (!user) return;
+    //     try {
+    //         const response = await fetch(`http://localhost:8080/productcart/count?memberid=${user.memberId}`);
+    //         const data = await response.json();
+    //         setCartCount(data.count);
+    //         console.log(data)
+    //     } catch (error) {
+    //         console.error("獲取購物車數量失敗:", error);
+    //     }
+    // }, [user]);
+
+
+    // useEffect(() => {
+    //     fetchCartCount();
+    // }, [fetchCartCount]);
+
+
+
+
 
     if (!navbar) {
         return <p>載入中...</p>;
@@ -75,9 +95,14 @@ const NavBar = () => {
                     </button>
                 )}
 
-                <Link to="CartStep1">
-                    <button className="mx-3">
+                <Link to="CartStep1" className="">
+                    <button className="mx-3 flex items-center">
                         <MdAddShoppingCart className="text-xl"/>
+                        {cartCount > 0 && (
+                            <span className="">
+                        ({cartCount})
+                    </span>
+                        )}
                     </button>
                 </Link>
             </div>

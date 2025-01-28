@@ -58,7 +58,7 @@ function MyOrders() {
               className="h-12 py-2 px-5 bg-[#ebebeb] border border-[#ccc] text-[#686868] text-right"
               colSpan={9}
             >
-              共{orderList.length}筆訂單
+              共 {orderList.length} 筆訂單
             </td>
           </tr>
         </tfoot>
