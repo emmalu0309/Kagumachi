@@ -43,6 +43,39 @@ const Register = () => {
         }
     };
 
+    // const handleRegister = async (e) => {
+    //     e.preventDefault();
+    //     if (emailError || passwordError || !email.trim() || !password.trim()) {
+    //         alert("請修正錯誤後再提交！");
+    //         return;
+    //     }
+    //
+    //     try {
+    //         const response = await fetch(`http://localhost:8080/login/register`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ email, password }),
+    //         });
+    //
+    //         if (!response.ok) {
+    //             throw new Error("註冊失敗");
+    //         }
+    //
+    //         const data = await response.json();
+    //         // console.log("後端註冊成功:", data);
+    //
+    //         localStorage.setItem("token", data.token);
+    //         localStorage.setItem("memberId", data.memberId);
+    //         console.log(data.memberId)
+    //         login(data.token, data.memberId);
+    //
+    //         alert("註冊成功");
+    //         navigate("/MemberInfo/Profile");
+    //     } catch (err) {
+    //         console.error("註冊失敗:", err);
+    //     }
+    // };
+
     const handleRegister = async (e) => {
         e.preventDefault();
         if (emailError || passwordError || !email.trim() || !password.trim()) {
@@ -57,22 +90,26 @@ const Register = () => {
                 body: JSON.stringify({ email, password }),
             });
 
+            if (response.status === 409) {
+                alert("該信箱已被註冊！");
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error("註冊失敗");
             }
 
             const data = await response.json();
-            console.log("後端註冊成功:", data);
-
             localStorage.setItem("token", data.token);
             localStorage.setItem("memberId", data.memberId);
-            console.log(data.memberId)
             login(data.token, data.memberId);
 
             alert("註冊成功");
             navigate("/MemberInfo/Profile");
+
         } catch (err) {
             console.error("註冊失敗:", err);
+            alert("系統錯誤，請稍後再試");
         }
     };
 
