@@ -17,6 +17,21 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
         return <p>請選擇一種顏色</p>;
     }
 
+    const handleAddToCart = () => {
+        if (!user) {
+            alert("請先登入");
+            navigate(`/login`);
+            return;
+        }
+
+        addToCart({
+            memberid: Number(user?.memberId),  // 🛑 確保 user 不為 null
+            productid: Number(product.productid),
+            color: selectedColor.colorname || "default",
+            quantity: 1
+        });
+    };
+
 
     const handleMyKeep = async () => {
         if (!user) {
@@ -50,7 +65,7 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
         }
     };
 
-    const rating = Math.round(product.rating) || 0; // 四捨五入到最近的整數
+    const rating = Math.round(product.rating) || 0;
     const totalStars = 5;
 
 
@@ -124,14 +139,7 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
                         </div>
                     </div>
                     <button
-                        onClick={() => addToCart(
-                            {
-                                memberid: Number(user.memberId),
-                                productid: Number(product.productid),
-                                color: selectedColor.colorname || "default",
-                                quantity: 1
-                            }
-                        )}
+                        onClick={handleAddToCart}
                         className="flex justify-center items-center w-[100%] bg-[#5E3B25] hover:bg-[#C3A789] p-2 mb-3 mt-6 rounded-md text-white">
                         <MdOutlineShoppingCart className="m-1"/>
                         <span>加入購物車</span>
