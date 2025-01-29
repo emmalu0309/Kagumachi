@@ -9,12 +9,14 @@ import { useNavigate } from "react-router-dom";
 
 const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice, count, productid }) => {
     const { user } = useContext(AuthContext);
+    //Emma
+    const memberid = user ? user.memberId : null;
 
     // var memberid = user.memberId;
     // var [memberid, setMemberid] = useState(user.memberId);
 
     // var memberid = 101;
-    var memberid = null;
+    // var memberid = null;
 
     //Emma
     const navigate = useNavigate();
@@ -22,20 +24,29 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
     const [isLiked, setIsLiked] = useState(false);
 
     const handleLikeClick = () => {
-        if (memberid == null) {
+        // if (memberid == null) {
+        //     navigate(`/login`);
+        // } else {
+        //     if (isLiked) {
+        //         removeFavorite();
+        //     } else {
+        //         addFavorite();
+        //     }
+        // }
+
+        //Emma
+        if (!user) {
+            alert("請先登入");
             navigate(`/login`);
+            return;
+        }
+
+        if (isLiked) {
+            removeFavorite();
         } else {
-            if (isLiked) {
-                removeFavorite();  
-            } else {
-                addFavorite(); 
-            }
+            addFavorite();
         }
     };
-    // Emma
-    // const handleClick = () => {
-    //     navigate(`/productpage/${productid}`);
-    // };
 
 
     const fetchData = async () => {
@@ -61,6 +72,31 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
 
     // 添加收藏
     const addFavorite = async () => {
+        // try {
+        //     const response = await fetch(`http://localhost:8080/weikeep`, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({ memberid, productid }),
+        //     });
+        //
+        //     if (response.ok) {
+        //         setIsLiked(true); // 更新收藏状态
+        //     } else {
+        //         console.error("Failed to add favorite");
+        //     }
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
+
+    //Emma
+        if (!user) {
+            alert("請先登入");
+            navigate(`/login`);
+            return;
+        }
+
         try {
             const response = await fetch(`http://localhost:8080/weikeep`, {
                 method: "POST",
@@ -71,7 +107,7 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
             });
 
             if (response.ok) {
-                setIsLiked(true); // 更新收藏状态
+                setIsLiked(true);
             } else {
                 console.error("Failed to add favorite");
             }
@@ -82,6 +118,31 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
 
     // 取消收藏
     const removeFavorite = async () => {
+        // try {
+        //     const response = await fetch(`http://localhost:8080/weikeep`, {
+        //         method: "DELETE",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({ memberid, productid }),
+        //     });
+        //
+        //     if (response.ok) {
+        //         setIsLiked(false); // 更新收藏状态
+        //     } else {
+        //         console.error("Failed to remove favorite");
+        //     }
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
+
+        //Emma
+        if (!user) {
+            alert("請先登入");
+            navigate(`/login`);
+            return;
+        }
+
         try {
             const response = await fetch(`http://localhost:8080/weikeep`, {
                 method: "DELETE",
@@ -92,7 +153,7 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
             });
 
             if (response.ok) {
-                setIsLiked(false); // 更新收藏状态
+                setIsLiked(false);
             } else {
                 console.error("Failed to remove favorite");
             }
@@ -111,19 +172,11 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
         setIsLiked(isProductLiked);
     }, [data, productid]);
 
-    // useEffect(() => {    
-    //     setMemberid(user.memberId);    
-    // }, [memberid]);
 
 
     return (
         <>
 
-            {/* <div
-            //Emma
-            // className="w-4/5  mt-2 mx-auto items-center "
-            // onClick={handleClick}
-            > */}
             <div className="mx-auto ">
                 <div className="relative ">
                     <div className=" inline-block items-center">
@@ -176,7 +229,6 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
 
                 </div>
             </div>
-            {/* </div> */}
         </>
     )
 }

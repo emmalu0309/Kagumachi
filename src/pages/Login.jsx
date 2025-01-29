@@ -49,10 +49,10 @@ const Login = () => {
         }
     }
     return (
-        <div className="flex justify-center my-[10%]">
+        <div className="flex justify-center items-center my-[10%]">
             <form onSubmit={handleLogin} className="flex w-[60%]">
                 <div className="w-full flex">
-                    <div className="w-[60%] border-r">
+                    <div className="w-[50%] border-r">
                         <div className="text-4xl text-[#aa8670] mx-auto w-max my-10"
                              style={{fontFamily: "'DynaPuff', cursive"}}>Kagu Machi
                         </div>

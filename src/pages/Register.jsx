@@ -114,38 +114,7 @@ const Register = () => {
         }
     };
 
-    // Google 註冊
-    // const handleGoogleRegister = async () => {
-    //     try {
-    //         const userCredential = await signInWithGoogle();
-    //         const token = await userCredential.user.getIdToken();
-    //         console.log("Google 註冊成功:", userCredential.user);
-    //
-    //         const response = await fetch(`http://localhost:8080/login/register`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
-    //             },
-    //             body: JSON.stringify({email: userCredential.user.email}), // Google 註冊的 email
-    //         });
-    //
-    //         if (!response.ok) throw new Error("Google 註冊失敗");
-    //
-    //         const data = await response.json();
-    //         console.log("後端 Google 註冊成功:", data);
-    //
-    //         // 存入 localStorage 並更新登入狀態
-    //         localStorage.setItem("token", token);
-    //         localStorage.setItem("memberId", data.memberId);
-    //         login(token, data.memberId);
-    //
-    //         alert("Google 註冊成功");
-    //         navigate("/MemberInfo/Profile");
-    //     } catch (err) {
-    //         console.error("Google 註冊失敗:", err);
-    //     }
-    // };
+
     const registerDivStyle = "w-full mx-auto px-2 flex border items-center focus-within:border-2 focus-within:border-[#aa8670]";
     const registerInput = " ml-2 p-1 outline-none w-full";
     const GoogleButton = "w-[65%] flex items-center justify-center px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]";
@@ -153,7 +122,7 @@ const Register = () => {
 
 
     return (
-        <div className="flex justify-center my-[10%]">
+        <div className="flex justify-center  items-center my-[10%]">
             <form onSubmit={handleRegister} className="flex w-[60%]">
                 <div className="w-full flex">
                     <div className="w-[50%] border-r">
