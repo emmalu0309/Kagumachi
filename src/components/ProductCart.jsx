@@ -1,13 +1,23 @@
 import {FaStar} from "react-icons/fa6";
 import {MdOutlineShoppingCart} from "react-icons/md";
 import {IoIosHeartEmpty} from "react-icons/io";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
     const {user, addToCart} = useContext(AuthContext);
     const navigate = useNavigate();
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        if (product?.productid) {
+            fetch(`http://localhost:8080/product/reviews?productid=${product.productid}`)
+                .then((response) => response.json())
+                .then((data) => setReviews(data))
+                .catch((error) => console.error("Error fetching reviews:", error));
+        }
+    }, [product]);
 
     if (!product) {
         return <p >錯誤：產品資料缺失</p>;
@@ -151,6 +161,32 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
                         <span>收藏商品</span>
                     </button>
                     <div className="text-sm">{selectedColor.stock}件庫存</div>
+                </div>
+
+
+                <div className="mt-10">
+                    <h2 className="text-xl font-bold mb-3">用戶評論</h2>
+                    {reviews.length === 0 ? (
+                        <p className="text-gray-500">尚無評論</p>
+                    ) : (
+                        <div className="space-y-4">
+                            {reviews.map((review, index) => (
+                                <div key={index} className="border p-3 rounded-md">
+                                    <div className="flex items-center mb-2">
+                                        <span className="font-bold">{review.username}</span>
+                                        <span className="text-gray-500 text-sm ml-3">{review.date}</span>
+                                    </div>
+                                    <div className="flex">
+                                        {[...Array(5)].map((_, i) => (
+                                            <FaStar key={i}
+                                                    className={i < review.rating ? "text-yellow-500" : "text-gray-300"}/>
+                                        ))}
+                                    </div>
+                                    <p className="text-gray-800 mt-2">{review.comment}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
             </div>

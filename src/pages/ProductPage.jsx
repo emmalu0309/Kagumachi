@@ -142,7 +142,7 @@ const ProductPage = () => {
                                 <img
                                     src={hoveredProduct === related.productid ? secondImage : firstImage}
                                     alt={related.productname}
-                                    className="w-[200px] h-[300px] object-cover rounded-lg transition-all duration-300 mx-auto"
+                                    className="w-[200px] h-[300px] object-contain rounded-lg transition-all duration-300 mx-auto"
                                 />
                                 <p className="font-bold mt-2">{related.productname}</p>
                                 <p className="font-bold text-lg">
