@@ -15,7 +15,7 @@ function OrderSummary({ itemsCount, totalPrice, shippingFee, step, itemDetails }
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-xl font-bold"
                 >
-                    {isExpanded ? `商品明細 ▲` : `商品明細 ▼`}
+                    {isExpanded ? `購物明細 ▲` : `購物明細 ▼`}
                 </button>
             </div>
             {/* 商品列表動畫容器 */}
