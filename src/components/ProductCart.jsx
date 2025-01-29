@@ -84,15 +84,6 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
                         )}
                     </div>
 
-                    {/*<div className="flex my-3 items-center ">*/}
-                    {/*    <FaStar className="text-sm"/>*/}
-                    {/*    <FaStar className="text-sm"/>*/}
-                    {/*    <FaStar className="text-sm"/>*/}
-                    {/*    <FaStar className="text-sm"/>*/}
-                    {/*    <FaStar className="text-sm"/>*/}
-                    {/*    <div className="px-2 text-sm">5.0</div>*/}
-                    {/*    <div className="text-[rgb(60,150,187)] text-sm">({product.reviewcount ?? "沒有評論"})</div>*/}
-                    {/*</div>*/}
 
                     <div className="flex my-3 items-center">
                         {[...Array(totalStars)].map((_, index) => (

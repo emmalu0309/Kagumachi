@@ -14,6 +14,7 @@ const Login = () => {
     const {login} = useContext(AuthContext);
     // const {signInWithGoogle} = useContext(AuthContext);
     const navigate = useNavigate();
+    const [error, setError] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -35,7 +36,7 @@ const Login = () => {
             }
 
             const data = await response.json();
-            console.log("登入成功:", data);
+            // console.log("登入成功:", data);
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("memberId", data.memberId);
