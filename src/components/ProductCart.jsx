@@ -12,7 +12,7 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
 
     useEffect(() => {
         if (product?.productid) {
-            fetch(`http://localhost:8080/product/reviews?productid=${product.productid}`)
+            fetch(`http://localhost:8080/products/${product.productid}/reviews`)
                 .then((response) => response.json())
                 .then((data) => setReviews(data))
                 .catch((error) => console.error("Error fetching reviews:", error));
@@ -166,27 +166,29 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
 
                 <div className="mt-10">
                     <h2 className="text-xl font-bold mb-3">用戶評論</h2>
-                    {reviews.length === 0 ? (
-                        <p className="text-gray-500">尚無評論</p>
-                    ) : (
-                        <div className="space-y-4">
-                            {reviews.map((review, index) => (
-                                <div key={index} className="border p-3 rounded-md">
-                                    <div className="flex items-center mb-2">
-                                        <span className="font-bold">{review.username}</span>
-                                        <span className="text-gray-500 text-sm ml-3">{review.date}</span>
+                    <div className="max-h-[400px] overflow-y-auto rounded-lg">
+                        {reviews.length === 0 ? (
+                            <p className="text-gray-500">尚無評論</p>
+                        ) : (
+                            <div className="space-y-4">
+                                {reviews.map((review, index) => (
+                                    <div key={index} className="border p-3 rounded-md">
+                                        <div className="flex items-center mb-2">
+                                            <span className="font-bold">{review.username}</span>
+                                            <span className="text-gray-500 text-sm ml-3">{review.date}</span>
+                                        </div>
+                                        <div className="flex">
+                                            {[...Array(5)].map((_, i) => (
+                                                <FaStar key={i}
+                                                        className={i < review.rating ? "text-yellow-500" : "text-gray-300"}/>
+                                            ))}
+                                        </div>
+                                        <p className="text-gray-800 mt-2">{review.content}</p>
                                     </div>
-                                    <div className="flex">
-                                        {[...Array(5)].map((_, i) => (
-                                            <FaStar key={i}
-                                                    className={i < review.rating ? "text-yellow-500" : "text-gray-300"}/>
-                                        ))}
-                                    </div>
-                                    <p className="text-gray-800 mt-2">{review.comment}</p>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
 
             </div>
