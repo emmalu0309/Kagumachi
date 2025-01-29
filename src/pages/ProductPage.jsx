@@ -1,20 +1,21 @@
 import Carousel from "../components/Carousel"
 import ProductCart from "../components/ProductCart"
 import ProductDetail from "../components/ProductDetail";
-import { IoIosArrowForward } from "react-icons/io";
-import {useContext, useEffect, useState} from "react";
+import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
+import {useContext, useEffect, useRef, useState} from "react";
 import {AuthContext} from "../context/AuthContext.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 
 const ProductPage = () => {
 
-    const { productid } = useParams();
+    const {productid} = useParams();
     const [product, setProduct] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
+    const [hoveredProduct, setHoveredProduct] = useState(null);
+    const scrollRef = useRef(null);
 
     const navigate = useNavigate(); // 定義 navigate
-
 
 
     const handleClick = (relatedProductId) => {
@@ -71,6 +72,18 @@ const ProductPage = () => {
         return <p>載入中...</p>;
     }
 
+    const scrollLeft = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft -= 1000;
+        }
+    };
+
+    const scrollRight = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft += 1000;
+        }
+    };
+
     return (
         <div className="w-[90%] mx-auto mt-[2%] ">
             <div className=" flex py-1 items-center ">
@@ -99,27 +112,83 @@ const ProductPage = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-5 gap-6 mt-14">
-                {relatedProducts
-                    .filter((related) => related.productColors?.length > 0)
-                    .slice(0, 10)
-                    .map((related) => (
-                        <div
-                            key={related.productid} className="text-center"
-                            onClick={() => handleClick(related.productid)}
-                        >
-                            <img
-                                src={related.productColors[0]?.productImages?.[0]?.imageurl || "https://via.placeholder.com/150"}
-                                alt={related.productname}
-                                className="w-full h-80 object-cover"
-                            />
-                            <p className="font-bold mt-2">{related.productname}</p>
-                            <p className="font-bold text-lg">
-                                NT${related.discountprice || related.unitprice}
-                            </p>
-                        </div>
-                    ))}
+
+            <div className="relative mt-14">
+                <button
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-3 shadow-md rounded-full z-10"
+                    onClick={scrollLeft}
+                >
+                    <IoIosArrowBack size={30}/>
+                </button>
+
+                <div
+                    ref={scrollRef}
+                    className="flex overflow-x-auto scrollbar-hide space-x-6 p-2"
+                    style={{scrollBehavior: "smooth"}}
+                >
+                    {relatedProducts.slice(0, 20).map((related) => {
+                        const productImages = related.productColors[0]?.productImages || [];
+                        const firstImage = productImages[0]?.imageurl || "https://via.placeholder.com/150";
+                        const secondImage = productImages[1]?.imageurl || firstImage;
+
+                        return (
+                            <div
+                                key={related.productid}
+                                className="text-center cursor-pointer min-w-[300px] "
+                                onClick={() => handleClick(related.productid)}
+                                onMouseEnter={() => setHoveredProduct(related.productid)}
+                                onMouseLeave={() => setHoveredProduct(null)}
+                            >
+                                <img
+                                    src={hoveredProduct === related.productid ? secondImage : firstImage}
+                                    alt={related.productname}
+                                    className="w-[200px] h-[300px] object-cover rounded-lg transition-all duration-300 mx-auto"
+                                />
+                                <p className="font-bold mt-2">{related.productname}</p>
+                                <p className="font-bold text-lg">
+                                    {related.discountprice === related.unitprice ? (
+                                        <>NT${related.unitprice}</>
+                                    ) : (
+                                        <>
+                                            <span className="text-red-500">NT${related.discountprice}</span>
+                                            <span
+                                                className="text-gray-500 line-through ml-2">NT${related.unitprice}</span>
+                                        </>
+                                    )}
+                                </p>
+
+
+                                {related.productColors.length > 1 && (
+                                    <div className="flex justify-center gap-2 mt-2">
+                                        {related.productColors.map((color, index) => (
+                                            <img
+                                                key={index}
+                                                src={color.productImages[0]?.imageurl || "https://via.placeholder.com/50"}
+                                                alt={color.colorname}
+                                                className="w-10 h-10 object-cover rounded-md cursor-pointer hover:border-black"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setHoveredProduct(related.productid);
+                                                    setSelectedColor(color);
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <button
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-3 shadow-md rounded-full z-10"
+                    onClick={scrollRight}
+                >
+                    <IoIosArrowForward size={30}/>
+                </button>
             </div>
+
         </div>
 
     )

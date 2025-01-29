@@ -10,6 +10,6 @@ export default {
       'chat': ['Noto Sans Mono', 'Noto Sans TC'],
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 }
 
