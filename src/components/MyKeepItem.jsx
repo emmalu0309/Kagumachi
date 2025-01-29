@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { AuthContext } from "../context/AuthContext";
 
 function MyKeepItem({
   productid,
@@ -13,6 +14,7 @@ function MyKeepItem({
   productDetails,
   onRemove,
 }) {
+  const { user, fetchCartCount } = useContext(AuthContext);
   const [selectedColorValue, setSelectedColorValue] = useState("default");
   const [selectedColorQty, setSelectedColorQty] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -88,6 +90,8 @@ function MyKeepItem({
         setShowAnimation(false);
         setIsButtonDisabled(false);
       }, 1000);
+
+      fetchCartCount(user.memberId);
     } catch (error) {
       console.error("Error:", error);
     }
