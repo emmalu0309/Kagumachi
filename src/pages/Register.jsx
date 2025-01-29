@@ -82,12 +82,13 @@ const Register = () => {
             alert("請修正錯誤後再提交！");
             return;
         }
+        const today = new Date().toISOString().split("T")[0];
 
         try {
             const response = await fetch(`http://localhost:8080/login/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password ,registrationdate: today}),
             });
 
             if (response.status === 409) {
