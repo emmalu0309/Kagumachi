@@ -2,8 +2,7 @@
 import Slider from "react-slick";
 import React, { useState, useEffect } from "react";
 import Product1 from "./Product1";
-import { CiHeart } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa";
+
 
 const CustomArrow = ({ className, style, onClick, arrowType, isVisible }) => (
     <button
@@ -27,7 +26,7 @@ const NewProduct = () => {
     const [data, setData] = useState([]);
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/myhome/test');
+            const response = await fetch('http://localhost:8080/myhome');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -46,28 +45,46 @@ const NewProduct = () => {
         fetchData();
     }, []);
 
-    const product1list = data.map((item) => {
-        return <Product1 dataname={item.dataname}
-            productid={item.productid}
-            // supplierid={item.supplierid}
-            // dataimage={item.dataimage}
-            // datalink={item.datalink}
-            unitprice={item.unitprice}
-            discountprice={item.discountprice} 
-            productDetails={item.productdetails}
-            count={item.count}
+    // const product1list = data.map((item,index) => {
+    //     return <Product1 dataname={item.dataname}
+    //         productid={item.productid}
+    //         // supplierid={item.supplierid}
+    //         // dataimage={item.dataimage}
+    //         // datalink={item.datalink}
+    //         unitprice={item.unitprice}
+    //         discountprice={item.discountprice} 
+    //         productDetails={item.productdetails}
+    //         count={item.count}
+    //         />
+    // })
+
+
+    const product1list = data.map((item, index) => {
+        return (
+            <Product1
+                key={item.productid || index} // 添加唯一的 key
+                dataname={item.dataname}
+                productid={item.productid}
+                // supplierid={item.supplierid}
+                // dataimage={item.dataimage}
+                // datalink={item.datalink}
+                unitprice={item.unitprice}
+                discountprice={item.discountprice}
+                productDetails={item.productdetails}
+                count={item.count}
             />
-    })
+        );
+    });
 
     const settings = {
         dots: true, // 顯示下方點點
-        infinite: true, // 無限循環
+        infinite:false, // 無限循環
         speed: 500,
         slidesToShow: 5, // 每次顯示一個「頁面」
         slidesToScroll: 2, // 每次滾動一個「頁面」
         autoplay: false, // 自動播放
-        autoplaySpeed: 3000, // 每 3 秒滾動一次
-        cssEase : "liner",
+        autoplaySpeed: 5000, // 每 3 秒滾動一次
+        cssEase: "linear", 
         responsive: [
             {
                 breakpoint: 1500,
@@ -105,8 +122,8 @@ const NewProduct = () => {
                     <strong className="inline text-3xl">新品上市</strong>
                     <br />
                 </div>
-                <div className="w-4/5  mt-2 mx-auto items-center mb-10">
-                    <div className="mx-auto">
+                <div className="w-4/5  mt-2 mx-auto items-center mb-10 ">
+                    <div  className="mx-auto">
                         <Slider {...settings}>
                         {product1list}
                         </Slider>

@@ -46,16 +46,16 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
     };
 
     useEffect(() => {
-        // 設定最早貨到日期為當下日期 + 5 天
+        // 設定最早貨到日期為當下日期 + 3 天
         const today = new Date();
         const futureDate = new Date(today);
-        futureDate.setDate(today.getDate() + 5);
+        futureDate.setDate(today.getDate() + 3);
         const formattedDate = futureDate.toISOString().split("T")[0];
         setMinDate(formattedDate);
     }, []);
 
     return (
-        <div className="border p-4 bg-white shadow rounded">
+        <div className="justify-end mb-2 border-b">
             <h2 className="text-lg font-semibold mb-4">收件人資訊</h2>
 
             {/* 姓名 */}
@@ -67,7 +67,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     id="chineseName"
                     type="text"
                     placeholder="請輸入姓名"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none "
+                    className="w-[50%] px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
                     {...register("chineseName")}
                 />
                 {errors.chinese_name && (
@@ -86,7 +86,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     id="phone"
                     type="text"
                     placeholder="請輸入手機號碼"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    className="w-[50%] px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
                     {...register("phone")}
                     value={phoneValue}
                     onChange={handlePhoneChange} // 自動格式化
@@ -108,7 +108,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     <select
                         id="city"
                         value={selectedCity}
-                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none appearance-none"
                         onChange={(event) => {
                             handleCityChange(event); // 更新 selectedCity 狀態
                         }}>
@@ -132,7 +132,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     <select
                         id="district"
                         disabled={!selectedCity}
-                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none"
+                        className="w-1/2 px-4 py-2 rounded-md focus:outline-none appearance-none"
                         {...register("district")}
                     >
                         <option value="" disabled>
@@ -158,7 +158,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     id="address"
                     type="text"
                     placeholder="請輸入地址"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    className="flex-1 px-4 py-2 rounded-md focus:outline-none appearance-none"
                     {...register("address")}
                 />
                 {errors.address && (
@@ -178,7 +178,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     type="date"
                     placeholder="請輸入日期"
                     min={minDate}
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none"
+                    className="w-[25%] px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-0 text-left"
                     {...register("deliveryDate")}
                 />
                 {errors.deliveryDate && (
@@ -186,6 +186,9 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                         {errors.deliveryDate.message}
                     </p>
                 )}
+                <p className="text-sm text-gray-500 ml-[10%]">
+                    ※最早可選日期為 3 天後
+                </p>
             </div>
         </div>
     );

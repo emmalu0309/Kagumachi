@@ -111,6 +111,10 @@ function CartProductCard(props) {
       .then(() => {
         props.onDelete(props.id);
         console.log("DELECT OK");
+
+        props.delTotalCount(props.id);
+        props.delToTotalPrice(props.id);
+
         //Emma
         if (user) {
           fetchCartCount(user.memberId);
