@@ -278,6 +278,7 @@ function CartStep3Credit() {
                     <div className="flex justify-between mt-6">
                         <Link to="/CartStep2">
                             <button
+                                type="button"
                                 className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
                                 onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
                             >
