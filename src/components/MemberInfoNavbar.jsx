@@ -1,6 +1,7 @@
 import { Link, useMatch } from "react-router-dom";
 import "./MemberInfoNavbar.css";
 import useWebSocket from "../hooks/useWebSocket";
+import { useEffect } from "react";
 
 function MemberInfoNavbar({ memberId, hasNewMessage, setHasNewMessage }) {
   const isMyKeep = useMatch("/MemberInfo/MyKeep");
@@ -15,6 +16,18 @@ function MemberInfoNavbar({ memberId, hasNewMessage, setHasNewMessage }) {
     console.log("Clicking on Chat, marking messages as read");
     markMessagesAsReadFront(memberId);
   };
+
+  useEffect(() => {
+    const handleChatClickEvent = () => {
+      handleChatClick();
+    };
+
+    window.addEventListener("chatClick", handleChatClickEvent);
+
+    return () => {
+      window.removeEventListener("chatClick", handleChatClickEvent);
+    };
+  }, []);
 
   return (
     <div className="mt-5 flex justify-center">
