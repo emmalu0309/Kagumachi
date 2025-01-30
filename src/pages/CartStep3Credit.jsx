@@ -49,248 +49,253 @@ import { AuthContext } from "../context/AuthContext";
 // });
 
 function CartStep3Credit() {
-  const { user } = useContext(AuthContext);
-  const memberid = user.memberId;
-  // const memberid = 103;
+    const { user } = useContext(AuthContext);
 
-  const [htmlContent, setHtmlContent] = useState(""); // 這行綠界要用
-
-  const [currentStep, setCurrentStep] = useState(3);
-  const navigate = useNavigate();
-  const [orderData, setOrderData] = useState({
-    itemsCount: 0,
-    totalPrice: 0,
-    shippingFee: 0,
-    payableAmount: 0,
-    itemDetails: [],
-  });
-  const [shipRate, setShipRate] = useState([]);
-  const [selectedShipRate, setSelectedShipRate] = useState(0);
-
-  // 顯示預設值
-  const defaultData = {
-    chineseName: "",
-    phone: "",
-    city: "",
-    district: "",
-    address: "",
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue, // 用於更新欄位值
-    watch,
-  } = useForm({
-    // resolver: zodResolver(schema),
-    defaultValues: {
-      chineseName: defaultData.chineseName,
-      phone: defaultData.phone,
-      city: defaultData.city,
-      district: defaultData.district,
-      address: defaultData.address,
-    },
-  });
-
-  // 監聽電話欄位的值
-  const phoneValue = watch("phone");
-
-  // 自動格式化電話號碼
-  const handlePhoneChange = (event) => {
-    const rawValue = event.target.value.replace(/\D/g, ""); // 移除非數字
-    const formattedValue = rawValue
-      .replace(/^(\d{4})(\d{3})(\d{0,3}).*$/, "$1-$2-$3")
-      .replace(/-$/, ""); // 格式化為 0912-345-678
-    setValue("phone", formattedValue); // 更新電話欄位值
-  };
-
-  // 獲取訂單摘要數據
-  const fetchOrderSummary = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/ordersummary/cartstep2/${memberid}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch order summary.");
-      }
-      const data = await response.json();
-      setOrderData(data); // 更新訂單摘要數據
-    } catch (error) {
-      console.error("Error fetching order summary:", error);
+    if (!user) {
+        return <div>載入會員</div>;
     }
-  };
 
-  // 獲取運費數據
-  const fetchShipRate = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/shiprate`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch shiprate.");
-      }
-      const data = await response.json();
-      // console.log(data);
-      setShipRate(data);
-    } catch (error) {
-      console.error("Error fetching shiprate.", error);
-    }
-  };
+    const memberid = user.memberId;
+    // const memberid = 103;
 
-  useEffect(() => {
-    fetchOrderSummary();
-    fetchShipRate();
-  }, [memberid]);
+    const [htmlContent, setHtmlContent] = useState(""); // 這行綠界要用
 
-  // 表單送出時的處理
-  const onSubmit = async (formData) => {
-    // console.log("orderData:", orderData);
-    localStorage.setItem("orderserial", memberid.toString() + Date.now()); // 存訂單編號在localstorage
-    const completeOrderData = {
-      orderstatus: "準備中",
-      paymentmethod: "信用卡付款",
-      shippingmethod: "宅配",
-      ordercity: formData.city,
-      address: formData.address,
-      recipient: formData.chineseName,
-      phone: formData.phone,
-      district: formData.district,
-      estimateddeliverydate: formData.deliveryDate,
-      totalprice: orderData.totalPrice + selectedShipRate,
-      orderserial: localStorage.getItem("orderserial"),
+    const [currentStep, setCurrentStep] = useState(3);
+    const navigate = useNavigate();
+    const [orderData, setOrderData] = useState({
+        itemsCount: 0,
+        totalPrice: 0,
+        shippingFee: 0,
+        payableAmount: 0,
+        itemDetails: [],
+    });
+    const [shipRate, setShipRate] = useState([]);
+    const [selectedShipRate, setSelectedShipRate] = useState(0);
+
+    // 顯示預設值
+    const defaultData = {
+        chineseName: "",
+        phone: "",
+        city: "",
+        district: "",
+        address: "",
     };
-    // console.log("提交的完整訂單資料：", completeOrderData);
 
-    try {
-      // 1. 先創建訂單主資料
-      const response = await fetch(`http://localhost:8080/order/${memberid}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue, // 用於更新欄位值
+        watch,
+    } = useForm({
+        // resolver: zodResolver(schema),
+        defaultValues: {
+            chineseName: defaultData.chineseName,
+            phone: defaultData.phone,
+            city: defaultData.city,
+            district: defaultData.district,
+            address: defaultData.address,
         },
-        body: JSON.stringify(completeOrderData),
-      });
+    });
 
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.error("後端返回的錯誤信息：", errorMessage);
-        throw new Error("Failed to save order");
-      }
+    // 監聽電話欄位的值
+    const phoneValue = watch("phone");
 
-      // 獲取返回的 orderId
-      const orderId = await response.json();
-      console.log("Order created successfully");
+    // 自動格式化電話號碼
+    const handlePhoneChange = (event) => {
+        const rawValue = event.target.value.replace(/\D/g, ""); // 移除非數字
+        const formattedValue = rawValue
+            .replace(/^(\d{4})(\d{3})(\d{0,3}).*$/, "$1-$2-$3")
+            .replace(/-$/, ""); // 格式化為 0912-345-678
+        setValue("phone", formattedValue); // 更新電話欄位值
+    };
 
-      // 2. 使用 orderId 提交訂單詳情
-      const orderDetails = orderData.itemDetails.map((item) => ({
-        productId: item.productId,
-        colorsId: item.colorsId,
-        quantity: item.quantity,
-      }));
-      // console.log("Order details being submitted:", orderDetails);
-
-      const detailResponse = await fetch(
-        `http://localhost:8080/orderdetail/${orderId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderDetails),
+    // 獲取訂單摘要數據
+    const fetchOrderSummary = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:8080/ordersummary/cartstep2/${memberid}`
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch order summary.");
+            }
+            const data = await response.json();
+            setOrderData(data); // 更新訂單摘要數據
+        } catch (error) {
+            console.error("Error fetching order summary:", error);
         }
-      );
+    };
 
-      if (!detailResponse.ok) {
-        const errorMessage = await detailResponse.text();
-        console.error("後端返回的錯誤信息：", errorMessage);
-        throw new Error("Failed to save order details");
-      }
-      console.log("Order details saved successfully");
-
-      // ====== 串接綠界 ======
-      const ecpaydata = {
-        totalPrice: orderData.totalPrice + selectedShipRate,
-        orderDetailDTOs: orderDetails,
-      };
-
-      const ecpayResponse = await fetch(
-        `http://localhost:8080/ecpayCheckout/${memberid}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(ecpaydata),
+    // 獲取運費數據
+    const fetchShipRate = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/shiprate`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch shiprate.");
+            }
+            const data = await response.json();
+            // console.log(data);
+            setShipRate(data);
+        } catch (error) {
+            console.error("Error fetching shiprate.", error);
         }
-      );
+    };
 
-      const html = await ecpayResponse.text();
-      setHtmlContent(html);
+    useEffect(() => {
+        fetchOrderSummary();
+        fetchShipRate();
+    }, [memberid]);
 
-      // Create a new Blob with the HTML content
-      const blob = new Blob([html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
+    // 表單送出時的處理
+    const onSubmit = async (formData) => {
+        // console.log("orderData:", orderData);
+        localStorage.setItem("orderserial", memberid.toString() + Date.now()); // 存訂單編號在localstorage
+        const completeOrderData = {
+            orderstatus: "準備中",
+            paymentmethod: "信用卡付款",
+            shippingmethod: "宅配",
+            ordercity: formData.city,
+            address: formData.address,
+            recipient: formData.chineseName,
+            phone: formData.phone,
+            district: formData.district,
+            estimateddeliverydate: formData.deliveryDate,
+            totalprice: orderData.totalPrice + selectedShipRate,
+            orderserial: localStorage.getItem("orderserial"),
+        };
+        // console.log("提交的完整訂單資料：", completeOrderData);
 
-      // Redirect to the new HTML content
-      window.location.href = url;
-      // ====== 串接綠界 ======
+        try {
+            // 1. 先創建訂單主資料
+            const response = await fetch(`http://localhost:8080/order/${memberid}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(completeOrderData),
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                console.error("後端返回的錯誤信息：", errorMessage);
+                throw new Error("Failed to save order");
+            }
+
+            // 獲取返回的 orderId
+            const orderId = await response.json();
+            console.log("Order created successfully");
+
+            // 2. 使用 orderId 提交訂單詳情
+            const orderDetails = orderData.itemDetails.map((item) => ({
+                productId: item.productId,
+                colorsId: item.colorsId,
+                quantity: item.quantity,
+            }));
+            // console.log("Order details being submitted:", orderDetails);
+
+            const detailResponse = await fetch(
+                `http://localhost:8080/orderdetail/${orderId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(orderDetails),
+                }
+            );
+
+            if (!detailResponse.ok) {
+                const errorMessage = await detailResponse.text();
+                console.error("後端返回的錯誤信息：", errorMessage);
+                throw new Error("Failed to save order details");
+            }
+            console.log("Order details saved successfully");
+
+            // ====== 串接綠界 ======
+            const ecpaydata = {
+                totalPrice: orderData.totalPrice + selectedShipRate,
+                orderDetailDTOs: orderDetails,
+            };
+
+            const ecpayResponse = await fetch(
+                `http://localhost:8080/ecpayCheckout/${memberid}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(ecpaydata),
+                }
+            );
+
+            const html = await ecpayResponse.text();
+            setHtmlContent(html);
+
+            // Create a new Blob with the HTML content
+            const blob = new Blob([html], { type: "text/html" });
+            const url = URL.createObjectURL(blob);
+
+            // Redirect to the new HTML content
+            window.location.href = url;
+            // ====== 串接綠界 ======
 
 
-      // 3. 成功後跳轉下一頁
-      // navigate("/CartStep4");
-    } catch (error) {
-      console.error("Error saving order:", error.message);
-    }
-  };
+            // 3. 成功後跳轉下一頁
+            // navigate("/CartStep4");
+        } catch (error) {
+            console.error("Error saving order:", error.message);
+        }
+    };
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <ShoppingcartStepIcon step={currentStep.toString()} />
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+                <ShoppingcartStepIcon step={currentStep.toString()} />
 
-        <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
-          <RecipientForm
-            register={register}
-            setValue={setValue}
-            errors={errors}
-            shipRateData={shipRate}
-            setSelectedShipRate={setSelectedShipRate}
-            phoneValue={phoneValue}
-            handlePhoneChange={handlePhoneChange}
-          />
+                <div className="max-w-[55%] mx-auto py-6 px-10 mt-10 border border-gray-200  text-gray-500">
+                    <RecipientForm
+                        register={register}
+                        setValue={setValue}
+                        errors={errors}
+                        shipRateData={shipRate}
+                        setSelectedShipRate={setSelectedShipRate}
+                        phoneValue={phoneValue}
+                        handlePhoneChange={handlePhoneChange}
+                    />
 
-          {/* <CreditForm /> */}
+                    {/* <CreditForm /> */}
 
-          <OrderSummary
-            itemsCount={orderData.itemsCount}
-            totalPrice={orderData.totalPrice}
-            shippingFee={selectedShipRate}
-            payableAmount={orderData.totalPrice + selectedShipRate}
-            itemDetails={orderData.itemDetails}
-            step={"CartStep3Credit"}
-          />
+                    <OrderSummary
+                        itemsCount={orderData.itemsCount}
+                        totalPrice={orderData.totalPrice}
+                        shippingFee={selectedShipRate}
+                        payableAmount={orderData.totalPrice + selectedShipRate}
+                        itemDetails={orderData.itemDetails}
+                        step={"CartStep3Credit"}
+                    />
 
-          {/* 按鈕 */}
-          <div className="flex justify-between mt-6">
-            <Link to="/CartStep2">
-              <button
-                className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
-                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
-              >
-                返回
-              </button>
-            </Link>
+                    {/* 按鈕 */}
+                    <div className="flex justify-between mt-6">
+                        <Link to="/CartStep2">
+                            <button
+                                className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
+                                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
+                            >
+                                返回
+                            </button>
+                        </Link>
 
-            <button
-              type="submit"
-              className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
-            >
-              信用卡付款
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
+                        <button
+                            type="submit"
+                            className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
+                        >
+                            信用卡付款
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    );
 }
 
 export default CartStep3Credit;

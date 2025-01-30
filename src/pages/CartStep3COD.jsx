@@ -44,6 +44,9 @@ import { AuthContext } from "../context/AuthContext";
 
 function CartStep3COD() {
     const { user } = useContext(AuthContext);
+    if (!user) {
+        return <div>載入會員</div>;
+    }
     const memberid = user.memberId;
     // const memberid = 103;
 
@@ -146,8 +149,8 @@ function CartStep3COD() {
             shippingmethod: "宅配",
             ordercity: formData.city,
             address: formData.address,
-            recipient: formData.chineseName, 
-            phone: formData.phone, 
+            recipient: formData.chineseName,
+            phone: formData.phone,
             district: formData.district,
             estimateddeliverydate: formData.deliveryDate,
             totalprice: orderData.payableAmount + selectedShipRate,
@@ -226,7 +229,7 @@ function CartStep3COD() {
                         totalPrice={orderData.totalPrice}
                         shippingFee={selectedShipRate}
                         payableAmount={orderData.totalPrice + selectedShipRate}
-                        itemDetails={orderData.itemDetails} 
+                        itemDetails={orderData.itemDetails}
                         step={"CartStep3COD"}
                     />
 
