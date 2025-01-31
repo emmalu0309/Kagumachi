@@ -18,30 +18,33 @@ const useWebSocket = (memberId, onMessageReceived) => {
       },
       webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
       debug: (str) => {
-        console.log("STOMP: " + str);
+        // console.log("STOMP: " + str);
       },
       onConnect: (frame) => {
-        console.log("WebSocket connected:", frame);
+        // console.log("WebSocket connected:", frame);
         stompClientRef.current = client;
         client.subscribe("/topic/messages/" + memberId, (messageOutput) => {
           const message = JSON.parse(messageOutput.body);
-          console.log("Received message from server:", message);
+          // console.log("Received message from server:", message);
+          if (!message.id) {
+            message.id = Date.now(); // 確保訊息有唯一的 id
+          }
           onMessageReceivedRef.current(message);
         });
       },
       onStompError: (frame) => {
-        console.error("Broker reported error: " + frame.headers["message"]);
-        console.error("Additional details: " + frame.body);
+        // console.error("Broker reported error: " + frame.headers["message"]);
+        // console.error("Additional details: " + frame.body);
       },
       onWebSocketClose: (event) => {
-        console.log("WebSocket disconnected:", event);
+        // console.log("WebSocket disconnected:", event);
       },
     });
 
     client.activate();
 
     return () => {
-      console.log("Disconnecting WebSocket");
+      // console.log("Disconnecting WebSocket");
       if (stompClientRef.current) {
         stompClientRef.current.deactivate();
       }
@@ -50,12 +53,12 @@ const useWebSocket = (memberId, onMessageReceived) => {
 
   const markMessagesAsReadFront = useCallback((userId) => {
     if (stompClientRef.current && stompClientRef.current.connected) {
-      console.log(`Marking messages as read for front site, userId: ${userId}`);
+      // console.log(`Marking messages as read for front site, userId: ${userId}`);
       stompClientRef.current.publish({
         destination: "/app/markAsReadFront",
         body: JSON.stringify(userId),
       });
-      console.log("Message sent to /app/markAsReadFront");
+      // console.log("Message sent to /app/markAsReadFront");
     } else {
       // console.error("WebSocket is not connected, retrying...");
       setTimeout(() => markMessagesAsReadFront(userId), 1000);

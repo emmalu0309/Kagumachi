@@ -52,12 +52,12 @@ const ChatWindow = ({ messages, memberId }) => {
       renderedMessages.push(
         <div
           key={index}
-          className={`mt-3 flex ${isSender ? "justify-end" : "justify-start"} ${msg.isfrontread ? "" : "font-bold"}`}
+          className={`mt-3 flex ${isSender ? "justify-end" : "justify-start"}`}
         >
           <div
-            className={`relative p-3 rounded break-words whitespace-pre-wrap ${
-              isSender ? "bg-[#E0F2FC] text-right" : "bg-[#FBDCEA] text-left"
-            } rounded-lg font-chat text-lg`}
+            className={`relative p-3 rounded break-words whitespace-pre-wrap max-w-[75%] ${
+              isSender ? "bg-[#E0F2FC]" : "bg-[#FBDCEA]"
+            } rounded-lg font-chat text-lg text-left`}
           >
             {msg.content}
             <div
