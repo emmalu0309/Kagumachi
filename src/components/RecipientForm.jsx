@@ -20,15 +20,24 @@ const cityDistrictData = {
     宜蘭縣: ["宜蘭市", "羅東鎮", "蘇澳鎮", "頭城鎮", "礁溪鄉", "壯圍鄉", "員山鄉", "冬山鄉", "五結鄉", "三星鄉", "大同鄉", "南澳鄉"],
     花蓮縣: ["花蓮市", "鳳林鎮", "玉里鎮", "新城鄉", "吉安鄉", "壽豐鄉", "光復鄉", "豐濱鄉", "瑞穗鄉", "萬榮鄉", "卓溪鄉"],
     台東縣: ["台東市", "成功鎮", "關山鎮", "卑南鄉", "鹿野鄉", "池上鄉", "東河鄉", "長濱鄉", "太麻里鄉", "大武鄉", "綠島鄉", "海端鄉", "延平鄉", "金峰鄉", "達仁鄉"],
+    澎湖縣: ["馬公市", "湖西鄉", "白沙鄉", "西嶼鄉", "望安鄉", "七美鄉"],
     金門縣: ["金城鎮", "金湖鎮", "金沙鎮", "金寧鄉", "烈嶼鄉", "烏坵鄉"],
-    連江縣: ["南竿鄉", "北竿鄉", "莒光鄉", "東引鄉"],
-    澎湖縣: ["馬公市", "湖西鄉", "白沙鄉", "西嶼鄉", "望安鄉", "七美鄉"]
+    連江縣: ["南竿鄉", "北竿鄉", "莒光鄉", "東引鄉"]
 };
 
 const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, phoneValue, handlePhoneChange, setValue }) => {
     const [selectedCity, setSelectedCity] = useState("");
     const [districts, setDistricts] = useState([]);
     const [minDate, setMinDate] = useState("");
+
+    useEffect(() => {
+        // 設定最早貨到日期為當下日期 + 3 天
+        const today = new Date();
+        const futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + 3);
+        const formattedDate = futureDate.toISOString().split("T")[0];
+        setMinDate(formattedDate);
+    }, []);
 
     const handleCityChange = (event) => {
         const city = event.target.value;
@@ -45,34 +54,25 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
         }
     };
 
-    useEffect(() => {
-        // 設定最早貨到日期為當下日期 + 3 天
-        const today = new Date();
-        const futureDate = new Date(today);
-        futureDate.setDate(today.getDate() + 3);
-        const formattedDate = futureDate.toISOString().split("T")[0];
-        setMinDate(formattedDate);
-    }, []);
-
     return (
         <div className="justify-end mb-2 border-b">
             <h2 className="text-lg font-semibold mb-4">收件人資訊</h2>
 
             {/* 姓名 */}
             <div className="mb-4 flex items-center">
-                <label className="w-1/6 text-gray-700 text-base" htmlFor="chinese_name">
+                <label className="w-1/6 text-gray-700 text-base" htmlFor="chineseName">
                     姓名
                 </label>
                 <input
                     id="chineseName"
                     type="text"
                     placeholder="請輸入姓名"
-                    className="w-[50%] px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
+                    className="w-[50%] flex-1 px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
                     {...register("chineseName")}
                 />
-                {errors.chinese_name && (
+                {errors.chineseName && (
                     <p className="inline ml-4 text-red-500">
-                        {errors.chinese_name.message}
+                        {errors.chineseName.message}
                     </p>
                 )}
             </div>
@@ -86,7 +86,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     id="phone"
                     type="text"
                     placeholder="請輸入手機號碼"
-                    className="w-[50%] px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
+                    className="w-[50%] flex-1 px-4 py-2 rounded-md focus:outline-none focus:ring-0 appearance-none"
                     {...register("phone")}
                     value={phoneValue}
                     onChange={handlePhoneChange} // 自動格式化
@@ -158,7 +158,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     id="address"
                     type="text"
                     placeholder="請輸入地址"
-                    className="flex-1 px-4 py-2 rounded-md focus:outline-none appearance-none"
+                    className="w-[50%] flex-1 px-4 py-2 rounded-md focus:outline-none appearance-none"
                     {...register("address")}
                 />
                 {errors.address && (
@@ -173,23 +173,30 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                 <label className="w-1/6 text-gray-700 text-base" htmlFor="deliveryDate">
                     希望送達日期
                 </label>
-                <input
-                    id="deliveryDate"
-                    type="date"
-                    placeholder="請輸入日期"
-                    min={minDate}
-                    className="w-[25%] px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-0 text-left"
-                    {...register("deliveryDate")}
-                />
-                {errors.deliveryDate && (
-                    <p className="inline ml-4 text-red-500">
-                        {errors.deliveryDate.message}
-                    </p>
-                )}
-                <p className="text-sm text-gray-500 ml-[10%]">
+                <div className="w-[50%] flex-1 relative">
+                    <input
+                        id="deliveryDate"
+                        type="date"
+                        placeholder="請輸入日期"
+                        min={minDate}
+                        className="w-[47%] px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-0 text-left appearance-none"
+                        {...register("deliveryDate")}
+                    />
+                    {errors.deliveryDate && (
+                        <p className="absolute right-0 top-1/2 transform -translate-y-1/2 text-red-500 text-right">
+                            {errors.deliveryDate.message}
+                        </p>
+                    )}
+                </div>
+            </div>
+            {/* 註記 */}
+            <div className="mb-1 flex items-center">
+                <span className="w-[18.375%]"></span>
+                <p className="text-xs text-[#5E3B25] ">
                     ※最早可選日期為 3 天後
                 </p>
             </div>
+
         </div>
     );
 };

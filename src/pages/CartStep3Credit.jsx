@@ -5,58 +5,50 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import ShoppingcartStepIcon from "../components/ShoppingcartStepIcon";
 import RecipientForm from "../components/RecipientForm";
-import CreditForm from "../components/CreditForm";
 import OrderSummary from "../components/OrderSummary";
 import { AuthContext } from "../context/AuthContext";
 
-// const schema = z.object({
-//     chineseName: z
-//         .string()
-//         .nonempty("請輸入名字")
-//         .regex(
-//             /^[\u4e00-\u9fa5]+$/, "必須皆為中文字"
-//         ),
-//     phone: z
-//         .string()
-//         .regex(
-//             /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/,
-//             "請輸入有效的手機號碼，必須為09開頭的10碼數字"
-//         ),
-//     city: z
-//         .string()
-//         .nonempty("請選擇縣市"),
-//     district: z
-//         .string()
-//         .nonempty("請選擇地區"),
-//     address: z
-//         .string()
-//         .nonempty("請輸入地址"),
-//     deliveryDate: z
-//         .string()
-//         .nonempty("請選擇日期")
-//         .refine((value) => {
-//             // 必須大於等於 3 天後
-//             const chosenDate = new Date(value);
-//             const todayPlus3 = new Date();
-//             todayPlus3.setDate(todayPlus3.getDate() + 3);
-//             return chosenDate >= todayPlus3;
-//         }, "日期必須大於等於今日起 3 天之後"),
-
-//     itemsCount: z.number(),
-//     totalPrice: z.number(),
-//     shippingFee: z.number(),
-//     payableAmount: z.number(),
-// });
+const schema = z.object({
+    chineseName: z
+        .string()
+        .nonempty("請輸入姓名")
+        .regex(
+            /^[\u4e00-\u9fa5]+$/, "必須皆為中文字"
+        ),
+    phone: z
+        .string()
+        .nonempty("請輸入手機號碼")
+        .regex(
+            /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/,
+            "請輸入有效的手機號碼"
+        ),
+    city: z
+        .string()
+        .nonempty("請選擇縣市"),
+    district: z
+        .string()
+        .nonempty("請選擇地區"),
+    address: z
+        .string()
+        .nonempty("請輸入地址"),
+    deliveryDate: z
+        .string()
+        .nonempty("請選擇日期")
+        .refine((value) => {
+            // 必須大於等於 3 天後
+            const chosenDate = new Date(value);
+            const todayPlus3 = new Date();
+            todayPlus3.setDate(todayPlus3.getDate() + 3);
+            return chosenDate >= todayPlus3;
+        }, "日期必須大於等於今日起 3 天之後"),
+});
 
 function CartStep3Credit() {
     const { user } = useContext(AuthContext);
-
     if (!user) {
         return <div>載入會員</div>;
     }
-
     const memberid = user.memberId;
-    // const memberid = 103;
 
     const [htmlContent, setHtmlContent] = useState(""); // 這行綠界要用
 
@@ -88,7 +80,8 @@ function CartStep3Credit() {
         setValue, // 用於更新欄位值
         watch,
     } = useForm({
-        // resolver: zodResolver(schema),
+        resolver: zodResolver(schema),
+        mode: "onChange", // 即時驗證
         defaultValues: {
             chineseName: defaultData.chineseName,
             phone: defaultData.phone,
@@ -104,10 +97,12 @@ function CartStep3Credit() {
     // 自動格式化電話號碼
     const handlePhoneChange = (event) => {
         const rawValue = event.target.value.replace(/\D/g, ""); // 移除非數字
+        if (rawValue.length > 10) return; // 防止超過 10 碼
+
         const formattedValue = rawValue
             .replace(/^(\d{4})(\d{3})(\d{0,3}).*$/, "$1-$2-$3")
             .replace(/-$/, ""); // 格式化為 0912-345-678
-        setValue("phone", formattedValue); // 更新電話欄位值
+        setValue("phone", formattedValue, { shouldValidate: true }); // 更新電話欄位值
     };
 
     // 獲取訂單摘要數據
@@ -194,14 +189,13 @@ function CartStep3Credit() {
             // console.log("Order details being submitted:", orderDetails);
 
             const detailResponse = await fetch(
-                `http://localhost:8080/orderdetail/${orderId}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(orderDetails),
-                }
+                `http://localhost:8080/orderdetail/${orderId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderDetails),
+            }
             );
 
             if (!detailResponse.ok) {
@@ -262,8 +256,6 @@ function CartStep3Credit() {
                         phoneValue={phoneValue}
                         handlePhoneChange={handlePhoneChange}
                     />
-
-                    {/* <CreditForm /> */}
 
                     <OrderSummary
                         itemsCount={orderData.itemsCount}
