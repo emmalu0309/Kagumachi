@@ -1,6 +1,6 @@
 // by 大瑋
-import React, {useState, useEffect} from "react";
-import {useLocation} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import Product1 from "../components/Product1";
 
 const PAGE_SIZE = 16; // 每頁顯示的商品數量
@@ -13,40 +13,45 @@ export default function SearchTwo() {
     const query = queryParams.get('query');
 
     const categoryMap = {
-        '衣櫃': {main: 1, sub: 1},
-        '鞋櫃': {main: 1, sub: 2},
-        '書櫃': {main: 1, sub: 3},
-        '櫥櫃': {main: 1, sub: 4},
-        '電視櫃': {main: 1, sub: 5},
-        '浴櫃': {main: 1, sub: 6},
-        '餐桌': {main: 2, sub: 7},
-        '茶几': {main: 2, sub: 8},
-        '書桌': {main: 2, sub: 9},
-        '升降桌': {main: 2, sub: 10},
-        '餐椅': {main: 3, sub: 11},
-        '小椅凳': {main: 3, sub: 12},
-        '辦公椅': {main: 3, sub: 13},
-        '藤椅': {main: 3, sub: 14},
-        '吧台椅': {main: 3, sub: 15},
-        '單人沙發': {main: 4, sub: 16},
-        '雙人沙發': {main: 4, sub: 17},
-        'L型沙發': {main: 4, sub: 18},
-        '矮燈': {main: 5, sub: 19},
-        '吊燈': {main: 5, sub: 20},
-        '檯燈': {main: 5, sub: 21},
-        '壁燈': {main: 5, sub: 22},
-        '床架': {main: 6, sub: 23},
-        '床墊': {main: 6, sub: 24},
-        '床包/棉被/枕頭': {main: 6, sub: 25}
+        '衣櫃': { main: 1, sub: 1 },
+        '鞋櫃': { main: 1, sub: 2 },
+        '書櫃': { main: 1, sub: 3 },
+        '櫥櫃': { main: 1, sub: 4 },
+        '電視櫃': { main: 1, sub: 5 },
+        '浴櫃': { main: 1, sub: 6 },
+        '餐桌': { main: 2, sub: 7 },
+        '茶几': { main: 2, sub: 8 },
+        '書桌': { main: 2, sub: 9 },
+        '升降桌': { main: 2, sub: 10 },
+        '餐椅': { main: 3, sub: 11 },
+        '小椅凳': { main: 3, sub: 12 },
+        '辦公椅': { main: 3, sub: 13 },
+        '電競椅': { main: 3, sub: 14 },
+        '吧台椅': { main: 3, sub: 15 },
+        '單人沙發': { main: 4, sub: 16 },
+        '雙人沙發': { main: 4, sub: 17 },
+        'L型沙發': { main: 4, sub: 18 },
+        '吸頂燈': { main: 5, sub: 19 },
+        '吊燈': { main: 5, sub: 20 },
+        '檯燈': { main: 5, sub: 21 },
+        '壁燈': { main: 5, sub: 22 },
+        '床架': { main: 6, sub: 23 },
+        '床墊': { main: 6, sub: 24 },
+        '床包/棉被/枕頭': { main: 6, sub: 25 }
     };
 
     const [currentPage, setCurrentPage] = useState(1);
     const [data, setData] = useState([]);
     const [count, setCount] = useState(0);
     const [priceRange, setPriceRange] = useState("");
+    const [product1list, setProduct1list] = useState([]);
+
+    const [totalPages, settotalPages] = useState(1);
+    const [startIndex, setstartIndex] = useState(0);
+    const [currentProducts, setcurrentProducts] = useState([]);
 
     const fetchData = async () => {
-        var {main, sub} = categoryMap[query] || {main: 0, sub: 0};
+        var { main, sub } = categoryMap[query] || { main: 0, sub: 0 };
 
         try {
             var response;
@@ -73,54 +78,103 @@ export default function SearchTwo() {
             }
 
             const result = await response.json();
-
-            console.log(result);
-            setCount(result[0].count);
-            setData(result);
+            if (result.length != 0) {
+                setCount(result[0].count);
+                setData(result);
+            } else {
+                setCount(0);
+                setData([]);
+            }
             // console.log(data);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
+
+    // useEffect(() => {
+    //     fetchData();
+    //     setCurrentPage(1);
+    // }, [query, priceRange]);
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, [query, priceRange, data]);
+
+    // // const totalPages = Math.ceil(data.length / PAGE_SIZE); 
+    // // const startIndex = (currentPage - 1) * PAGE_SIZE;
+    // // const currentProducts = data.slice(startIndex, startIndex + PAGE_SIZE); 
+    // // const product1list = currentProducts.map((item) => {
+    // //     return (
+    // //         <Product1
+    // //             //Emma
+    // //             key={item.productid}
+    // //             dataname={item.dataname}
+    // //             productid={item.productid}
+    // //             // supplierid={item.supplierid}
+    // //             // dataimage={item.dataimage}
+    // //             // datalink={item.datalink}
+    // //             unitprice={item.unitprice}
+    // //             discountprice={item.discountprice}
+    // //             productDetails={item.productdetails}
+    // //             count={item.count}
+    // //         />
+    // //     );
+    // // });
+
+    // useEffect(() => {
+    //     settotalPages(Math.ceil(data.length / PAGE_SIZE)==0?1:Math.ceil(data.length / PAGE_SIZE));
+    //     setstartIndex((currentPage - 1) * PAGE_SIZE);
+    //     setcurrentProducts(data.slice(startIndex, startIndex + PAGE_SIZE));
+    //     setProduct1list(currentProducts.map((item) => (
+    //         <Product1
+    //             key={item.productid}
+    //             dataname={item.dataname}
+    //             productid={item.productid}
+    //             unitprice={item.unitprice}
+    //             discountprice={item.discountprice}
+    //             productDetails={item.productdetails}
+    //             count={item.count}
+    //         />
+    //     )));
+    // }, [data, query, priceRange]);
+
+
     useEffect(() => {
         fetchData();
+        setCurrentPage(1);
     }, [query, priceRange]);
 
 
-    const product1list = data.map((item) => {
-        return (
+    useEffect(() => {
+        const total = Math.ceil(data.length / PAGE_SIZE);
+        settotalPages(total === 0 ? 1 : total);
+    
+        const startIdx = (currentPage - 1) * PAGE_SIZE;
+        const slicedProducts = data.slice(startIdx, startIdx + PAGE_SIZE);
+    
+        setcurrentProducts(slicedProducts); 
+    
+        setProduct1list(slicedProducts.map((item) => (
             <Product1
-                //Emma
                 key={item.productid}
                 dataname={item.dataname}
                 productid={item.productid}
-                // supplierid={item.supplierid}
-                // dataimage={item.dataimage}
-                // datalink={item.datalink}
                 unitprice={item.unitprice}
                 discountprice={item.discountprice}
                 productDetails={item.productdetails}
                 count={item.count}
             />
-        );
-    });
+        )));
+    }, [data, currentPage]);
 
-
-    const totalPages = Math.ceil(count / PAGE_SIZE);
-    // const startIndex = (currentPage - 1) * PAGE_SIZE;
-    // const currentProducts = products.slice(startIndex, startIndex + PAGE_SIZE);
 
     const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
+        setCurrentPage(prev => Math.min(prev + 1, totalPages));
     };
 
     const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
+        setCurrentPage(prev => Math.max(prev - 1, 1));
     };
 
     const [filter, setFilter] = useState("排序方式");
@@ -141,10 +195,14 @@ export default function SearchTwo() {
     const priceFilterChange = (event) => {
         const selectedValue = parseInt(event.target.value);
         setPriceRange(selectedValue);
-        console.log(selectedValue);
-
+        
     };
 
+    // useEffect(() => {
+    //     // console.log("Current Page:", currentPage);
+    //     // console.log("Total Pages:", totalPages);
+    //     // setCurrentPage(1);
+    // }, [currentPage, totalPages]);
 
     return (
         <>

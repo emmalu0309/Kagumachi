@@ -5,7 +5,11 @@ export default {
     './index.html',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'color1' : '#aa8670',
+      },
+    },
     fontFamily: {
       'chat': ['Noto Sans Mono', 'Noto Sans TC'],
     },

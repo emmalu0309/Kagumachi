@@ -182,8 +182,8 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
                     <div className=" inline-block items-center">
                         <a
                             href={`http://localhost:5173/Kagumachi/productpage/${productid}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            // target="_blank" //跳轉關閉
+                            // rel="noopener noreferrer"
                         >
                             
                             <img

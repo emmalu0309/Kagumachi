@@ -47,6 +47,24 @@ const Mid = () => {
     autoplay: false,      // 自動播放
     autoplaySpeed: 4000, // 自動播放間隔時間 (毫秒)
     cssEase: "linear", 
+    // centerMode: false, // 讓中間的卡片置中，並且有間隔
+    // centerPadding: "50px", // 設定卡片間距
+    // responsive: [
+    //   {
+    //     breakpoint: 700,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       centerPadding: "30px",
+    //     }
+    //   },
+    //   {
+    //     breakpoint: 500,
+    //     settings: {
+    //       slidesToShow: 1,
+    //       centerPadding: "20px",
+    //     }
+    //   }
+    // ],
     prevArrow: <CustomArrow arrowType="prev" isVisible={isHovered} />, // 自定義左箭頭
     nextArrow: <CustomArrow arrowType="next" isVisible={isHovered} />, // 自定義右箭頭
   };
@@ -107,14 +125,14 @@ const Mid = () => {
 
   return (
     <div
-      className="p-3 w-4/5 mx-auto relative"
+      className=" w-4/5 mx-auto  gap-6  flex-row " 
       onMouseEnter={() => setIsHovered(true)} // 滑鼠進入
       onMouseLeave={() => setIsHovered(false)} // 滑鼠離開
     >
       <Slider {...settings}>{slides.map((slide, index) => (
         <div
           key={index}
-          className="relative max-w-lg mx-auto bg-green-200 text-white rounded-2xl overflow-hidden shadow-lg h-[450px]" 
+          className="relative max-w-md mx-4 bg-color1 text-white rounded-2xl overflow-hidden shadow-lg h-[450px] " 
         >
           <a href={slide.link} target="_blank" rel="noopener noreferrer">
             <div className="relative">

@@ -17,6 +17,11 @@ export default function SearchOne() {
     const [count, setCount] = useState(0);
     const [priceRange, setPriceRange] = useState(null);
     
+    const [product1list, setProduct1list] = useState([]);
+    
+    const [totalPages, settotalPages] = useState(1);
+    const [startIndex, setstartIndex] = useState(0);
+    const [currentProducts, setcurrentProducts] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -45,11 +50,14 @@ export default function SearchOne() {
                 }
             }
             
-
             const result = await response.json();
-            console.log(result);
-            setCount(result[0].count);
-            setData(result);
+            if (result.length != 0) {
+                setCount(result[0].count);
+                setData(result);
+            } else {
+                setCount(0);
+                setData([]);
+            }
             // console.log(data);
         } catch (error) {
             console.error('Error:', error);
@@ -58,39 +66,57 @@ export default function SearchOne() {
 
     useEffect(() => {
         fetchData();
+        setCurrentPage(1);
     }, [query,priceRange]);
 
 
-
-    const product1list = data.map((item) => {
-        return <Product1 dataname={item.dataname}
-        productid={item.productid}
-        // supplierid={item.supplierid}
-        // dataimage={item.dataimage}
-        // datalink={item.datalink}
-        unitprice={item.unitprice} 
-        discountprice={item.discountprice} 
-        productDetails={item.productdetails}
-        count={item.count}
-        />
-    })
-
-
-
-    const totalPages = Math.ceil(count / PAGE_SIZE);
+    // const totalPages = Math.ceil(data.length / PAGE_SIZE); 
     // const startIndex = (currentPage - 1) * PAGE_SIZE;
-    // const currentProducts = products.slice(startIndex, startIndex + PAGE_SIZE);
+    // const currentProducts = data.slice(startIndex, startIndex + PAGE_SIZE); 
+
+    // const product1list = currentProducts.map((item) => {
+    //     return (
+    //     <Product1 
+    //     dataname={item.dataname}
+    //     productid={item.productid}
+    //     // supplierid={item.supplierid}
+    //     // dataimage={item.dataimage}
+    //     // datalink={item.datalink}
+    //     unitprice={item.unitprice} 
+    //     discountprice={item.discountprice} 
+    //     productDetails={item.productdetails}
+    //     count={item.count}
+    //     />)
+    // })
+
+    useEffect(() => {
+        const total = Math.ceil(data.length / PAGE_SIZE);
+        settotalPages(total === 0 ? 1 : total);
+    
+        const startIdx = (currentPage - 1) * PAGE_SIZE;
+        const slicedProducts = data.slice(startIdx, startIdx + PAGE_SIZE);
+    
+        setcurrentProducts(slicedProducts); 
+    
+        setProduct1list(slicedProducts.map((item) => (
+            <Product1
+                key={item.productid}
+                dataname={item.dataname}
+                productid={item.productid}
+                unitprice={item.unitprice}
+                discountprice={item.discountprice}
+                productDetails={item.productdetails}
+                count={item.count}
+            />
+        )));
+    }, [data, currentPage]);
 
     const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
+        setCurrentPage(prev => Math.min(prev + 1, totalPages));
     };
-
+    
     const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
+        setCurrentPage(prev => Math.max(prev - 1, 1));
     };
 
     const [filter, setFilter] = useState("排序方式");
@@ -105,13 +131,12 @@ export default function SearchOne() {
         } else if (selectedValue === '高到低') {
             sortedData.sort((a, b) => b.discountprice - a.discountprice);
         }
-        setData(sortedData); // 
+        setData(sortedData); 
     };
 
     const priceFilterChange = (event) => {
         const selectedValue = parseInt(event.target.value);
         setPriceRange(selectedValue);
-        console.log(selectedValue);
         
     };
 
@@ -144,42 +169,7 @@ export default function SearchOne() {
                         <option value='5000'>5000以下</option>
                     </select>
 
-                    {/* <div className="relative">
-                        <button
-                            onClick={toggleSidebar}
-                            className="border rounded-xl px-2 py-1 mx-4">
-                            篩選
-                        </button>
-
-                        <div
-                            className={`fixed top-0 right-0 h-full bg-white border-l shadow-lg p-4 transition-transform transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-                                } w-1/4 z-50`}>
-                            <h3 className="text-xl font-bold mb-4">篩選</h3>
-                            <div>
-                                <label className="block mb-2">
-                                    <input type="checkbox" className="mr-2" /> 再創低價
-                                </label>
-                                <label className="block mb-2">
-                                    <input type="checkbox" className="mr-2" /> 可供線上購買
-                                </label>
-                                
-                            </div>
-                            <div className="mt-auto flex justify-between items-center">
-                                <button
-                                    onClick={clearFilters}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
-                                >
-                                    清除
-                                </button>
-                                <button
-                                    onClick={viewResults}
-                                    className="px-4 py-2 bg-black text-white rounded"
-                                >
-                                    查看 (41)
-                                </button>
-                            </div>
-                        </div>
-                    </div>*/}
+                   
                  <div className=" absolute left-3/4">產品數量:{count}</div> 
 
                 </div>
