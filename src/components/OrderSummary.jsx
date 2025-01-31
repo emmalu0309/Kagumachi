@@ -12,6 +12,7 @@ function OrderSummary({ itemsCount, totalPrice, shippingFee, step, itemDetails }
             {/* 收闔控制區域 */}
             <div className="flex justify-between items-center border-b pb-2">
                 <button
+                    type="button"
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-xl font-bold"
                 >

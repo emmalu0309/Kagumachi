@@ -18,16 +18,20 @@ function MemberInfoNavbar({ memberId, hasNewMessage, setHasNewMessage }) {
   };
 
   useEffect(() => {
-    const handleChatClickEvent = () => {
-      handleChatClick();
-    };
-
-    window.addEventListener("chatClick", handleChatClickEvent);
+    if (isChat) {
+      // console.log("Page is /MemberInfo/Chat, marking messages as read");
+      setHasNewMessage(false);
+      markMessagesAsReadFront(memberId);
+    }
 
     return () => {
-      window.removeEventListener("chatClick", handleChatClickEvent);
+      if (isChat) {
+        // console.log("Leaving /MemberInfo/Chat, marking messages as read");
+        setHasNewMessage(false);
+        markMessagesAsReadFront(memberId);
+      }
     };
-  }, []);
+  }, [isChat, markMessagesAsReadFront, memberId]);
 
   return (
     <div className="mt-5 flex justify-center">
@@ -43,10 +47,10 @@ function MemberInfoNavbar({ memberId, hasNewMessage, setHasNewMessage }) {
               訂單查詢 / 評論
             </Link>
           </li>
-          <li className={`${isChat ? 'bg-[#F0EDE5]' : 'bg-[#DDDDDD]'} ${hasNewMessage ? 'notification-animation' : ''} hover:bg-[#F0EDE5] p-3 border rounded-md ml-1 relative`}>
+          <li className={`${isChat ? 'bg-[#F0EDE5]' : 'bg-[#DDDDDD]'} ${hasNewMessage && !isChat ? 'notification-animation' : ''} hover:bg-[#F0EDE5] p-3 border rounded-md ml-1 relative`}>
             <Link className={link} to="Chat" onClick={handleChatClick}>
               線上客服
-              {hasNewMessage && <span className="notification-animation absolute top-[0.5rem] right-[1.4rem] w-4 h-4 rounded-full"></span>}
+              {hasNewMessage && !isChat && <span className="notification-animation absolute top-[0.5rem] right-[1.4rem] w-4 h-4 rounded-full"></span>}
             </Link>
           </li>
           <li className={`${isProfile ? 'bg-[#F0EDE5]' : 'bg-[#DDDDDD]'} hover:bg-[#F0EDE5] p-3 border rounded-md ml-1`}>

@@ -7,9 +7,14 @@ import { AuthContext } from "../context/AuthContext";
 
 function CartStep2() {
     const { user } = useContext(AuthContext);
+
+    if (!user) {
+        return <div>載入會員</div>;
+    }
+
     const memberid = user.memberId;
     // const memberid = 103;
-    
+
     const [currentStep, setCurrentStep] = useState(2);
     const [selectedPayment, setSelectedPayment] = useState("");
     const [OrderData, setOrderData] = useState({
