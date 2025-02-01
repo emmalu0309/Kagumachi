@@ -164,7 +164,7 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
                 </div>
 
 
-                <div className="mt-10">
+                <div className="mt-10 ml-[10%] ">
                     <h2 className="text-xl font-bold mb-3">用戶評論</h2>
                     <div className="max-h-[400px] overflow-y-auto rounded-lg">
                         {reviews.length === 0 ? (

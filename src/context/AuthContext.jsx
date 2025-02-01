@@ -66,6 +66,7 @@ export const AuthProvider = ({children}) => {
 
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("memberId");
         setUser(null);
 
         setCartCount(0);
