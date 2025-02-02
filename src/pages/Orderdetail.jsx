@@ -1,11 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import { AuthContext } from "../context/AuthContext";
 
 const Orderdetail = () => {
-  // const { user } = useContext(AuthContext);
-  // const memberId = user.memberId;
-
   const { orderserial } = useParams();
   const [orderData, setOrderData] = useState(null);
   const [deliveryData, setDeliveryData] = useState(null);
@@ -146,7 +142,7 @@ const Orderdetail = () => {
         <div className="flex items-center justify-center mt-4 space-y-2">
           <Link
             to="/MemberInfo/MyOrders"
-            className="px-8 py-2 bg-[#5e3b25] text-white rounded-md hover:bg-[#c3a789] w-[120px] text-center"
+            className="px-8 py-2 bg-[#5e3b25] text-white rounded-md hover:bg-[#c3a789] w-[10rem] text-center"
           >
             返回會員頁面
           </Link>
