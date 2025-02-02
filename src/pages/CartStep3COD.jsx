@@ -44,7 +44,7 @@ const schema = z.object({
 });
 
 function CartStep3COD() {
-    const { user } = useContext(AuthContext);
+    const { user, fetchCartCount } = useContext(AuthContext);
     if (!user) {
         return <div>載入會員</div>;
     }
@@ -203,6 +203,8 @@ function CartStep3COD() {
                 throw new Error("Failed to save order details");
             }
             console.log("Order details saved successfully");
+            //Emma
+            await fetchCartCount(memberid);
 
             // 3. 成功後導去下一步
             navigate("/CartStep4");

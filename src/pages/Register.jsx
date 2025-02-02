@@ -114,7 +114,7 @@ const Register = () => {
             login(data.token, data.memberId);
 
             alert("Google 登入成功");
-            navigate("/MemberInfo/MyOrders");
+            navigate("/MemberInfo/Profile");
         } catch (err) {
             console.log(err.message || "Google 登入發生錯誤");
         }

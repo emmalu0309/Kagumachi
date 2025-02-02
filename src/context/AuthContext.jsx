@@ -1,4 +1,4 @@
-import {createContext, useState, useEffect} from "react";
+import {createContext, useState, useEffect, useCallback} from "react";
 // import {signInWithGoogle} from "../firebase.jsx";
 
 
@@ -10,6 +10,7 @@ export const AuthProvider = ({children}) => {
     const [products, setProducts] = useState(null);
     const [cart, setCart] = useState([]);
     const [cartCount, setCartCount] = useState(0);
+    const [homeData, setHomeData] = useState(null);
 
     function isTokenExpired(token) {
         try {
@@ -20,6 +21,32 @@ export const AuthProvider = ({children}) => {
             return true;
         }
     }
+
+    const fetchHomeData = useCallback(async (memberId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/home/${memberId}`);
+            if (!response.ok) throw new Error("無法獲取家裡資料");
+            const data = await response.json();
+            setHomeData(data);
+        } catch (error) {
+            console.error("獲取家裡資料失敗:", error);
+        }
+    }, []);
+
+    const updateHomeData = (updatedData) => {
+        if (!user?.memberId) return;
+
+        fetch(`http://localhost:8080/home/${user.memberId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...updatedData, memberid: user.memberId }),
+        })
+            .then(response => response.json())
+            .then(data => setHomeData(data))
+            .catch(error => console.error("Error updating home data:", error));
+    };
 
     useEffect(() => {
         const handleStorageChange = () => {
@@ -151,7 +178,7 @@ export const AuthProvider = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{user, login, logout, navbar, products,cart, cartCount, setCartCount,addToCart, fetchCartCount }}>
+        <AuthContext.Provider value={{user, login, logout, navbar, products,cart, cartCount, setCartCount,addToCart, fetchCartCount , homeData, updateHomeData, fetchHomeData}}>
             {children}
         </AuthContext.Provider>
     );
