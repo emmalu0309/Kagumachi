@@ -44,7 +44,7 @@ const schema = z.object({
 });
 
 function CartStep3COD() {
-    const { user } = useContext(AuthContext);
+    const { user, fetchCartCount } = useContext(AuthContext);
     if (!user) {
         return <div>載入會員</div>;
     }
@@ -147,7 +147,7 @@ function CartStep3COD() {
         // console.log("orderData:", orderData);
         localStorage.setItem('orderserial', memberid.toString() + Date.now()); // 存訂單編號在localstorage
         const completeOrderData = {
-            orderstatus: "準備中",
+            orderstatus: "已完成",
             paymentmethod: "貨到付款",
             shippingmethod: "宅配",
             ordercity: formData.city,
@@ -203,6 +203,8 @@ function CartStep3COD() {
                 throw new Error("Failed to save order details");
             }
             console.log("Order details saved successfully");
+            //Emma
+            await fetchCartCount(memberid);
 
             // 3. 成功後導去下一步
             navigate("/CartStep4");

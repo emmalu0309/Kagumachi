@@ -3,10 +3,11 @@ import {MdOutlineShoppingCart} from "react-icons/md";
 import {IoIosHeartEmpty} from "react-icons/io";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../context/AuthContext.jsx";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {TiHomeOutline} from "react-icons/ti";
 
-const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
-    const {user, addToCart} = useContext(AuthContext);
+const ProductCart = ({product, colors, selectedColor, setSelectedColor}) => {
+    const {user, addToCart, homeData, fetchHomeData} = useContext(AuthContext);
     const navigate = useNavigate();
     const [reviews, setReviews] = useState([]);
 
@@ -19,13 +20,75 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
         }
     }, [product]);
 
+    useEffect(() => {
+        if (user?.memberId && !homeData) {
+            fetchHomeData(user.memberId);
+        }
+    }, [user, homeData, fetchHomeData]);
+
     if (!product) {
-        return <p >錯誤：產品資料缺失</p>;
+        return <p>錯誤：產品資料缺失</p>;
     }
 
     if (!selectedColor) {
         return <p>請選擇一種顏色</p>;
     }
+
+    const checkFit = () => {
+        if (!homeData) {
+            return (
+                <div>
+                    無居家尺寸
+                </div>
+            );
+        }
+
+        const {doorwidth, doorheight, elevatorwidth, elevatorheight, elevatordepth, stairwidth, stairheight} = homeData;
+        const productWidth = Number(product.width);
+        const productHeight = Number(product.height);
+
+        // 檢查是否所有資料都為 null
+        const allDataMissing = [doorwidth, doorheight, elevatorwidth, elevatorheight, elevatordepth, stairwidth, stairheight]
+            .every(value => value == null);
+
+        if (allDataMissing) {
+            return (
+                <div className="text-black">
+                    所有居家尺寸資料尚未填寫
+                </div>
+            );
+        }
+
+        let result = [];
+
+        // 檢查大門尺寸
+        if (doorwidth != null && doorheight != null) {
+            const canFitDoor = productWidth <= doorwidth && productHeight <= doorheight;
+            result.push(canFitDoor ? "可通過大門" : "無法通過大門");
+        } else {
+            result.push("大門無尺寸");
+        }
+
+        // 檢查電梯尺寸
+        if (elevatorwidth != null && elevatorheight != null && elevatordepth != null) {
+            const canFitElevator = productWidth <= elevatorwidth &&
+                productHeight <= elevatorheight &&
+                productHeight <= elevatordepth;
+            result.push(canFitElevator ? "可進入電梯" : "無法進入電梯");
+        } else {
+            result.push("電梯無尺寸");
+        }
+
+        // 檢查樓梯尺寸，若無資料顯示「樓梯無尺寸」
+        if (stairwidth != null && stairheight != null) {
+            const canFitStairs = productWidth <= stairwidth && productHeight <= stairheight;
+            result.push(canFitStairs ? "可通過樓梯" : "無法通過樓梯");
+        } else {
+            result.push("樓梯無尺寸");
+        }
+
+        return result.join("，");
+    };
 
     const handleAddToCart = () => {
         if (!user) {
@@ -35,7 +98,7 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
         }
 
         addToCart({
-            memberid: Number(user?.memberId),  // 🛑 確保 user 不為 null
+            memberid: Number(user?.memberId),
             productid: Number(product.productid),
             color: selectedColor.colorname || "default",
             quantity: 1
@@ -161,10 +224,18 @@ const ProductCart = ( {product, colors, selectedColor, setSelectedColor} ) => {
                         <span>收藏商品</span>
                     </button>
                     <div className="text-sm">{selectedColor.stock}件庫存</div>
+                    <div>
+                        <div className="my-4 text-red-500">{checkFit()}</div>
+                        <div  className="bg-[#5E3B25] hover:bg-[#C3A789] p-1  text-white rounded-md flex items-center justify-center w-[18%]">
+                            <TiHomeOutline className="text-xl mr-2 "/>
+
+                            <Link to="/MemberInfo/Profile">修改家尺寸</Link>
+                        </div>
+                    </div>
                 </div>
 
 
-                <div className="mt-10">
+                <div className="mt-10 ml-[10%] ">
                     <h2 className="text-xl font-bold mb-3">用戶評論</h2>
                     <div className="max-h-[400px] overflow-y-auto rounded-lg">
                         {reviews.length === 0 ? (

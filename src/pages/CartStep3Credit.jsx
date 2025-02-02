@@ -146,7 +146,7 @@ function CartStep3Credit() {
         // console.log("orderData:", orderData);
         localStorage.setItem("orderserial", memberid.toString() + Date.now()); // 存訂單編號在localstorage
         const completeOrderData = {
-            orderstatus: "準備中",
+            orderstatus: "已完成",
             paymentmethod: "信用卡付款",
             shippingmethod: "宅配",
             ordercity: formData.city,

@@ -7,6 +7,11 @@ import { AuthContext } from "../context/AuthContext";
 
 const Customerreviews = () => {
   const { user } = useContext(AuthContext);
+
+  if (!user) {
+    return <div>載入會員</div>;
+  }
+
   const memberId = user.memberId;
 
   const { orderserial } = useParams();
@@ -52,12 +57,12 @@ const Customerreviews = () => {
     const dataToSubmit = Object.entries(reviewData)
       .filter(([, value]) => !value.isSubmitted)
       .map(([key, value]) => {
-        const [productId, colorsId] = key.split("_");
+        const [orderId, productId, colorsId] = key.split("_");
 
         return {
           productId: parseInt(productId, 10),
           colorsId: parseInt(colorsId, 10),
-          orderId: value.orderId,
+          orderId: parseInt(orderId, 10),
           rating: value.rating,
           content: value.content,
           memberId: parseInt(memberId, 10),
@@ -69,7 +74,7 @@ const Customerreviews = () => {
       console.log("評價已經提交過了");
       return;
     }
-    // http://localhost:8080/reviews/addreviews
+
     fetch("http://localhost:8080/reviews/addreviews", {
       method: "POST",
       headers: {
@@ -82,7 +87,7 @@ const Customerreviews = () => {
         setReviewData((prevState) => {
           const newState = { ...prevState };
           dataToSubmit.forEach((submitted) => {
-            const key = `${submitted.productId}_${submitted.colorsId}`;
+            const key = `${submitted.orderId}_${submitted.productId}_${submitted.colorsId}`;
             newState[key] = {
               ...newState[key],
               isSubmitted: true,
@@ -103,7 +108,7 @@ const Customerreviews = () => {
   // 確認用戶是否已提交過評論
   const allReviewsSubmitted = useMemo(() => {
     return orderData.every((product) => {
-      const key = `${product.productid}_${product.colorsid}`;
+      const key = `${product.orderid}_${product.productid}_${product.colorsid}`;
       return reviewData[key]?.isSubmitted;
     });
   }, [orderData, reviewData]);
@@ -132,22 +137,23 @@ const Customerreviews = () => {
             const orderId = product.orderid;
             try {
               const reviewResponse = await fetch(
-                `http://localhost:8080/reviews?productId=${productId}&colorsId=${colorsId}`
+                `http://localhost:8080/reviews?productId=${productId}&colorsId=${colorsId}&orderId=${orderId}`
               );
               if (!reviewResponse.ok) {
                 console.warn(
-                  `No reviews found for productId ${productId} & colorsId ${colorsId}`
+                  `No reviews found for productId ${productId} & colorsId ${colorsId} & orderId ${orderId}`
                 );
                 return {
                   productId: productId,
                   colorsId: colorsId,
-                  orderId: null,
+                  orderId: orderId || null,
                   content: "",
                   rating: 0,
                   isSubmitted: false,
                 };
               }
               const reviewData = await reviewResponse.json();
+              console.log(reviewData);
               return {
                 productId: productId,
                 colorsId: colorsId,
@@ -158,13 +164,13 @@ const Customerreviews = () => {
               };
             } catch (error) {
               console.error(
-                `Failed to fetch review for productId ${productId} & colorsId ${colorsId}`,
+                `Failed to fetch review for productId ${productId} & colorsId ${colorsId} & orderId ${orderId}`,
                 error
               );
               return {
                 productId: productId,
                 colorsId: colorsId,
-                orderId: null,
+                orderId: orderId || null,
                 content: "",
                 rating: 0,
                 isSubmitted: false,
@@ -174,7 +180,7 @@ const Customerreviews = () => {
 
           const reviews = await Promise.all(reviewPromises);
           const reviewMap = reviews.reduce((acc, curr) => {
-            acc[`${curr.productId}_${curr.colorsId}`] = {
+            acc[`${curr.orderId}_${curr.productId}_${curr.colorsId}`] = {
               rating: curr.rating,
               content: curr.content || "",
               productId: curr.productId,
@@ -198,7 +204,7 @@ const Customerreviews = () => {
     return () => {
       isMounted = false;
     };
-  }, [orderserial, reviewData?.content]);
+  }, [orderserial]);
 
   if (loading) {
     return <div>載入中...</div>;
@@ -211,7 +217,26 @@ const Customerreviews = () => {
           訂單編號：{orderserial}
         </span>
         <div className="border border-gray-400 rounded-lg p-4">
-          <div className="mb-2 font-bold text-gray-600">發表評價</div>
+          <div className="flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 32 32"
+              className="text-gray-500 mb-3 mr-2 ml-1"
+            >
+              <path
+                fill="currentColor"
+                d="M18 26h8v2h-8zm0-4h12v2H18zm0-4h12v2H18z"
+              />
+              <path
+                fill="currentColor"
+                d="M20.549 11.217L16 2l-4.549 9.217L1.28 12.695l7.36 7.175L6.902 30L14 26.269v-2.26l-4.441 2.335l1.052-6.136l.178-1.037l-.753-.733l-4.458-4.347l6.161-.895l1.04-.151l.466-.943L16 6.519l2.755 5.583l.466.943l1.04.151l7.454 1.085L28 12.3z"
+              />
+            </svg>
+            <div className="mt-0.5 font-bold text-gray-600">發表評價</div>
+          </div>
+
           <hr />
           <div className="flex items-center m-2 text-gray-600">
             <div id="pic" className="flex-[1]"></div>
@@ -221,7 +246,7 @@ const Customerreviews = () => {
           </div>
           <hr />
           {orderData.map((product) => {
-            const key = `${product.productid}_${product.colorsid}`;
+            const key = `${product.orderid}_${product.productid}_${product.colorsid}`;
             const { rating, content, isSubmitted } = reviewData[key] || {};
 
             return (
@@ -277,7 +302,7 @@ const Customerreviews = () => {
                 allReviewsSubmitted
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-[#5e3b25] hover:bg-[#c3a789]"
-              }  text-white rounded-md  w-[120px]`}
+              }  text-white rounded-md  w-[10rem]`}
               onClick={handleSubmit}
               disabled={allReviewsSubmitted}
             >
@@ -285,7 +310,7 @@ const Customerreviews = () => {
             </button>
             <Link
               to="/MemberInfo/MyOrders"
-              className="px-8 py-2 bg-[#5e3b25] text-white rounded-md hover:bg-[#c3a789] w-[120px] text-center"
+              className="px-8 py-2 bg-[#5e3b25] text-white rounded-md hover:bg-[#c3a789] w-[10rem] text-center"
             >
               返回會員頁面
             </Link>

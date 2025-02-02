@@ -6,8 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useContext} from "react";
 import {AuthContext} from "../context/AuthContext";
-// import {registerWithEmail, signInWithGoogle} from "../firebase";
-// import {registerWithEmail} from "../firebase";
+import {signInWithGoogle} from "../firebase.jsx";
 
 
 const Register = () => {
@@ -15,6 +14,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    // const [isSubmitting, setIsSubmitting] = useState(false);
 
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
@@ -43,41 +43,16 @@ const Register = () => {
         }
     };
 
-    // const handleRegister = async (e) => {
-    //     e.preventDefault();
-    //     if (emailError || passwordError || !email.trim() || !password.trim()) {
-    //         alert("請修正錯誤後再提交！");
-    //         return;
-    //     }
-    //
-    //     try {
-    //         const response = await fetch(`http://localhost:8080/login/register`, {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ email, password }),
-    //         });
-    //
-    //         if (!response.ok) {
-    //             throw new Error("註冊失敗");
-    //         }
-    //
-    //         const data = await response.json();
-    //         // console.log("後端註冊成功:", data);
-    //
-    //         localStorage.setItem("token", data.token);
-    //         localStorage.setItem("memberId", data.memberId);
-    //         console.log(data.memberId)
-    //         login(data.token, data.memberId);
-    //
-    //         alert("註冊成功");
-    //         navigate("/MemberInfo/Profile");
-    //     } catch (err) {
-    //         console.error("註冊失敗:", err);
-    //     }
-    // };
+
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("memberId");
+        // if (isSubmitting) return;
+        // setIsSubmitting(true);
+
         if (emailError || passwordError || !email.trim() || !password.trim()) {
             alert("請修正錯誤後再提交！");
             return;
@@ -114,6 +89,38 @@ const Register = () => {
         }
     };
 
+    const handleGoogleRegister = async () => {
+
+
+
+        try {
+            const result = await signInWithGoogle();
+            const { user } = result;
+
+            const response = await fetch(`http://localhost:8080/login/google`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email, googleId: user.uid }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Google 登入失敗");
+            }
+
+            const data = await response.json();
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("memberId", data.memberId);
+            login(data.token, data.memberId);
+
+            alert("Google 登入成功");
+            navigate("/MemberInfo/Profile");
+        } catch (err) {
+            console.log(err.message || "Google 登入發生錯誤");
+        }
+    };
+
+
 
     const registerDivStyle = "w-full mx-auto px-2 flex border items-center focus-within:border-2 focus-within:border-[#aa8670]";
     const registerInput = " ml-2 p-1 outline-none w-full";
@@ -122,14 +129,15 @@ const Register = () => {
 
 
     return (
-        <div className="flex justify-center  items-center my-[10%]">
-            <form onSubmit={handleRegister} className="flex w-[60%]">
-                <div className="w-full flex">
-                    <div className="w-[50%] border-r">
+        <div className="flex justify-center items-center my-[10%]">
+           <div className="flex w-[60%]" >
+            <form onSubmit={handleRegister} className="flex w-[50%]">
+                <div className="w-full flex justify-center border-r">
+                    <div className="w-full  ">
                         <div className="text-4xl text-[#aa8670] mx-auto w-max my-10"
                              style={{fontFamily: "'DynaPuff', cursive"}}>Kagu Machi
                         </div>
-                        <div className="w-[50%] mx-auto">
+                        <div className="w-[50%] mx-auto ">
                             <div
                                 className={registerDivStyle}
                                 tabIndex="0">
@@ -176,11 +184,13 @@ const Register = () => {
                             <div className="hover:text-gray-900">忘記密碼？</div>
                         </div>
                     </div>
+                </div>
+            </form>
                     <div className="w-[40%] mt-12">
                         <div className="flex justify-center items-center">
                             <button
                                 className={GoogleButton}
-                                // onClick={handleGoogleRegister}
+                                onClick={handleGoogleRegister}
                             >
                                 <FcGoogle size={25} className="mr-1"/>
                                 {/* <span className="absolute left-1/2 -translate-x-1/2">使用Google登入</span> */}
@@ -207,8 +217,8 @@ const Register = () => {
                         </div>
                     </div>
 
-                </div>
-            </form>
+
+           </div>
         </div>
 
     )
