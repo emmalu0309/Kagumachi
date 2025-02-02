@@ -102,7 +102,7 @@ function CartStep1() {
           }
         })
         .catch((error) => {
-          console.Error(error.message);
+          console.error(error.message);
         });
     }
   }, [memberId, totalCount]);
