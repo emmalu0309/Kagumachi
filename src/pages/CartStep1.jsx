@@ -102,7 +102,7 @@ function CartStep1() {
           }
         })
         .catch((error) => {
-          console.Error(error.message);
+          console.error(error.message);
         });
     }
   }, [memberId, totalCount]);
@@ -163,11 +163,11 @@ function CartStep1() {
             <span className="w-[13%] py-2">共 {sumTotalCount} 件商品</span>
             <div className="w-[13%]">
               <p className="py-2">商品金額</p>
-              <p className="pb-2">活動特惠</p>
+              {/* <p className="pb-2">活動特惠</p> */}
             </div>
             <div className="w-[11%]">
               <p className="py-2">{sumTotalPrice}</p>
-              <p className="pb-2">無</p>
+              {/* <p className="pb-2">無</p> */}
             </div>
           </div>
           <div className="flex justify-end pr-10 pt-2">
