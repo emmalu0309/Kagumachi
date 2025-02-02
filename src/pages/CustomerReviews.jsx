@@ -217,7 +217,26 @@ const Customerreviews = () => {
           訂單編號：{orderserial}
         </span>
         <div className="border border-gray-400 rounded-lg p-4">
-          <div className="mb-2 font-bold text-gray-600">發表評價</div>
+          <div className="flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 32 32"
+              className="text-gray-500 mb-3 mr-2 ml-1"
+            >
+              <path
+                fill="currentColor"
+                d="M18 26h8v2h-8zm0-4h12v2H18zm0-4h12v2H18z"
+              />
+              <path
+                fill="currentColor"
+                d="M20.549 11.217L16 2l-4.549 9.217L1.28 12.695l7.36 7.175L6.902 30L14 26.269v-2.26l-4.441 2.335l1.052-6.136l.178-1.037l-.753-.733l-4.458-4.347l6.161-.895l1.04-.151l.466-.943L16 6.519l2.755 5.583l.466.943l1.04.151l7.454 1.085L28 12.3z"
+              />
+            </svg>
+            <div className="mt-0.5 font-bold text-gray-600">發表評價</div>
+          </div>
+
           <hr />
           <div className="flex items-center m-2 text-gray-600">
             <div id="pic" className="flex-[1]"></div>
