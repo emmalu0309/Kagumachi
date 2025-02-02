@@ -15,9 +15,6 @@ const CustomArrow = ({ className, style, onClick, arrowType, isVisible }) => (
     </button>
 );
 
-// 網站圖片
-const Logo1 = 'https://www.ikea.com.tw/dairyfarm/tw/images/751/1375106_PE960171_S4.webp'
-
 const NewProduct = () => {
     const [isHovered, setIsHovered] = useState(false); // 控制按鈕顯示狀態  
     const [isLiked, setIsLiked] = useState(false);
@@ -44,19 +41,6 @@ const NewProduct = () => {
     useEffect(() => {
         fetchData();
     }, []);
-
-    // const product1list = data.map((item,index) => {
-    //     return <Product1 dataname={item.dataname}
-    //         productid={item.productid}
-    //         // supplierid={item.supplierid}
-    //         // dataimage={item.dataimage}
-    //         // datalink={item.datalink}
-    //         unitprice={item.unitprice}
-    //         discountprice={item.discountprice} 
-    //         productDetails={item.productdetails}
-    //         count={item.count}
-    //         />
-    // })
 
 
     const product1list = data.map((item, index) => {
