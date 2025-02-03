@@ -6,7 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useContext} from "react";
 import {AuthContext} from "../context/AuthContext";
-import {signInWithFacebook, signInWithGoogle} from "../firebase.jsx";
+import { signInWithGoogle} from "../firebase.jsx";
 
 
 const Login = () => {
@@ -77,34 +77,6 @@ const Login = () => {
         }
     };
 
-    const handleFacebookLogin = async () => {
-        try {
-            const result = await signInWithFacebook();
-            const { user } = result;
-
-            const response = await fetch(`http://localhost:8080/login/facebook`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: user.email, facebookId: user.uid }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Facebook 登入失敗");
-            }
-
-            const data = await response.json();
-
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("memberId", data.memberId);
-            login(data.token, data.memberId);
-
-            alert("Facebook 登入成功");
-            navigate("/MemberInfo/MyOrders");
-        } catch (err) {
-            setError(err.message || "Facebook 登入發生錯誤");
-        }
-    };
-
     return (
         <div className="flex justify-center items-center my-[10%]">
             <form onSubmit={handleLogin} className="flex w-[60%]">
@@ -159,15 +131,14 @@ const Login = () => {
                                 <span className="flex-1 text-center ">使用Google登入</span>
                             </button>
                         </div>
-                        <div className="w-full flex justify-center items-center my-3">
-                            <button
-                                className="w-[65%] flex items-center justify-between px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]"
-                                onClick={handleFacebookLogin}
-                            >
-                                <FaFacebook className="text-[#1677f2]" size={25}/>
-                                <span className="flex-1 text-center ">使用Facebook登入</span>
-                            </button>
-                        </div>
+                        {/*<div className="w-full flex justify-center items-center my-3">*/}
+                        {/*    <button*/}
+                        {/*        className="w-[65%] flex items-center justify-between px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]"*/}
+                        {/*    >*/}
+                        {/*        <FaFacebook className="text-[#1677f2]" size={25}/>*/}
+                        {/*        <span className="flex-1 text-center ">使用Facebook登入</span>*/}
+                        {/*    </button>*/}
+                        {/*</div>*/}
                         <div className="w-full flex justify-center items-center my-3">
                             <button
                                 className="w-[65%] flex items-center justify-between px-4 py-2 border border-gray-400 rounded-lg hover:bg-[#f7f7f8]"

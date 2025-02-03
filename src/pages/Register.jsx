@@ -197,19 +197,18 @@ const Register = () => {
                                 <span className={GoogleSpan}>使用Google註冊</span>
                             </button>
                         </div>
+                        {/*<div className="w-full flex justify-center items-center my-3">*/}
+                        {/*    <button*/}
+                        {/*        className={GoogleButton}*/}
+                        {/*        // onClick={handleFacebookLogin}*/}
+                        {/*    >*/}
+                        {/*        <FaFacebook className="text-[#1677f2]  mr-1" size={25}/>*/}
+                        {/*        <span className={GoogleSpan}>使用Facebook註冊</span>*/}
+                        {/*    </button>*/}
+                        {/*</div>*/}
                         <div className="w-full flex justify-center items-center my-3">
                             <button
                                 className={GoogleButton}
-                                // onClick={handleFacebookLogin}
-                            >
-                                <FaFacebook className="text-[#1677f2]  mr-1" size={25}/>
-                                <span className={GoogleSpan}>使用Facebook註冊</span>
-                            </button>
-                        </div>
-                        <div className="w-full flex justify-center items-center my-3">
-                            <button
-                                className={GoogleButton}
-                                // onClick={handleFacebookLogin}
                             >
                                 <MdOutlineMailOutline size={25}/>
                                 <Link to="/login" className={GoogleSpan}>用信箱登入</Link>
