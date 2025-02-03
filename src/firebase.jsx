@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut,createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged,FacebookAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDDLm1eNBZq_gcsYEIqLtu5hOY2CWi1Zx0",
@@ -19,17 +19,8 @@ export const signInWithGoogle = () => {
     return signInWithPopup(auth, provider);
 };
 
+const facebookProvider = new FacebookAuthProvider();
+export const signInWithFacebook = () => signInWithPopup(auth, facebookProvider);
 
-export const Logout = () => {
-    return signOut(auth);
-};
-
-// export const registerWithEmail = async (email, password) => {
-//     return createUserWithEmailAndPassword(auth, email, password);
-// };
-//
-// export const loginWithEmail = async (email, password) => {
-//     return signInWithEmailAndPassword(auth, email, password);
-// };
 
 export { onAuthStateChanged };

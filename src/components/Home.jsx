@@ -83,7 +83,7 @@ const Home = () => {
     };
 
 
-    const labelStyle = "block text-sm font-medium text-gray-600 inline-block w-[4%]";
+    const labelStyle = "block text-sm font-medium text-gray-600 inline-block w-[6%]";
     const inputStyle = "border border-gray-300 text-gray-500 w-[30%] h-8 pl-2 mt-1";
     return (
         <div className=" mt-6 w-full">
