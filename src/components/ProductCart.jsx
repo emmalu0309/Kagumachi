@@ -226,7 +226,7 @@ const ProductCart = ({product, colors, selectedColor, setSelectedColor}) => {
                     <div className="text-sm">{selectedColor.stock}件庫存</div>
                     <div>
                         <div className="my-4 text-red-500">{checkFit()}</div>
-                        <div  className="bg-[#5E3B25] hover:bg-[#C3A789] p-1  text-white rounded-md flex items-center justify-center w-[18%]">
+                        <div  className="bg-[#5E3B25] hover:bg-[#C3A789] p-1  text-white rounded-md flex items-center justify-center w-[23%]">
                             <TiHomeOutline className="text-xl mr-2 "/>
 
                             <Link to="/MemberInfo/Profile">修改家尺寸</Link>

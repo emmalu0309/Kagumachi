@@ -22,6 +22,7 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [isLiked, setIsLiked] = useState(false);
+    const [hoveredImage, setHoveredImage] = useState(0);
 
     const handleLikeClick = () => {
         // if (memberid == null) {
@@ -172,6 +173,18 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
         setIsLiked(isProductLiked);
     }, [data, productid]);
 
+    // const handleMouseEnter = () => {
+    //     if (productDetails.length > 1) {
+    //         setHoveredImage(1);
+    //     }
+    // };
+    //
+    //
+    //
+    // const handleMouseLeave = () => {
+    //     setHoveredImage(0);
+    // };
+
 
 
     return (
@@ -190,6 +203,8 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
                                 src={productDetails[0].dataimage}
                                 alt={dataname}
                                 className="w-45 h-45 object-contain rounded"
+                                // onMouseEnter={handleMouseEnter}
+                                // onMouseLeave={handleMouseLeave}
                             />
                         </a>
                     </div>
@@ -219,7 +234,8 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
                                         rel="noopener noreferrer"
                                     >
                                         <button className="w-10 h-10  rounded-3xl">
-                                            <img src={detail.dataimage} alt={`Product ${index + 1}`} className="w-full h-full object-fill" />
+                                            <img src={detail.dataimage} alt={`Product ${index + 1}`}
+                                                 className="w-full h-full object-fill"/>
                                         </button>
                                     </a>
                                 </div>

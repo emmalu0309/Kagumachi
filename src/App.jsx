@@ -26,6 +26,7 @@ import Chat from "./pages/Chat";
 import "./App.css";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import Home from "./components/Home.jsx";
+import Deletemember from "./pages/Deletemember.jsx";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="aboutus" element={<AboutUs />} />
             <Route path="home" element={<Home />} />
+            <Route path="delete" element={<Deletemember />} />
             <Route path="qa" element={<QA />} />
             <Route path="forgetPassword" element={<ForgetPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
