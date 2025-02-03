@@ -72,54 +72,54 @@ const Mid = () => {
   const slides = [
     {
       imageSrc: "https://www.ikea.com.tw/dairyfarm/tw/images/561/0956136_PE804547_S4.webp", 
-      link: "http://localhost:5173/Kagumachi/productpage/13",
-      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=櫥櫃",
+      link: "http://localhost:5173/Kagumachi/productpage/21",
+      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=鞋櫃",
       title: "用心製作的質感櫃子",
       description:
-        "職人手工製作，質樸色調，簡單但富有傳統魅力，\n同時為需要的人創造就業機會。",
+        "融合精緻工藝與實用設計，兼具美觀與耐用性。\n無論收納或裝飾，都能完美融入各種空間，讓生活更有質感。",
 
     },
     {
       imageSrc: "https://www.ikea.com.tw/dairyfarm/tw/images/520/1352026_PE952104_S4.webp",
-      link: "http://localhost:5173/Kagumachi/productpage/14",
-      calink: "https://example1.com",
+      link: "http://localhost:5173/Kagumachi/productpage/107",
+      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=餐桌",
       title: "精美設計與實用性的流行桌子",
       description:
-        "融合傳統與現代風格，手工藝品不僅美觀更實用。\n同時為需要的人創造就業機會。"
+        "時尚設計與實用性兼具，精選優質材質，適合各種空間風格，\n讓居家或辦公環境更具品味與質感。"
     },
     {
       imageSrc: "https://www.ikea.com.tw/dairyfarm/tw/images/155/1115595_PE872151_S4.webp",
-      link: "http://localhost:5173/Kagumachi/productpage/15",
-      calink: "https://example1.com",
-      title: "獨特的個人化作品",
+      link: "http://localhost:5173/Kagumachi/productpage/260",
+      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=餐椅",
+      title: "設計美學與舒適兼具的時尚椅子",
       description:
-        "每件製品都是獨一無二，適合作為珍貴的禮物。"
+        "融合美學與舒適設計，精選優質材質，兼具耐用性與時尚感，\n無論居家或辦公皆能提升空間品味。"
     },
     {
       imageSrc: "https://www.ikea.com.tw/dairyfarm/tw/images/902/0690241_PE723168_S4.webp",
-      link: "http://localhost:5173/Kagumachi/productpage/9",
-      calink: "https://example1.com",
-      title: "支持本地工匠",
+      link: "http://localhost:5173/Kagumachi/productpage/215",
+      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=L型沙發",
+      title: "舒適與美感完美結合的實用沙發",
       description:
-        "購買手工藝品即是支持本地社區的成長與發展。"
+        "兼具舒適與美感，精選優質材質，提供絕佳支撐與放鬆體驗，\n完美融入各種居家風格。"
     }
     ,
     {
       imageSrc: "https://www.ikea.com.tw/dairyfarm/tw/images/862/1286246_PE933515_S4.webp",
-      link: "http://localhost:5173/Kagumachi/productpage/16",
-      calink: "https://example1.com",
-      title: "支持本地工匠",
+      link: "http://localhost:5173/Kagumachi/productpage/261",
+      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=檯燈",
+      title: "點亮空間的時尚之選的超美燈具",
       description:
-        "購買手工藝品即是支持本地社區的成長與發展。"
+        "獨特設計與精緻工藝結合，為空間增添溫暖與風格，\n照亮每個角落，提升居家氛圍。"
     }
     ,
     {
       imageSrc: "https://www.ikea.com.tw/dairyfarm/tw/images/019/1101955_PE866881_S4.webp",
-      link: "http://localhost:5173/Kagumachi/productpage/17",
-      calink: "https://example1.com",
-      title: "支持本地工匠",
+      link: "http://localhost:5173/Kagumachi/productpage/233",
+      calink: "http://localhost:5173/Kagumachi/SearchTwo?query=床架",
+      title: "打造優質睡眠體驗的舒適寢具",
       description:
-        "購買手工藝品即是支持本地社區的成長與發展。"
+        "選用高品質材質，提供完美支撐與柔軟觸感，幫助打造舒適的睡眠環境，\n讓每個夜晚都能享受深度休息。"
     }
   ];
 
@@ -134,7 +134,7 @@ const Mid = () => {
           key={index}
           className="relative max-w-md mx-4 bg-color1 text-white rounded-2xl overflow-hidden shadow-lg h-[450px] " 
         >
-          <a href={slide.link} target="_blank" rel="noopener noreferrer">
+          <a href={slide.link}>
             <div className="relative">
               <img
                 src={slide.imageSrc}

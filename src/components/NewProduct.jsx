@@ -111,7 +111,6 @@ const NewProduct = () => {
                         <Slider {...settings}>
                         {product1list}
                         </Slider>
-
                     </div>
                 </div>
             </div>
