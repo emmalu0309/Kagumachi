@@ -39,8 +39,8 @@ const schema = z.object({
             const chosenDate = new Date(value);
             const todayPlus3 = new Date();
             todayPlus3.setDate(todayPlus3.getDate() + 3);
-            return chosenDate >= todayPlus3;
-        }, "日期必須大於等於今日起 3 天之後"),
+            return chosenDate > todayPlus3;
+        }, "最快出貨日為 3 天之後"),
 });
 
 function CartStep3Credit() {

@@ -193,7 +193,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
             <div className="mb-1 flex items-center">
                 <span className="w-[18.375%]"></span>
                 <p className="text-xs text-[#5E3B25] ">
-                    ※最早可選日期為 3 天後
+                    ※最快出貨日期為 3 天後
                 </p>
             </div>
 
