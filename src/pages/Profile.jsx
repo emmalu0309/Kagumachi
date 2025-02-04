@@ -12,7 +12,7 @@ const schema = z
       .string()
       .nonempty("請輸入名字")
       .regex(/^[\u4e00-\u9fa5]+$/, "必須皆為中文字"),
-    gender: z.string().refine((value) => value === "1" || value === "0", {
+    gender: z.string().nonempty("請選擇性別").refine((value) => value === "1" || value === "0", {
       message: "請選擇性別",
     }),
     birthday: z.string().nonempty("請選擇生日"),
