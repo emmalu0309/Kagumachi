@@ -20,6 +20,7 @@ const ProductPage = () => {
 
     const handleClick = (relatedProductId) => {
         navigate(`/productpage/${relatedProductId}`);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     useEffect(() => {
