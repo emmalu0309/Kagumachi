@@ -15,11 +15,11 @@ const ProductPage = () => {
     const [hoveredProduct, setHoveredProduct] = useState(null);
     const scrollRef = useRef(null);
 
-    const navigate = useNavigate(); // 定義 navigate
+    const navigate = useNavigate();
 
 
     const handleClick = (relatedProductId) => {
-        navigate(`/productpage/${relatedProductId}`); // 讓它跳轉到該產品的詳細頁面
+        navigate(`/productpage/${relatedProductId}`);
     };
 
     useEffect(() => {
