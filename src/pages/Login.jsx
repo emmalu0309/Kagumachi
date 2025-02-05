@@ -46,6 +46,7 @@ const Login = () => {
             navigate("/MemberInfo/MyOrders");
         } catch (err) {
             setError(err.message || "登入發生錯誤");
+            alert("帳號或密碼錯誤");
         }
     }
 
