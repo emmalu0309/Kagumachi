@@ -2,8 +2,8 @@ import React from "react";
 
 function PaymentOptions({ options, selectedOption, onSelect }) {
     return (
-        <div className="border-b border-gray-200 pt-2 pb-4">
-            <h2 className="text-xl font-bold mb-4">選擇付款方式</h2>
+        <div className="border-b border-gray-200 pt-2 pb-4 ">
+            <h2 className="text-xl font-bold mb-4 border-b">選擇付款方式</h2>
             <div className="flex flex-col space-y-2">
                 {options.map((option) => (
                     <label

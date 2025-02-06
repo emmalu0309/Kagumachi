@@ -55,12 +55,12 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
     };
 
     return (
-        <div className="justify-end mb-2 border-b">
-            <h2 className="text-lg font-semibold mb-4">收件人資訊</h2>
+        <div className="justify-end mb-2 border-b pt-2 pb-4">
+            <h2 className="text-xl font-bold mb-4 border-b">收件人資訊</h2>
 
             {/* 姓名 */}
             <div className="mb-4 flex items-center">
-                <label className="w-1/6 text-gray-700 text-base" htmlFor="chineseName">
+                <label className="w-1/6 text-gray-700 text-base font-bold" htmlFor="chineseName">
                     姓名
                 </label>
                 <input
@@ -79,7 +79,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
 
             {/* 手機號碼 */}
             <div className="mb-4 flex items-center">
-                <label className="w-1/6 text-gray-700 text-base" htmlFor="phone">
+                <label className="w-1/6 text-gray-700 text-base font-bold" htmlFor="phone">
                     手機號碼
                 </label>
                 <input
@@ -102,7 +102,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
             <div className="mb-4 flex items-center">
                 <div className="flex flex-1 gap-4 items-center">
                     {/* 縣市選單 */}
-                    <label className="w-1/4 text-gray-700 text-base" htmlFor="city">
+                    <label className="w-1/4 text-gray-700 text-base font-bold" htmlFor="city">
                         請選擇縣市
                     </label>
                     <select
@@ -126,7 +126,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
                     </select>
 
                     {/* 地區選單 */}
-                    <label className="w-1/4 text-gray-700 text-base" htmlFor="district">
+                    <label className="w-1/4 text-gray-700 text-base font-bold" htmlFor="district">
                         請選擇地區
                     </label>
                     <select
@@ -151,7 +151,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
 
             {/* 地址 */}
             <div className="mb-4 flex items-center">
-                <label className="w-1/6 text-gray-700 text-base" htmlFor="address">
+                <label className="w-1/6 text-gray-700 text-base font-bold" htmlFor="address">
                     請輸入地址
                 </label>
                 <input
@@ -170,7 +170,7 @@ const RecipientForm = ({ register, errors, shipRateData, setSelectedShipRate, ph
 
             {/* 預計送達日 */}
             <div className="mb-4 flex items-center">
-                <label className="w-1/6 text-gray-700 text-base" htmlFor="deliveryDate">
+                <label className="w-1/6 text-gray-700 text-base font-bold" htmlFor="deliveryDate">
                     希望送達日期
                 </label>
                 <div className="w-[50%] flex-1 relative">
