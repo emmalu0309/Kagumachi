@@ -33,8 +33,17 @@ const ProductCart = ({product, colors, selectedColor, setSelectedColor}) => {
     if (!selectedColor) {
         return <p>請選擇一種顏色</p>;
     }
+    const handleEditHomeSize = () => {
+        if (!user) {
+            alert("請先登入以修改家尺寸");
+            navigate("/login");
+            return;
+        }
+        navigate("/MemberInfo/Profile");
+    };
 
     const checkFit = () => {
+
         if (!homeData) {
             return (
                 <div>
@@ -226,10 +235,17 @@ const ProductCart = ({product, colors, selectedColor, setSelectedColor}) => {
                     <div className="text-sm">{selectedColor.stock}件庫存</div>
                     <div>
                         <div className="my-4 text-red-500">{checkFit()}</div>
-                        <div  className="bg-[#5E3B25] hover:bg-[#C3A789] p-1  text-white rounded-md flex items-center justify-center w-[23%]">
-                            <TiHomeOutline className="text-xl mr-2 "/>
+                        {/*<div*/}
+                        {/*    className="bg-[#5E3B25] hover:bg-[#C3A789] p-1  text-white rounded-md flex items-center justify-center w-[23%]">*/}
+                        {/*    <TiHomeOutline className="text-xl mr-2 "/>*/}
 
-                            <Link to="/MemberInfo/Profile">修改家尺寸</Link>
+                        {/*    <Link to="/MemberInfo/Profile">修改家尺寸</Link>*/}
+                        {/*</div>*/}
+                        <div
+                            className="bg-[#5E3B25] hover:bg-[#C3A789] p-1 text-white rounded-md flex items-center justify-center w-[23%] cursor-pointer"
+                            onClick={handleEditHomeSize}>
+                            <TiHomeOutline className="text-xl mr-2"/>
+                            <span>修改家尺寸</span>
                         </div>
                     </div>
                 </div>
@@ -238,7 +254,7 @@ const ProductCart = ({product, colors, selectedColor, setSelectedColor}) => {
                 <div className="mt-10 ml-[10%] ">
                     <h2 className="text-xl font-bold mb-3">用戶評論</h2>
                     <div className="max-h-[400px] overflow-y-auto rounded-lg">
-                        {reviews.length === 0 ? (
+                    {reviews.length === 0 ? (
                             <p className="text-gray-500">尚無評論</p>
                         ) : (
                             <div className="space-y-4">
