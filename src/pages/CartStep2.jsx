@@ -104,7 +104,7 @@ function CartStep2() {
                     >
                         <button
                             className="px-4 py-2 rounded text-white bg-[#5E3B25] hover:bg-[#C3A789]"
-                            onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 4))}
+                            onClick={() => setCurrentStep((prev) => Math.min(prev + 1, 2))}
                         >
                             下一步
                         </button>
