@@ -176,7 +176,7 @@ const ProductCart = ({product, colors, selectedColor, setSelectedColor}) => {
                         {product.mainCategory?.sales && (
                             <div className=" rounded-md mt-3">
                                 <span>{product.mainCategory.sales.salesdesc}   </span>
-                                <span>折扣: {product.mainCategory.sales.discount * 100}%</span>
+                                {/*<span>折扣: {product.mainCategory.sales.discount * 100}%</span>*/}
                             </div>
                         )}
                     </div>
