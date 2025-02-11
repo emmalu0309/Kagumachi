@@ -102,7 +102,7 @@ const NewProduct = () => {
                 onMouseEnter={() => setIsHovered(true)} // 滑鼠進入
                 onMouseLeave={() => setIsHovered(false)} // 滑鼠離開
             >
-                <div className="w-4/5  mt-2 mx-auto items-center">
+                <div className="w-4/5  mt-20 mx-auto items-center">
                     <strong className="inline text-3xl">新品上市</strong>
                     <br />
                 </div>
