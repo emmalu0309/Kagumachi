@@ -218,7 +218,7 @@ const Product1 = ({ dataname, productDetails, datalink, unitprice, discountprice
                         <p className="text-lg font-semibold">{dataname}</p>
                     </div>
                     <div className="flex  grid-cols-3 ">
-                        <div className="text-2xl text-center  font-bold mr-2">{(discountprice == unitprice ? "" : discountprice)}</div>
+                        <div className="text-2xl text-center  font-bold mr-2">NT$ {(discountprice == unitprice ? " " :  discountprice)}</div>
                         {/* <div className="text-1xl  line-through text-center" >{unitprice}</div> */}
                         <div className={(discountprice == unitprice) ? "text-2xl text-center font-bold" : "text-1xl  line-through text-center"} >{unitprice}</div>
                         {/* <div className="ml-2">優惠價</div> */}
