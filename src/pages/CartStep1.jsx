@@ -159,21 +159,22 @@ function CartStep1() {
               />
             ))}
           </div>
-          <div className="flex justify-end border-b border-gray-200 pt-2 pb-2">
-            <span className="w-[13%] py-2">共 {sumTotalCount} 件商品</span>
-            <div className="w-[13%]">
-              <p className="py-2">商品金額</p>
+          <div className="flex justify-end pt-2 pb-2"> 
+          {/* border-b border-gray-200 */}
+            <span className="w-[18%] py-2">共 {sumTotalCount} 件商品</span>
+            <div className="w-[10%]">
+              <p className="py-2">小計</p>
               {/* <p className="pb-2">活動特惠</p> */}
             </div>
             <div className="w-[11%]">
-              <p className="py-2">{sumTotalPrice}</p>
+              <p className="py-2">NT${sumTotalPrice}</p>
               {/* <p className="pb-2">無</p> */}
             </div>
           </div>
-          <div className="flex justify-end pr-10 pt-2">
+          {/* <div className="flex justify-end pr-10 pt-2">
             <span className="w-[13%] pt-2">小計</span>
-            <p className="w-[8%] pt-2">{sumTotalPrice}</p>
-          </div>
+            <p className="w-[8%] pt-2">NT${sumTotalPrice}</p>
+          </div> */}
 
           <div className="flex justify-between mt-6">
             <Link to="/homepage">
